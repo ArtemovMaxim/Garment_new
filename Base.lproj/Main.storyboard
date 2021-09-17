@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ESz-V6-mM9">
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Time Line Collection View Controller-->
+        <scene sceneID="YcY-Wt-ns8">
+            <objects>
+                <collectionViewController id="ESz-V6-mM9" customClass="TimeLineCollectionViewController" customModule="Garment" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="hzy-K6-onc">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5WJ-nm-gSQ">
+                            <size key="itemSize" width="414" height="798"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" contentMode="center" reuseIdentifier="Cell" id="Xsh-A4-LRl" customClass="TimeLineCollectionViewCell" customModule="Garment" customModuleProvider="target">
+                                <rect key="frame" x="7" y="0.0" width="414" height="798"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="qrn-zC-jlF">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="798"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="q4K-4S-Tl6" userLabel="header">
+                                            <rect key="frame" x="10" y="10" width="394" height="61"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="productPostArticle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JCV-F3-gms">
+                                                    <rect key="frame" x="0.0" y="0.0" width="143.33333333333334" height="20.333333333333332"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="6g8-9s-8Z7" userLabel="productCounViewsLikesComents">
+                                                    <rect key="frame" x="143.33333333333337" y="0.0" width="250.66666666666663" height="61"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="productPostViewsCount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Jp-1m-eUS">
+                                                            <rect key="frame" x="65.999999999999986" y="0.0" width="184.66666666666663" height="20.333333333333332"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="productPostLikesCount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xL5-7d-F5T">
+                                                            <rect key="frame" x="71.666666666666657" y="20.333333333333336" width="179" height="20.333333333333336"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="productPostCommentsCount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rug-z0-sXp">
+                                                            <rect key="frame" x="27.999999999999986" y="40.666666666666664" width="222.66666666666663" height="20.333333333333336"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                        </stackView>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="1.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="Q5B-6Y-EDW" userLabel="productPostImage">
+                                            <rect key="frame" x="10" y="87" width="394" height="432"/>
+                                        </imageView>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="Fw8-l6-n9Q" userLabel="productDescription">
+                                            <rect key="frame" x="10" y="576" width="181" height="40.666666666666629"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="productPostDescription" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="opJ-Oz-wmb">
+                                                    <rect key="frame" x="0.0" y="0.0" width="181" height="20.333333333333332"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="productPostTitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Slm-Np-VdV">
+                                                    <rect key="frame" x="0.0" y="20.333333333333371" width="126" height="20.333333333333329"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0b4-Pk-tYz" userLabel="footer">
+                                            <rect key="frame" x="10" y="626.66666666666663" width="394" height="101.33333333333337"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="FCO-1j-sLY" userLabel="productPropertys">
+                                                    <rect key="frame" x="0.0" y="0.0" width="180.33333333333334" height="101.33333333333333"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="productPostSex" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kun-sV-zfo">
+                                                            <rect key="frame" x="0.0" y="0.0" width="121.66666666666667" height="81"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="productPostSeason" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fcx-BI-l2l">
+                                                            <rect key="frame" x="0.0" y="81" width="150" height="20.333333333333329"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="bottom" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="tVc-7J-Aro" userLabel="productPrice">
+                                                    <rect key="frame" x="180.33333333333337" y="0.0" width="213.66666666666663" height="101.33333333333333"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="ofz-tW-Gc6" userLabel="productPriceDiscountFinalPrice">
+                                                            <rect key="frame" x="45.999999999999986" y="0.0" width="167.66666666666663" height="61"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="productPostPrice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UWh-67-5pM">
+                                                                    <rect key="frame" x="35.333333333333343" y="0.0" width="132.33333333333334" height="20.333333333333332"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="productPostDiscont" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oit-bq-DWf">
+                                                                    <rect key="frame" x="15.666666666666657" y="20.333333333333371" width="152" height="20.333333333333329"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="productPostFinalPrice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xeu-Nu-BFK">
+                                                                    <rect key="frame" x="0.0" y="40.666666666666742" width="167.66666666666666" height="20.333333333333329"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="productPostPublicationDate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v7N-jp-QTg">
+                                                            <rect key="frame" x="0.0" y="81" width="213.66666666666666" height="20.333333333333329"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                        </stackView>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="117" translatesAutoresizingMaskIntoConstraints="NO" id="1N5-LR-PBt" userLabel="buttons">
+                                            <rect key="frame" x="10" y="738" width="394" height="30"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HBg-cl-bpU">
+                                                    <rect key="frame" x="0.0" y="0.0" width="223" height="30"/>
+                                                    <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                                    <state key="normal" title=" Следить за изменением цены ">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vpd-WQ-rpx">
+                                                    <rect key="frame" x="340" y="0.0" width="54" height="30"/>
+                                                    <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                                    <state key="normal" title=" Купить ">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstItem="q4K-4S-Tl6" firstAttribute="leading" secondItem="qrn-zC-jlF" secondAttribute="leading" constant="10" id="B5i-VC-pDY"/>
+                                        <constraint firstAttribute="trailing" secondItem="q4K-4S-Tl6" secondAttribute="trailing" constant="10" id="BFQ-Nm-ObK"/>
+                                        <constraint firstItem="1N5-LR-PBt" firstAttribute="leading" secondItem="qrn-zC-jlF" secondAttribute="leading" constant="10" id="Bzt-7T-mBy"/>
+                                        <constraint firstAttribute="trailing" secondItem="1N5-LR-PBt" secondAttribute="trailing" constant="10" id="K3n-5E-btZ"/>
+                                        <constraint firstItem="Q5B-6Y-EDW" firstAttribute="leading" secondItem="qrn-zC-jlF" secondAttribute="leading" constant="10" id="MpV-48-VXc"/>
+                                        <constraint firstAttribute="trailing" secondItem="0b4-Pk-tYz" secondAttribute="trailing" constant="10" id="PGp-tn-7HR"/>
+                                        <constraint firstItem="Fw8-l6-n9Q" firstAttribute="leading" secondItem="qrn-zC-jlF" secondAttribute="leading" constant="10" id="RKR-yk-85a"/>
+                                        <constraint firstAttribute="trailing" secondItem="Q5B-6Y-EDW" secondAttribute="trailing" constant="10" id="Rpo-ae-h9M"/>
+                                        <constraint firstItem="0b4-Pk-tYz" firstAttribute="leading" secondItem="qrn-zC-jlF" secondAttribute="leading" constant="10" id="d6v-94-mmN"/>
+                                        <constraint firstItem="1N5-LR-PBt" firstAttribute="top" secondItem="0b4-Pk-tYz" secondAttribute="bottom" constant="10" id="d75-Cv-guy"/>
+                                        <constraint firstItem="Q5B-6Y-EDW" firstAttribute="width" secondItem="qrn-zC-jlF" secondAttribute="width" multiplier="0.951691" id="fgl-eE-GHq"/>
+                                        <constraint firstItem="0b4-Pk-tYz" firstAttribute="top" secondItem="Fw8-l6-n9Q" secondAttribute="bottom" constant="10" id="lP2-Wh-2LN"/>
+                                        <constraint firstAttribute="bottom" secondItem="1N5-LR-PBt" secondAttribute="bottom" constant="30" id="mC7-33-7o1"/>
+                                        <constraint firstItem="q4K-4S-Tl6" firstAttribute="top" secondItem="qrn-zC-jlF" secondAttribute="top" constant="10" id="nuq-Xo-F3c"/>
+                                    </constraints>
+                                </collectionViewCellContentView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <size key="customSize" width="414" height="798"/>
+                                <connections>
+                                    <outlet property="buttons" destination="1N5-LR-PBt" id="MCo-V8-PeP"/>
+                                    <outlet property="buyButton" destination="vpd-WQ-rpx" id="PQg-Zh-LcX"/>
+                                    <outlet property="followingButton" destination="HBg-cl-bpU" id="lqF-Vd-ska"/>
+                                    <outlet property="footer" destination="0b4-Pk-tYz" id="EgI-1L-9Za"/>
+                                    <outlet property="header" destination="q4K-4S-Tl6" id="XUE-XW-8CC"/>
+                                    <outlet property="productDescription" destination="Fw8-l6-n9Q" id="SB8-gQ-tH8"/>
+                                    <outlet property="productPostArticleLabel" destination="JCV-F3-gms" id="SQX-ZJ-2P4"/>
+                                    <outlet property="productPostCommentsCountLabel" destination="Rug-z0-sXp" id="jdx-US-nB6"/>
+                                    <outlet property="productPostDescriptionLabel" destination="opJ-Oz-wmb" id="UOG-UE-wUO"/>
+                                    <outlet property="productPostDiscontLabel" destination="Oit-bq-DWf" id="YH5-En-7LB"/>
+                                    <outlet property="productPostFinalPriceLabel" destination="Xeu-Nu-BFK" id="YEj-gQ-MVL"/>
+                                    <outlet property="productPostImage" destination="Q5B-6Y-EDW" id="ufX-83-pP4"/>
+                                    <outlet property="productPostLikesCountLabel" destination="xL5-7d-F5T" id="Je1-B1-IZ0"/>
+                                    <outlet property="productPostPriceLabel" destination="UWh-67-5pM" id="CzZ-v7-wwS"/>
+                                    <outlet property="productPostPublicationDateLabel" destination="v7N-jp-QTg" id="kzv-Uk-zRE"/>
+                                    <outlet property="productPostSeasonLabel" destination="fcx-BI-l2l" id="unL-42-Zl9"/>
+                                    <outlet property="productPostSexLabel" destination="Kun-sV-zfo" id="2z3-mK-e0V"/>
+                                    <outlet property="productPostTitleLabel" destination="Slm-Np-VdV" id="0je-kr-ox2"/>
+                                    <outlet property="productPostViewsLabel" destination="6Jp-1m-eUS" id="0uD-Ng-ntg"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="ESz-V6-mM9" id="B2r-yd-sAQ"/>
+                            <outlet property="delegate" destination="ESz-V6-mM9" id="ARU-g2-FTb"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J7v-h5-44J" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="428.98550724637687" y="-184.15178571428569"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="1.jpeg" width="2048" height="2048"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
