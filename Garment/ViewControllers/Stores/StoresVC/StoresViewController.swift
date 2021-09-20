@@ -15,14 +15,14 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotosCell", for: indexPath) as! StorePhotoAlbumCollectionViewCell
         
-
+        
         
         cell.StoresVCCollectionVCPhotoAlbumImage.image = ProductPost.productPostArrayPhotos[indexPath.item]
         
         return cell
     }
     
-   
+    
     
     
     //var
@@ -30,7 +30,6 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     //IBOutlets
     //labels
     @IBOutlet weak var StoresVCArticleLabel: UILabel!
-    @IBOutlet weak var StoresVCFotosLabel: UILabel!
     @IBOutlet weak var StoresVCDiscriptionLabel: UILabel!
     @IBOutlet weak var StoresVCSexLabel: UILabel!
     @IBOutlet weak var StoresVCSeasonLabel: UILabel!
@@ -70,6 +69,7 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     @IBOutlet weak var StoreVCPostingButtonOutlet: UIButton!
     @IBOutlet weak var StoresVCCustomArticleButtonOutlet: UIButton!
     @IBOutlet var StoresVCUploadPhotoButtonOutlet: UIView!
+    @IBOutlet weak var StoresVCUploadFirstPhotoOutlet: UIButton!
     
     //DataPicker
     @IBOutlet weak var StoreVCDataPickerOutlet: UIDatePicker!
@@ -81,16 +81,27 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     
     //IBActions
     //buttons
-    //upload photo
+    //upload first photo
+    @IBAction func StoresVCUploadFirstPhotoAction(_ sender: Any) {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
+        imagePickerController.allowsEditing = false
+        self.present(imagePickerController, animated: true, completion: nil)
+        StoresVCUploadFirstPhotoOutlet.tag = 1
+    }
+    
+    //upload seconds photo
     @IBAction func StoresVCUploadPhotoButtonAction(_ sender: Any) {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         imagePickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
         imagePickerController.allowsEditing = false
         self.present(imagePickerController, animated: true, completion: nil)
+        StoresVCUploadPhotoButtonOutlet.tag = 1
     }
     
-   //custom article
+    //custom article
     @IBAction func StoresVCCustomArticleButtonAction(_ sender: Any) {
         if StoresVCArticleField.tag == 0 {
             StoresVCArticleField.isEnabled = true
@@ -138,10 +149,14 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         
         //установка фокуса на поле названия продукта
         StoresVCProductTitleField.becomeFirstResponder()
-
+        
         self.StoresVCPhotosCollectionViewOutlet.dataSource = self
         self.StoresVCPhotosCollectionViewOutlet.delegate = self
-
+        
+        //таги для определения нажатой кнопки для уплоада фото
+        StoresVCUploadPhotoButtonOutlet.tag = 0
+        StoresVCUploadFirstPhotoOutlet.tag = 0
+        
         
         //отключение авторесайзинга
         
@@ -155,12 +170,32 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     
     //save photo in project
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let image = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue) ] as? UIImage
-        StoreVСProductImage.image = image
-        ProductPost.addPhototoPhotoAlbum(photo: image!)
-        StoresVCPhotosCollectionViewOutlet.insertItems(at: StoresVCPhotosCollectionViewOutlet.indexPathsForVisibleItems)
-        picker.dismiss(animated: true, completion: nil)
-        StoresVCPhotosCollectionViewOutlet.reloadData()
+        
+        if StoresVCUploadPhotoButtonOutlet.tag == 1 {
+            
+            let image = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue) ] as? UIImage
+//            StoreVСProductImage.image = image
+            ProductPost.addPhototoPhotoAlbum(photo: image!)
+            StoresVCPhotosCollectionViewOutlet.insertItems(at: StoresVCPhotosCollectionViewOutlet.indexPathsForVisibleItems)
+            picker.dismiss(animated: true, completion: nil)
+            StoresVCPhotosCollectionViewOutlet.reloadData()
+            StoresVCUploadPhotoButtonOutlet.tag = 0
+            StoresVCUploadFirstPhotoOutlet.tag = 0
+            
+        } else if StoresVCUploadFirstPhotoOutlet.tag == 1 {
+            
+            let image = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue) ] as? UIImage
+            StoreVСProductImage.image = image
+            ProductPost.addPhototoPhotoAlbum(photo: image!)
+            StoresVCPhotosCollectionViewOutlet.insertItems(at: StoresVCPhotosCollectionViewOutlet.indexPathsForVisibleItems)
+            picker.dismiss(animated: true, completion: nil)
+            StoresVCPhotosCollectionViewOutlet.reloadData()
+            StoresVCUploadPhotoButtonOutlet.tag = 0
+            StoresVCUploadFirstPhotoOutlet.tag = 0
+            
+        }
+        
+        
     }
     
     //add new product to database
@@ -187,7 +222,7 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         DataBase.addNewProductToDB(product: newProduct)
     }
     
-
+    
     //выбор пола товара
     func choiceSex(sex: Int) -> ProductPost.Sex {
         switch sex {
@@ -282,7 +317,7 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         default:
             return
         }
-
+        
     }
     
     
@@ -301,5 +336,5 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
 //extensions
 
 
-    
+
 
