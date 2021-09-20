@@ -13,17 +13,21 @@ class TimeLineCollectionViewController: UICollectionViewController {
     
     //var
     
-    var dataBase = DataBase()
-
-    
-    
     //аутлеты
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataBase.addProductToDB()
 
+        DataBase.addProductToDB()
+
+
+//        //delay for activityIndicator
+//        self.perform(#selector(delayActivityIndicator), with: nil, afterDelay: 5.0)
+    
+    
+        
+        
         //custom function
         
         
@@ -67,11 +71,12 @@ class TimeLineCollectionViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return dataBase.db.count
+        return DataBase.db.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TimeLineCollectionViewCell
+
         
         //отключение автомата
         cell.header.translatesAutoresizingMaskIntoConstraints = false
@@ -79,68 +84,116 @@ class TimeLineCollectionViewController: UICollectionViewController {
         cell.productDescription.translatesAutoresizingMaskIntoConstraints = false
         cell.footer.translatesAutoresizingMaskIntoConstraints = false
         cell.buttons.translatesAutoresizingMaskIntoConstraints = false
-
+        cell.productPostActivityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        
         //констрейнты
         NSLayoutConstraint.activate([
-
+            
             //header
             cell.header.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 10),
             cell.header.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: 10),
             cell.header.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
-
+            
             //productPostImage
             cell.productPostImage.topAnchor.constraint(equalTo: cell.header.bottomAnchor, constant: 10),
             cell.productPostImage.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: 10),
             cell.productPostImage.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
-
+            
             cell.productPostImage.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height - cell.allHeights()),
-
+            
             //productDescription
             cell.productDescription.topAnchor.constraint(equalTo: cell.productPostImage.bottomAnchor, constant: 10),
             cell.productDescription.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: 10),
             cell.productDescription.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
-
+            
             //footer
             cell.footer.topAnchor.constraint(equalTo: cell.productDescription.bottomAnchor, constant: 10),
             cell.footer.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: 10),
             cell.footer.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
-
+            
             //buttons
             cell.buttons.topAnchor.constraint(equalTo: cell.footer.bottomAnchor, constant: 10),
             cell.buttons.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: 10),
             cell.buttons.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
-
-
+            
+            //activityIndicator
+            cell.productPostActivityIndicator.centerYAnchor.constraint(equalTo: cell.productPostImage.centerYAnchor),
+            cell.productPostActivityIndicator.centerXAnchor.constraint(equalTo: cell.productPostImage.centerXAnchor),
+            cell.productPostActivityIndicator.topAnchor.constraint(equalTo: cell.productPostImage.topAnchor),
+            cell.productPostActivityIndicator.bottomAnchor.constraint(equalTo: cell.productPostImage.bottomAnchor),
+            cell.productPostActivityIndicator.leadingAnchor.constraint(equalTo: cell.productPostImage.leadingAnchor),
+            cell.productPostActivityIndicator.trailingAnchor.constraint(equalTo: cell.productPostImage.trailingAnchor)
         ])
         
         // Configure the cell
- 
+        
+        
         //header
-        cell.productPostArticleLabel.text = dataBase.db[indexPath.item].productPostArticle
-        cell.productPostViewsLabel.text = String(dataBase.db[indexPath.item].productPostViewsCount)
-        cell.productPostLikesCountLabel.text = String(dataBase.db[indexPath.item].productPostLikesCount)
-        cell.productPostCommentsCountLabel.text = String(dataBase.db[indexPath.item].productPostCommentsCount)
-
+        cell.productPostArticleLabel.text = ""
+        cell.productPostViewsLabel.text = ""
+        cell.productPostLikesCountLabel.text = ""
+        cell.productPostCommentsCountLabel.text = ""
+        
         //productPostImage
-        cell.productPostImage.image = dataBase.db[indexPath.item].productPostImage
-
+        cell.productPostImage.image = nil
+        
         //productDescription
-        cell.productPostDescriptionLabel.text = dataBase.db[indexPath.item].productPostDescription
-        cell.productPostTitleLabel.text = dataBase.db[indexPath.item].productPostTitle
-
+        cell.productPostDescriptionLabel.text = ""
+        cell.productPostTitleLabel.text = ""
+        
         //footer
         //productPropertys
-        cell.productPostSexLabel.text = dataBase.db[indexPath.item].productPostSex?.rawValue
-        cell.productPostSeasonLabel.text = dataBase.db[indexPath.item].productPostSeason?.rawValue
-
+        cell.productPostSexLabel.text = ""
+        cell.productPostSeasonLabel.text = ""
+        
         //productPrice
-        cell.productPostPriceLabel.text = String(dataBase.db[indexPath.item].productPostPrice) + " руб."
-        cell.productPostDiscontLabel.text = "\(dataBase.db[indexPath.item].productPostDiscont ?? 0)" + " %"
-        cell.productPostFinalPriceLabel.text = "\(dataBase.db[indexPath.item].productPostFinalPrice)" + " руб."
-
+        cell.productPostPriceLabel.text = ""
+        cell.productPostDiscontLabel.text = ""
+        cell.productPostFinalPriceLabel.text = ""
+        
+        cell.productPostPublicationDateLabel.text = ""
+        
+        
+        
+        //header
+        cell.productPostArticleLabel.text = DataBase.db[indexPath.item].productPostArticle
+        cell.productPostViewsLabel.text = String(DataBase.db[indexPath.item].productPostViewsCount)
+        cell.productPostLikesCountLabel.text = String(DataBase.db[indexPath.item].productPostLikesCount)
+        cell.productPostCommentsCountLabel.text = String(DataBase.db[indexPath.item].productPostCommentsCount)
+        
+        //productPostImage
+        cell.productPostImage.image = DataBase.db[indexPath.item].productPostImage
+        
+        //productDescription
+        cell.productPostDescriptionLabel.text = DataBase.db[indexPath.item].productPostDescription
+        cell.productPostTitleLabel.text = DataBase.db[indexPath.item].productPostTitle
+        
+        //footer
+        //productPropertys
+        cell.productPostSexLabel.text = DataBase.db[indexPath.item].productPostSex.rawValue
+        cell.productPostSeasonLabel.text = DataBase.db[indexPath.item].productPostSeason.rawValue
+        
+        //productPrice
+        cell.productPostPriceLabel.text = String(DataBase.db[indexPath.item].productPostPrice) + " руб."
+        cell.productPostDiscontLabel.text = "\(DataBase.db[indexPath.item].productPostDiscont)" + " %"
+        cell.productPostFinalPriceLabel.text = "\(DataBase.db[indexPath.item].productPostFinalPrice)" + " руб."
+        
         cell.productPostPublicationDateLabel.text = "Сегодняшняя дата"
+        
+        // activityIndicator
+//        let activityIndicator = TimeLineCollectionViewCell().productPostActivityIndicator
+//        activityIndicator?.color = .blue
+//        activityIndicator?.isHidden = false
+//        activityIndicator?.startAnimating()
+        
+        
+
+
+        
+        
         return cell
     }
+    
     
     
     
@@ -178,5 +231,12 @@ class TimeLineCollectionViewController: UICollectionViewController {
      
      }
      */
+ 
+    //custom functions
+    
+//    @objc func delayActivityIndicator() {
+//        activityIndicator?.stopAnimating()
+//        activityIndicator?.hidesWhenStopped = true
+//    }
     
 }

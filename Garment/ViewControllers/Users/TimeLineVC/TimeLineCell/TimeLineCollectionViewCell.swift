@@ -35,6 +35,9 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var productPostPublicationDateLabel: UILabel!
     
     
+    @IBOutlet weak var productPostActivityIndicator: UIActivityIndicatorView!
+    
+    
     @IBOutlet weak var buttons: UIStackView!
     @IBOutlet weak var followingButton: UIButton!
     @IBOutlet weak var buyButton: UIButton!
@@ -48,39 +51,6 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
         
     //custom Function
      
-    
-    func fillingField(indexPath: IndexPath) {
-//        var dataBaseDB = DataBase()
-//        dataBaseDB.addProductToDB()
-        
- 
-        //header
-//        productPostArticleLabel.text = dataBaseDB.db[indexPath.item].productPostArticle
-//        productPostViewsLabel.text = String(dataBaseDB.db[indexPath.item].productPostViewsCount)
-//        productPostLikesCountLabel.text = String(dataBaseDB.db[indexPath.item].productPostLikesCount)
-//        productPostCommentsCountLabel.text = String(dataBaseDB.db[indexPath.item].productPostCommentsCount)
-//        
-//        //productPostImage
-//        productPostImage.image = dataBaseDB.db[indexPath.item].productPostImage
-//        
-//        //productDescription
-//        productPostDescriptionLabel.text = dataBaseDB.db[indexPath.item].productPostDescription
-//        productPostTitleLabel.text = dataBaseDB.db[indexPath.item].productPostTitle
-//        
-//        //footer
-//        //productPropertys
-//        productPostSexLabel.text = dataBaseDB.db[indexPath.item].productPostSex?.rawValue
-//        productPostSeasonLabel.text = dataBaseDB.db[indexPath.item].productPostSeason?.rawValue
-//        
-//        //productPrice
-//        productPostPriceLabel.text = String(dataBaseDB.db[indexPath.item].productPostPrice) + " руб."
-//        productPostDiscontLabel.text = "\(dataBaseDB.db[indexPath.item].productPostDiscont ?? 0)" + " %"
-//        productPostFinalPriceLabel.text = "\(dataBaseDB.db[indexPath.item].productPostFinalPrice)" + " руб."
-//        
-//        productPostPublicationDateLabel.text = "Сегодняшняя дата"
-        }
-    
-    
     func allHeights() -> CGFloat {
         //высоты объектов
         let heightHeader = header.frame.height
@@ -96,10 +66,5 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
         return allHeights + insets
     }
     
-    func configureTimeLineCell() {
-        //        productArticle.text = generateNewArticle()
-        
-       
-    }
 }
 

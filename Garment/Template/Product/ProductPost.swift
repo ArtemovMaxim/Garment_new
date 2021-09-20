@@ -8,14 +8,30 @@
 import Foundation
 import UIKit
 
-struct ProductPost {
-    internal init(productPostArticle: String, productPostImage: UIImage, productPostTitle: String? = nil, productPostDescription: String? = nil, productPostPrice: Float, productPostDiscont: Float? = nil, productPostSex: ProductPost.Sex? = nil, productPostSeason: ProductPost.Season? = nil, productPostPublicationDate: Date? = nil, productPostLikesCount: Int, productPostIsLiked: Bool, productPostViewsCount: Int, productPostComments: [ProductPost.ProductPostCommentsArray]? = nil, productPostCommentsCount: Int, productPostIsNew: ProductPost.New) {
+class ProductPost {
+    internal init(productPostArticle: String,
+                  productPostImage: UIImage,
+                  productPostTitle: String,
+                  productPostDescription: String,
+                  productPostPrice: Int,
+                  productPostDiscont: Double,
+                  productPostFinalPrice: String,
+                  productPostSex: ProductPost.Sex,
+                  productPostSeason: ProductPost.Season,
+                  productPostPublicationDate: Date,
+                  productPostLikesCount: Int,
+                  productPostIsLiked: Bool,
+                  productPostViewsCount: Int,
+                  productPostComments: [ProductPost.ProductPostCommentsArray]? = nil,
+                  productPostCommentsCount: Int,
+                  productPostIsNew: ProductPost.New) {
         self.productPostArticle = productPostArticle
         self.productPostImage = productPostImage
         self.productPostTitle = productPostTitle
         self.productPostDescription = productPostDescription
         self.productPostPrice = productPostPrice
         self.productPostDiscont = productPostDiscont
+        self.productPostFinalPrice = productPostFinalPrice
         self.productPostSex = productPostSex
         self.productPostSeason = productPostSeason
         self.productPostPublicationDate = productPostPublicationDate
@@ -35,24 +51,20 @@ struct ProductPost {
     
     //описание товара
     var productPostImage: UIImage
-    var productPostTitle: String?
-    var productPostDescription: String?
+    var productPostTitle: String
+    var productPostDescription: String
     
     //стоимость товара
-    var productPostPrice: Float
-    var productPostDiscont: Float?
-    var productPostFinalPrice: Float {
-        if let productPostDiscont = productPostDiscont {
-            return (productPostPrice - (productPostPrice / 100) * productPostDiscont)
-        } else { return productPostPrice }
-    }
+    var productPostPrice: Int
+    var productPostDiscont: Double
+    var productPostFinalPrice: String
     
     //параметры товара
-    var productPostSex: Sex?
-    var productPostSeason: Season?
+    var productPostSex: Sex
+    var productPostSeason: Season
     
     //параметры поста
-    var productPostPublicationDate: Date?
+    var productPostPublicationDate: Date
     var productPostLikesCount: Int
     var productPostIsLiked: Bool
     var productPostViewsCount: Int
@@ -78,6 +90,8 @@ struct ProductPost {
         case woman = "Для женщин"
         case unisex = "Унисекс"
     }
+    
+    
     
     enum Season: String{
         case winter = "Зима"
@@ -115,8 +129,7 @@ struct ProductPost {
         return newArticle
     }
     
+
+
+    
 }
-
-
-
-

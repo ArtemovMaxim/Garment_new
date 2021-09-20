@@ -8,15 +8,15 @@
 import Foundation
 import UIKit
 
-struct DataBase {
+class DataBase {
     
     //база данных всех продуктов
-   var db = [ProductPost]()
+    static var db: [ProductPost] = []
     
     
     //создание тестового продукта
     
-    mutating func addProductToDB() {
+    static func addProductToDB() {
             
         let testProduct = ProductPost(productPostArticle: "\(String(ProductPost.generateNewArticle()))",
                              productPostImage: UIImage(named: "1.jpeg")!,
@@ -24,7 +24,7 @@ struct DataBase {
                              productPostDescription: "Описание",
                              productPostPrice: 100,
                              productPostDiscont: 10,
-                             //                             productPostFinalPrice: ,
+                                                          productPostFinalPrice: "90",
                              productPostSex: .man,
                              productPostSeason: .summer,
                              productPostPublicationDate: Date(),
@@ -34,10 +34,14 @@ struct DataBase {
                              //                               productPostComments: ,
                              productPostCommentsCount: 1,
                              productPostIsNew: .isNew)
-        db.append(testProduct)
+        DataBase.db.append(testProduct)
 //
 //        testProduct.productPostArticle = testProduct.generateNewArticle()
         
+    }
+    
+    static func addNewProductToDB(product: ProductPost) {
+        db.append(product)
     }
     
 }
