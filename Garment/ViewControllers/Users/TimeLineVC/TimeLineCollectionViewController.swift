@@ -162,7 +162,7 @@ class TimeLineCollectionViewController: UICollectionViewController {
         cell.productPostCommentsCountLabel.text = String(DataBase.db[indexPath.item].productPostCommentsCount)
         
         //productPostImage
-        cell.productPostImage.image = DataBase.db[indexPath.item].productPostImage
+        cell.productPostImage.image = DataBase.db[indexPath.item].productPostFirstImage
         
         //productDescription
         cell.productPostDescriptionLabel.text = DataBase.db[indexPath.item].productPostDescription

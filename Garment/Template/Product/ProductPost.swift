@@ -9,24 +9,10 @@ import Foundation
 import UIKit
 
 class ProductPost {
-    internal init(productPostArticle: String,
-                  productPostImage: UIImage,
-                  productPostTitle: String,
-                  productPostDescription: String,
-                  productPostPrice: Int,
-                  productPostDiscont: Double,
-                  productPostFinalPrice: String,
-                  productPostSex: ProductPost.Sex,
-                  productPostSeason: ProductPost.Season,
-                  productPostPublicationDate: Date,
-                  productPostLikesCount: Int,
-                  productPostIsLiked: Bool,
-                  productPostViewsCount: Int,
-                  productPostComments: [ProductPost.ProductPostCommentsArray]? = nil,
-                  productPostCommentsCount: Int,
-                  productPostIsNew: ProductPost.New) {
+    internal init(productPostArticle: String, productPostArrayPhotos: [UIImage], productPostFirstImage: UIImage, productPostTitle: String, productPostDescription: String, productPostPrice: Int, productPostDiscont: Double, productPostFinalPrice: String, productPostSex: ProductPost.Sex, productPostSeason: ProductPost.Season, productPostPublicationDate: Date, productPostLikesCount: Int, productPostIsLiked: Bool, productPostViewsCount: Int, productPostComments: [ProductPost.ProductPostCommentsArray]? = nil, productPostCommentsCount: Int, productPostIsNew: ProductPost.New) {
         self.productPostArticle = productPostArticle
-        self.productPostImage = productPostImage
+        ProductPost.productPostArrayPhotos = productPostArrayPhotos
+        self.productPostFirstImage = productPostFirstImage
         self.productPostTitle = productPostTitle
         self.productPostDescription = productPostDescription
         self.productPostPrice = productPostPrice
@@ -43,6 +29,10 @@ class ProductPost {
         self.productPostIsNew = productPostIsNew
     }
     
+    
+    
+    
+    
 
     
     
@@ -50,7 +40,8 @@ class ProductPost {
     var productPostArticle: String
     
     //описание товара
-    var productPostImage: UIImage
+    static var productPostArrayPhotos: [UIImage] = []
+    var productPostFirstImage: UIImage
     var productPostTitle: String
     var productPostDescription: String
     
@@ -129,7 +120,8 @@ class ProductPost {
         return newArticle
     }
     
-
-
+    static func addPhototoPhotoAlbum(photo: UIImage) {
+        ProductPost.productPostArrayPhotos.append(photo)
+    }
     
 }

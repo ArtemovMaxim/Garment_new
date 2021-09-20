@@ -19,6 +19,7 @@
 		A749130B26EC07FB00749FF2 /* TimeLineCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749130A26EC07FB00749FF2 /* TimeLineCollectionViewController.swift */; };
 		A749131326EC24E800749FF2 /* TimeLineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749131226EC24E800749FF2 /* TimeLineCollectionViewCell.swift */; };
 		A7A9893626F6A1A600875AAB /* StoresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A9893526F6A1A600875AAB /* StoresViewController.swift */; };
+		A7A9893A26F90C2C00875AAB /* StorePhotoAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A9893926F90C2C00875AAB /* StorePhotoAlbumCollectionViewCell.swift */; };
 		A7D709A826ED5B4700392A58 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D709A726ED5B4700392A58 /* DataBase.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		A749130A26EC07FB00749FF2 /* TimeLineCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineCollectionViewController.swift; sourceTree = "<group>"; };
 		A749131226EC24E800749FF2 /* TimeLineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineCollectionViewCell.swift; sourceTree = "<group>"; };
 		A7A9893526F6A1A600875AAB /* StoresViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoresViewController.swift; sourceTree = "<group>"; };
+		A7A9893926F90C2C00875AAB /* StorePhotoAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorePhotoAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		A7D709A726ED5B4700392A58 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,7 +165,7 @@
 		A7A9893326F6A15600875AAB /* Stores */ = {
 			isa = PBXGroup;
 			children = (
-				A7A9893526F6A1A600875AAB /* StoresViewController.swift */,
+				A7A9893726F90BF100875AAB /* StoresVC */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -174,6 +176,23 @@
 				A749130226EBF63500749FF2 /* TimeLineVC */,
 			);
 			path = Users;
+			sourceTree = "<group>";
+		};
+		A7A9893726F90BF100875AAB /* StoresVC */ = {
+			isa = PBXGroup;
+			children = (
+				A7A9893826F90BFC00875AAB /* StoresVCCell */,
+				A7A9893526F6A1A600875AAB /* StoresViewController.swift */,
+			);
+			path = StoresVC;
+			sourceTree = "<group>";
+		};
+		A7A9893826F90BFC00875AAB /* StoresVCCell */ = {
+			isa = PBXGroup;
+			children = (
+				A7A9893926F90C2C00875AAB /* StorePhotoAlbumCollectionViewCell.swift */,
+			);
+			path = StoresVCCell;
 			sourceTree = "<group>";
 		};
 		A7D709A626ED5B2D00392A58 /* DB */ = {
@@ -263,6 +282,7 @@
 				A7A9893626F6A1A600875AAB /* StoresViewController.swift in Sources */,
 				A74912EA26EB7A0100749FF2 /* Garment.xcdatamodeld in Sources */,
 				A74912E226EB7A0100749FF2 /* SceneDelegate.swift in Sources */,
+				A7A9893A26F90C2C00875AAB /* StorePhotoAlbumCollectionViewCell.swift in Sources */,
 				A74912FE26EB7C9F00749FF2 /* ProductPost.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

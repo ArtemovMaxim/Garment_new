@@ -17,26 +17,27 @@ class DataBase {
     //создание тестового продукта
     
     static func addProductToDB() {
-            
+        
         let testProduct = ProductPost(productPostArticle: "\(String(ProductPost.generateNewArticle()))",
-                             productPostImage: UIImage(named: "1.jpeg")!,
-                             productPostTitle: "Название",
-                             productPostDescription: "Описание",
-                             productPostPrice: 100,
-                             productPostDiscont: 10,
-                                                          productPostFinalPrice: "90",
-                             productPostSex: .man,
-                             productPostSeason: .summer,
-                             productPostPublicationDate: Date(),
-                             productPostLikesCount: 1,
-                             productPostIsLiked: true,
-                             productPostViewsCount: 1,
-                             //                               productPostComments: ,
-                             productPostCommentsCount: 1,
-                             productPostIsNew: .isNew)
+                                      productPostArrayPhotos: [],
+                                      productPostFirstImage: UIImage(named: "1.jpeg")!,
+                                      productPostTitle: "Название",
+                                      productPostDescription: "Описание",
+                                      productPostPrice: 100,
+                                      productPostDiscont: 10,
+                                      productPostFinalPrice: "90",
+                                      productPostSex: .man,
+                                      productPostSeason: .summer,
+                                      productPostPublicationDate: Date(),
+                                      productPostLikesCount: 1,
+                                      productPostIsLiked: true,
+                                      productPostViewsCount: 1,
+                                      //                               productPostComments: ,
+                                      productPostCommentsCount: 1,
+                                      productPostIsNew: .isNew)
         DataBase.db.append(testProduct)
-//
-//        testProduct.productPostArticle = testProduct.generateNewArticle()
+        //
+        //        testProduct.productPostArticle = testProduct.generateNewArticle()
         
     }
     
