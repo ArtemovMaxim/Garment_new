@@ -156,10 +156,10 @@ class TimeLineCollectionViewController: UICollectionViewController {
         
         
         //header
-        cell.productPostArticleLabel.text = DataBase.db[indexPath.item].productPostArticle
-        cell.productPostViewsLabel.text = String(DataBase.db[indexPath.item].productPostViewsCount)
-        cell.productPostLikesCountLabel.text = String(DataBase.db[indexPath.item].productPostLikesCount)
-        cell.productPostCommentsCountLabel.text = String(DataBase.db[indexPath.item].productPostCommentsCount)
+        cell.productPostArticleLabel.text = "Артикул: " + DataBase.db[indexPath.item].productPostArticle
+        cell.productPostViewsLabel.text = "Просмотров: " + String(DataBase.db[indexPath.item].productPostViewsCount)
+        cell.productPostLikesCountLabel.text = "Лайков: " + String(DataBase.db[indexPath.item].productPostLikesCount)
+        cell.productPostCommentsCountLabel.text = "Комментариев: " + String(DataBase.db[indexPath.item].productPostCommentsCount)
         
         //productPostImage
         cell.productPostImage.image = DataBase.db[indexPath.item].productPostFirstImage
@@ -170,15 +170,15 @@ class TimeLineCollectionViewController: UICollectionViewController {
         
         //footer
         //productPropertys
-        cell.productPostSexLabel.text = DataBase.db[indexPath.item].productPostSex.rawValue
-        cell.productPostSeasonLabel.text = DataBase.db[indexPath.item].productPostSeason.rawValue
+        cell.productPostSexLabel.text = "Пол: " + DataBase.db[indexPath.item].productPostSex.rawValue
+        cell.productPostSeasonLabel.text = "Сезон: " + DataBase.db[indexPath.item].productPostSeason.rawValue
         
         //productPrice
-        cell.productPostPriceLabel.text = String(DataBase.db[indexPath.item].productPostPrice) + " руб."
-        cell.productPostDiscontLabel.text = "\(DataBase.db[indexPath.item].productPostDiscont)" + " %"
-        cell.productPostFinalPriceLabel.text = "\(DataBase.db[indexPath.item].productPostFinalPrice)" + " руб."
+        cell.productPostPriceLabel.text = "Цена: " + String(DataBase.db[indexPath.item].productPostPrice) + " руб."
+        cell.productPostDiscontLabel.text = "Скидка: " + "\(DataBase.db[indexPath.item].productPostDiscont)" + " %"
+        cell.productPostFinalPriceLabel.text = "Итого: " + "\(DataBase.db[indexPath.item].productPostFinalPrice)" + " руб."
         
-        cell.productPostPublicationDateLabel.text = "Сегодняшняя дата"
+        cell.productPostPublicationDateLabel.text = "Дата публикации"
         
         // activityIndicator
 //        let activityIndicator = TimeLineCollectionViewCell().productPostActivityIndicator
