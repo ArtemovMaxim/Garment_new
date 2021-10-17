@@ -8,10 +8,28 @@
 import Foundation
 import UIKit
 
-class ProductPost {
-    internal init(productPostArticle: String, productPostArrayPhotos: [UIImage], productPostFirstImage: UIImage, productPostTitle: String, productPostDescription: String, productPostPrice: Int, productPostDiscont: Double, productPostFinalPrice: String, productPostSex: ProductPost.Sex, productPostSeason: ProductPost.Season, productPostPublicationDate: Date, productPostLikesCount: Int, productPostIsLiked: Bool, productPostViewsCount: Int, productPostComments: [ProductPost.ProductPostCommentsArray]? = nil, productPostCommentsCount: Int, productPostIsNew: ProductPost.New) {
+class Product {
+    internal init(productPostArticle: String,
+                  productPostArrayPhotos: [UIImage]? = nil,
+                  productPostFirstImage: UIImage,
+                  productPostTitle: String,
+                  productPostDescription: String,
+                  productPostPrice: Int,
+                  productPostDiscont: Double,
+                  productPostFinalPrice: String,
+                  productPostSex: Product.Sex,
+                  productPostSeason: Product.Season,
+                  productPostPublicationDate: String,
+                  productPostLikesCount: Int,
+                  productPostIsLiked: Bool,
+                  productPostViewsCount: Int,
+                  productPostComments: [Product.ProductPostCommentsArray]? = nil,
+                  productPostCommentsCount: Int,
+                  productPostIsNew: Product.New,
+                    productPostImageCount: Int = 0,
+                  store: String) {
         self.productPostArticle = productPostArticle
-        ProductPost.productPostArrayPhotos = productPostArrayPhotos
+        self.productPostArrayPhotos = productPostArrayPhotos
         self.productPostFirstImage = productPostFirstImage
         self.productPostTitle = productPostTitle
         self.productPostDescription = productPostDescription
@@ -27,23 +45,24 @@ class ProductPost {
         self.productPostComments = productPostComments
         self.productPostCommentsCount = productPostCommentsCount
         self.productPostIsNew = productPostIsNew
+        self.productPostImageCount = productPostImageCount
+        self.store = store
     }
     
     
     
-    
-    
-
-    
+        //магазин
+    var store: String = ""
     
     //артукул
-    var productPostArticle: String
+    var productPostArticle: String = ""
     
     //описание товара
-    static var productPostArrayPhotos: [UIImage] = []
+    var productPostArrayPhotos: [UIImage]? = []
     var productPostFirstImage: UIImage
     var productPostTitle: String
     var productPostDescription: String
+    var productPostImageCount: Int = 0
     
     //стоимость товара
     var productPostPrice: Int
@@ -55,10 +74,11 @@ class ProductPost {
     var productPostSeason: Season
     
     //параметры поста
-    var productPostPublicationDate: Date
+    var productPostPublicationDate: String
     var productPostLikesCount: Int
     var productPostIsLiked: Bool
     var productPostViewsCount: Int
+    var productPostPhotoCount: Int = 0
     
     //параметры комментариев
     var productPostComments: [ProductPostCommentsArray]?
@@ -69,11 +89,7 @@ class ProductPost {
     
     //инициализаторы
     
-    
-    //функция добвления нового товара
-    func addNewProduct() {
-        
-    }
+
     
     //параментры товара
     enum Sex: String {
@@ -106,7 +122,7 @@ class ProductPost {
     
     //функции
     //функция генерации нового артикула
-    static func generateNewArticle() -> String {
+     static func generateNewArticle() -> String {
         let date = Date()
         let calendar = NSCalendar.current
         let day = calendar.component(.day, from: date as Date)
@@ -120,8 +136,6 @@ class ProductPost {
         return newArticle
     }
     
-    static func addPhototoPhotoAlbum(photo: UIImage) {
-        ProductPost.productPostArrayPhotos.append(photo)
-    }
+
     
 }

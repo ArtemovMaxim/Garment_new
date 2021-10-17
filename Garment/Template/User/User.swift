@@ -13,7 +13,7 @@ struct User {
     var UserFirstName: String?
     var UserLastName: String?
     var UserAge: Int?
-    var UserSex: ProductPost.Sex?
+    var UserSex: Product.Sex?
     
 //подписки на магазины
     var userSubscribtions: [Store]

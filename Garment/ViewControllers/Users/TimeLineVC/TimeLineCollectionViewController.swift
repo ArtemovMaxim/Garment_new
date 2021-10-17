@@ -7,60 +7,25 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
+enum Ident: String {
+    case reuseIdentifier = "Cell"
+    case reuseIdentifierAlbum = "PhotoAlbumCell"
+}
 
 class TimeLineCollectionViewController: UICollectionViewController {
+    //индекс для передачи item в albumCollectionView
+    static var item: Int = 0
     
-    //var
+    var arrayStores: [Product] = []
     
     //аутлеты
+    @IBOutlet var globalCollectionView: UICollectionView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        DataBase.addProductToDB()
-
-
-//        //delay for activityIndicator
-//        self.perform(#selector(delayActivityIndicator), with: nil, afterDelay: 5.0)
-    
-    
         
-        
-        //custom function
-        
-        
-        
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Register cell classes
-        //        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
-        // Do any additional setup after loading the view.
     }
-    
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using [segue destinationViewController].
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
-    // MARK: UICollectionViewDataSource
-    
-    
-    
-    
-    //    product1.productPostArticle = product1.generateNewArticle()
-    
     
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -71,172 +36,350 @@ class TimeLineCollectionViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return DataBase.db.count
+
+        arrayStores = DataBase().generateArray(name: AuthAccaunt.nameStore)
+            return arrayStores.count
+
     }
     
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TimeLineCollectionViewCell
-
         
+        switch AuthAccaunt.authProfile {
+            
+        case .store:
+            arrayStores = DataBase().generateArray(name: AuthAccaunt.nameStore)
+            return generateStoreCell(collectionView, cellForItemAt: indexPath, nameStore: AuthAccaunt.nameStore)
+            
+        case .user:
+            arrayStores = DataBase().generateArray(name: AuthAccaunt.nameStore)
+            return generateUserCell(collectionView, cellForItemAt: indexPath, nameStore: AuthAccaunt.nameStore)
+            
+        case .nonAuth:
+            arrayStores = DataBase().generateArray(name: AuthAccaunt.nameStore)
+            return generateNonAuthCell(collectionView, cellForItemAt: indexPath, nameStore: AuthAccaunt.nameStore)
+            
+        }
+    }
+    
+    func generateStoreCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, nameStore: String) -> UICollectionViewCell {
+        
+        
+        TimeLineCollectionViewController.item = indexPath.item
+        
+        let cellStore = collectionView.dequeueReusableCell(withReuseIdentifier: Ident.reuseIdentifier.rawValue, for: indexPath) as! TimeLineCollectionViewCell
+        cellStore.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         //отключение автомата
-        cell.header.translatesAutoresizingMaskIntoConstraints = false
-        cell.productPostImage.translatesAutoresizingMaskIntoConstraints = false
-        cell.productDescription.translatesAutoresizingMaskIntoConstraints = false
-        cell.footer.translatesAutoresizingMaskIntoConstraints = false
-        cell.buttons.translatesAutoresizingMaskIntoConstraints = false
-        cell.productPostActivityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        cellStore.header.translatesAutoresizingMaskIntoConstraints = false
+        cellStore.albumCollection.translatesAutoresizingMaskIntoConstraints = false
+        cellStore.productDescription.translatesAutoresizingMaskIntoConstraints = false
+        cellStore.footer.translatesAutoresizingMaskIntoConstraints = false
+        cellStore.buttons.translatesAutoresizingMaskIntoConstraints = false
+        cellStore.albumCollection.translatesAutoresizingMaskIntoConstraints = false
         
         //констрейнты
         NSLayoutConstraint.activate([
             
             //header
-            cell.header.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 10),
-            cell.header.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: 10),
-            cell.header.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
+            cellStore.header.topAnchor.constraint(equalTo: cellStore.contentView.topAnchor, constant: 10),
+            cellStore.header.trailingAnchor.constraint(equalTo: cellStore.contentView.trailingAnchor, constant: 10),
+            cellStore.header.leadingAnchor.constraint(equalTo: cellStore.contentView.leadingAnchor, constant: 10),
             
             //productPostImage
-            cell.productPostImage.topAnchor.constraint(equalTo: cell.header.bottomAnchor, constant: 10),
-            cell.productPostImage.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: 10),
-            cell.productPostImage.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
+            cellStore.albumCollection.topAnchor.constraint(equalTo: cellStore.header.bottomAnchor, constant: 10),
+            cellStore.albumCollection.trailingAnchor.constraint(equalTo: cellStore.contentView.trailingAnchor, constant: 10),
+            cellStore.albumCollection.leadingAnchor.constraint(equalTo: cellStore.contentView.leadingAnchor, constant: 10),
             
-            cell.productPostImage.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height - cell.allHeights()),
+            cellStore.albumCollection.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height - cellStore.allHeights()),
             
             //productDescription
-            cell.productDescription.topAnchor.constraint(equalTo: cell.productPostImage.bottomAnchor, constant: 10),
-            cell.productDescription.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: 10),
-            cell.productDescription.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
+            cellStore.productDescription.topAnchor.constraint(equalTo: cellStore.albumCollection.bottomAnchor, constant: 10),
+            cellStore.productDescription.trailingAnchor.constraint(equalTo: cellStore.contentView.trailingAnchor, constant: 10),
+            cellStore.productDescription.leadingAnchor.constraint(equalTo: cellStore.contentView.leadingAnchor, constant: 10),
             
             //footer
-            cell.footer.topAnchor.constraint(equalTo: cell.productDescription.bottomAnchor, constant: 10),
-            cell.footer.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: 10),
-            cell.footer.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
+            cellStore.footer.topAnchor.constraint(equalTo: cellStore.productDescription.bottomAnchor, constant: 10),
+            cellStore.footer.trailingAnchor.constraint(equalTo: cellStore.contentView.trailingAnchor, constant: 10),
+            cellStore.footer.leadingAnchor.constraint(equalTo: cellStore.contentView.leadingAnchor, constant: 10),
             
             //buttons
-            cell.buttons.topAnchor.constraint(equalTo: cell.footer.bottomAnchor, constant: 10),
-            cell.buttons.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: 10),
-            cell.buttons.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
+            cellStore.buttons.topAnchor.constraint(equalTo: cellStore.footer.bottomAnchor, constant: 10),
+            cellStore.buttons.trailingAnchor.constraint(equalTo: cellStore.contentView.trailingAnchor, constant: 10),
+            cellStore.buttons.leadingAnchor.constraint(equalTo: cellStore.contentView.leadingAnchor, constant: 10),
             
-            //activityIndicator
-            cell.productPostActivityIndicator.centerYAnchor.constraint(equalTo: cell.productPostImage.centerYAnchor),
-            cell.productPostActivityIndicator.centerXAnchor.constraint(equalTo: cell.productPostImage.centerXAnchor),
-            cell.productPostActivityIndicator.topAnchor.constraint(equalTo: cell.productPostImage.topAnchor),
-            cell.productPostActivityIndicator.bottomAnchor.constraint(equalTo: cell.productPostImage.bottomAnchor),
-            cell.productPostActivityIndicator.leadingAnchor.constraint(equalTo: cell.productPostImage.leadingAnchor),
-            cell.productPostActivityIndicator.trailingAnchor.constraint(equalTo: cell.productPostImage.trailingAnchor)
+            //ScrollView aka productPostImage
+            cellStore.albumCollection.topAnchor.constraint(equalTo: cellStore.header.bottomAnchor, constant: 10),
+            cellStore.albumCollection.bottomAnchor.constraint(equalTo: cellStore.productDescription.topAnchor, constant: 10),
+            cellStore.albumCollection.leadingAnchor.constraint(equalTo: cellStore.contentView.leadingAnchor, constant: 10),
+            cellStore.albumCollection.trailingAnchor.constraint(equalTo: cellStore.contentView.trailingAnchor, constant: 10)
         ])
         
         // Configure the cell
         
         
         //header
-        cell.productPostArticleLabel.text = ""
-        cell.productPostViewsLabel.text = ""
-        cell.productPostLikesCountLabel.text = ""
-        cell.productPostCommentsCountLabel.text = ""
+        cellStore.productPostArticleLabel.text = ""
+        cellStore.productPostViewsLabel.text = ""
+        cellStore.productPostLikesCountLabel.text = ""
+        cellStore.productPostCommentsCountLabel.text = ""
         
         //productPostImage
-        cell.productPostImage.image = nil
+
         
         //productDescription
-        cell.productPostDescriptionLabel.text = ""
-        cell.productPostTitleLabel.text = ""
+        cellStore.productPostDescriptionLabel.text = ""
+        cellStore.productPostTitleLabel.text = ""
         
         //footer
         //productPropertys
-        cell.productPostSexLabel.text = ""
-        cell.productPostSeasonLabel.text = ""
+        cellStore.productPostSexLabel.text = ""
+        cellStore.productPostSeasonLabel.text = ""
         
         //productPrice
-        cell.productPostPriceLabel.text = ""
-        cell.productPostDiscontLabel.text = ""
-        cell.productPostFinalPriceLabel.text = ""
+        cellStore.productPostPriceLabel.text = ""
+        cellStore.productPostDiscontLabel.text = ""
+        cellStore.productPostFinalPriceLabel.text = ""
         
-        cell.productPostPublicationDateLabel.text = ""
+        cellStore.productPostPublicationDateLabel.text = ""
+        
+        cellStore.store.text = ""
         
         
         
         //header
-        cell.productPostArticleLabel.text = "Артикул: " + DataBase.db[indexPath.item].productPostArticle
-        cell.productPostViewsLabel.text = "Просмотров: " + String(DataBase.db[indexPath.item].productPostViewsCount)
-        cell.productPostLikesCountLabel.text = "Лайков: " + String(DataBase.db[indexPath.item].productPostLikesCount)
-        cell.productPostCommentsCountLabel.text = "Комментариев: " + String(DataBase.db[indexPath.item].productPostCommentsCount)
+        cellStore.productPostArticleLabel.text = "Артикул: " + arrayStores[indexPath.item].productPostArticle
+        cellStore.productPostViewsLabel.text = "Просмотров: " + String(arrayStores[indexPath.item].productPostViewsCount)
+        cellStore.productPostLikesCountLabel.text = "Лайков: " + String(arrayStores[indexPath.item].productPostLikesCount)
+        cellStore.productPostCommentsCountLabel.text = "Комментариев: " + String(arrayStores[indexPath.item].productPostCommentsCount)
         
-        //productPostImage
-        cell.productPostImage.image = DataBase.db[indexPath.item].productPostFirstImage
         
         //productDescription
-        cell.productPostDescriptionLabel.text = DataBase.db[indexPath.item].productPostDescription
-        cell.productPostTitleLabel.text = DataBase.db[indexPath.item].productPostTitle
+        cellStore.productPostDescriptionLabel.text = arrayStores[indexPath.item].productPostDescription
+        cellStore.productPostTitleLabel.text = arrayStores[indexPath.item].productPostTitle
         
         //footer
         //productPropertys
-        cell.productPostSexLabel.text = "Пол: " + DataBase.db[indexPath.item].productPostSex.rawValue
-        cell.productPostSeasonLabel.text = "Сезон: " + DataBase.db[indexPath.item].productPostSeason.rawValue
+        cellStore.productPostSexLabel.text = "Пол: " + arrayStores[indexPath.item].productPostSex.rawValue
+        cellStore.productPostSeasonLabel.text = "Сезон: " + arrayStores[indexPath.item].productPostSeason.rawValue
+        cellStore.productPostIsNewLabel.text = "Новизна: " + arrayStores[indexPath.item].productPostIsNew.rawValue
         
         //productPrice
-        cell.productPostPriceLabel.text = "Цена: " + String(DataBase.db[indexPath.item].productPostPrice) + " руб."
-        cell.productPostDiscontLabel.text = "Скидка: " + "\(DataBase.db[indexPath.item].productPostDiscont)" + " %"
-        cell.productPostFinalPriceLabel.text = "Итого: " + "\(DataBase.db[indexPath.item].productPostFinalPrice)" + " руб."
+        cellStore.productPostPriceLabel.text = "Цена: " + String(arrayStores[indexPath.item].productPostPrice) + " руб."
+        cellStore.productPostDiscontLabel.text = "Скидка: " + "\(arrayStores[indexPath.item].productPostDiscont)" + " %"
+        cellStore.productPostFinalPriceLabel.text = "Итого: " + "\(arrayStores[indexPath.item].productPostFinalPrice)" + " руб."
         
-        cell.productPostPublicationDateLabel.text = "Дата публикации"
-        
-        // activityIndicator
-//        let activityIndicator = TimeLineCollectionViewCell().productPostActivityIndicator
-//        activityIndicator?.color = .blue
-//        activityIndicator?.isHidden = false
-//        activityIndicator?.startAnimating()
+        cellStore.productPostPublicationDateLabel.text = "Дата публикации"
+        cellStore.store.text = "Магазин: " + "\(nameStore)"
         
         
-
-
+        return cellStore
         
-        
-        return cell
     }
     
+    func generateUserCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, nameStore: String) -> UICollectionViewCell {
+        TimeLineCollectionViewController.item = indexPath.item
+        
+        let cellUser = collectionView.dequeueReusableCell(withReuseIdentifier: Ident.reuseIdentifier.rawValue, for: indexPath) as! TimeLineCollectionViewCell
+        cellUser.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        //отключение автомата
+        cellUser.header.translatesAutoresizingMaskIntoConstraints = false
+        cellUser.albumCollection.translatesAutoresizingMaskIntoConstraints = false
+        cellUser.productDescription.translatesAutoresizingMaskIntoConstraints = false
+        cellUser.footer.translatesAutoresizingMaskIntoConstraints = false
+        cellUser.buttons.translatesAutoresizingMaskIntoConstraints = false
+        cellUser.albumCollection.translatesAutoresizingMaskIntoConstraints = false
+        
+        //констрейнты
+        NSLayoutConstraint.activate([
+            
+            //header
+            cellUser.header.topAnchor.constraint(equalTo: cellUser.contentView.topAnchor, constant: 10),
+            cellUser.header.trailingAnchor.constraint(equalTo: cellUser.contentView.trailingAnchor, constant: 10),
+            cellUser.header.leadingAnchor.constraint(equalTo: cellUser.contentView.leadingAnchor, constant: 10),
+            
+            //productPostImage
+            cellUser.albumCollection.topAnchor.constraint(equalTo: cellUser.header.bottomAnchor, constant: 10),
+            cellUser.albumCollection.trailingAnchor.constraint(equalTo: cellUser.contentView.trailingAnchor, constant: 10),
+            cellUser.albumCollection.leadingAnchor.constraint(equalTo: cellUser.contentView.leadingAnchor, constant: 10),
+            
+            cellUser.albumCollection.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height - cellUser.allHeights()),
+            
+            //productDescription
+            cellUser.productDescription.topAnchor.constraint(equalTo: cellUser.albumCollection.bottomAnchor, constant: 10),
+            cellUser.productDescription.trailingAnchor.constraint(equalTo: cellUser.contentView.trailingAnchor, constant: 10),
+            cellUser.productDescription.leadingAnchor.constraint(equalTo: cellUser.contentView.leadingAnchor, constant: 10),
+            
+            //footer
+            cellUser.footer.topAnchor.constraint(equalTo: cellUser.productDescription.bottomAnchor, constant: 10),
+            cellUser.footer.trailingAnchor.constraint(equalTo: cellUser.contentView.trailingAnchor, constant: 10),
+            cellUser.footer.leadingAnchor.constraint(equalTo: cellUser.contentView.leadingAnchor, constant: 10),
+            
+            //buttons
+            cellUser.buttons.topAnchor.constraint(equalTo: cellUser.footer.bottomAnchor, constant: 10),
+            cellUser.buttons.trailingAnchor.constraint(equalTo: cellUser.contentView.trailingAnchor, constant: 10),
+            cellUser.buttons.leadingAnchor.constraint(equalTo: cellUser.contentView.leadingAnchor, constant: 10),
+            
+            //ScrollView aka productPostImage
+            cellUser.albumCollection.topAnchor.constraint(equalTo: cellUser.header.bottomAnchor, constant: 10),
+            cellUser.albumCollection.bottomAnchor.constraint(equalTo: cellUser.productDescription.topAnchor, constant: 10),
+            cellUser.albumCollection.leadingAnchor.constraint(equalTo: cellUser.contentView.leadingAnchor, constant: 10),
+            cellUser.albumCollection.trailingAnchor.constraint(equalTo: cellUser.contentView.trailingAnchor, constant: 10)
+        ])
+        
+        // Configure the cell
+        
+        
+        //header
+        cellUser.productPostArticleLabel.text = ""
+        cellUser.productPostViewsLabel.text = ""
+        cellUser.productPostLikesCountLabel.text = ""
+        cellUser.productPostCommentsCountLabel.text = ""
+        
+        cellUser.productPostDescriptionLabel.text = ""
+        cellUser.productPostTitleLabel.text = ""
+        
+        //footer
+        //productPropertys
+        cellUser.productPostSexLabel.text = ""
+        cellUser.productPostSeasonLabel.text = ""
+        
+        //productPrice
+        cellUser.productPostPriceLabel.text = ""
+        cellUser.productPostDiscontLabel.text = ""
+        cellUser.productPostFinalPriceLabel.text = ""
+        
+        cellUser.productPostPublicationDateLabel.text = ""
+        
+        
+        //header
+        cellUser.productPostArticleLabel.text = "Артикул: " + DataBase.productsDb[indexPath.item].productPostArticle
+        cellUser.productPostViewsLabel.text = "Просмотров: " + String(DataBase.productsDb[indexPath.item].productPostViewsCount)
+        cellUser.productPostLikesCountLabel.text = "Лайков: " + String(DataBase.productsDb[indexPath.item].productPostLikesCount)
+        cellUser.productPostCommentsCountLabel.text = "Комментариев: " + String(DataBase.productsDb[indexPath.item].productPostCommentsCount)
+        
+        
+        //productDescription
+        cellUser.productPostDescriptionLabel.text = DataBase.productsDb[indexPath.item].productPostDescription
+        cellUser.productPostTitleLabel.text = DataBase.productsDb[indexPath.item].productPostTitle
+        
+        //footer
+        //productPropertys
+        cellUser.productPostSexLabel.text = "Пол: " + DataBase.productsDb[indexPath.item].productPostSex.rawValue
+        cellUser.productPostSeasonLabel.text = "Сезон: " + DataBase.productsDb[indexPath.item].productPostSeason.rawValue
+        cellUser.productPostIsNewLabel.text = "Новизна: " + DataBase.productsDb[indexPath.item].productPostIsNew.rawValue
+        
+        //productPrice
+        cellUser.productPostPriceLabel.text = "Цена: " + String(DataBase.productsDb[indexPath.item].productPostPrice) + " руб."
+        cellUser.productPostDiscontLabel.text = "Скидка: " + "\(DataBase.productsDb[indexPath.item].productPostDiscont)" + " %"
+        cellUser.productPostFinalPriceLabel.text = "Итого: " + "\(DataBase.productsDb[indexPath.item].productPostFinalPrice)" + " руб."
+        
+        cellUser.productPostPublicationDateLabel.text = "Дата публикации"
+        cellUser.store.text = "Магазин: " + "\(DataBase.productsDb[indexPath.item].store)"
+        
+        return cellUser
+        
+    }
     
-    
-    
-    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-    //        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    //    }
-    
-    // MARK: UICollectionViewDelegate
-    
-    /*
-     // Uncomment this method to specify if the specified item should be highlighted during tracking
-     override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment this method to specify if the specified item should be selected
-     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-     override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-     
-     }
-     */
- 
-    //custom functions
-    
-//    @objc func delayActivityIndicator() {
-//        activityIndicator?.stopAnimating()
-//        activityIndicator?.hidesWhenStopped = true
-//    }
-    
+    func generateNonAuthCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, nameStore: String) -> UICollectionViewCell {
+        TimeLineCollectionViewController.item = indexPath.item
+        
+        let cellNonAuth = collectionView.dequeueReusableCell(withReuseIdentifier: Ident.reuseIdentifier.rawValue, for: indexPath) as! TimeLineCollectionViewCell
+        cellNonAuth.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        //отключение автомата
+        cellNonAuth.header.translatesAutoresizingMaskIntoConstraints = false
+        cellNonAuth.albumCollection.translatesAutoresizingMaskIntoConstraints = false
+        cellNonAuth.productDescription.translatesAutoresizingMaskIntoConstraints = false
+        cellNonAuth.footer.translatesAutoresizingMaskIntoConstraints = false
+        cellNonAuth.buttons.translatesAutoresizingMaskIntoConstraints = false
+        cellNonAuth.albumCollection.translatesAutoresizingMaskIntoConstraints = false
+        
+        //констрейнты
+        NSLayoutConstraint.activate([
+            
+            //header
+            cellNonAuth.header.topAnchor.constraint(equalTo: cellNonAuth.contentView.topAnchor, constant: 10),
+            cellNonAuth.header.trailingAnchor.constraint(equalTo: cellNonAuth.contentView.trailingAnchor, constant: 10),
+            cellNonAuth.header.leadingAnchor.constraint(equalTo: cellNonAuth.contentView.leadingAnchor, constant: 10),
+            
+            //productPostImage
+            cellNonAuth.albumCollection.topAnchor.constraint(equalTo: cellNonAuth.header.bottomAnchor, constant: 10),
+            cellNonAuth.albumCollection.trailingAnchor.constraint(equalTo: cellNonAuth.contentView.trailingAnchor, constant: 10),
+            cellNonAuth.albumCollection.leadingAnchor.constraint(equalTo: cellNonAuth.contentView.leadingAnchor, constant: 10),
+            
+            cellNonAuth.albumCollection.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height - cellNonAuth.allHeights()),
+            
+            //productDescription
+            cellNonAuth.productDescription.topAnchor.constraint(equalTo: cellNonAuth.albumCollection.bottomAnchor, constant: 10),
+            cellNonAuth.productDescription.trailingAnchor.constraint(equalTo: cellNonAuth.contentView.trailingAnchor, constant: 10),
+            cellNonAuth.productDescription.leadingAnchor.constraint(equalTo: cellNonAuth.contentView.leadingAnchor, constant: 10),
+            
+            //footer
+            cellNonAuth.footer.topAnchor.constraint(equalTo: cellNonAuth.productDescription.bottomAnchor, constant: 10),
+            cellNonAuth.footer.trailingAnchor.constraint(equalTo: cellNonAuth.contentView.trailingAnchor, constant: 10),
+            cellNonAuth.footer.leadingAnchor.constraint(equalTo: cellNonAuth.contentView.leadingAnchor, constant: 10),
+            
+            //buttons
+            cellNonAuth.buttons.topAnchor.constraint(equalTo: cellNonAuth.footer.bottomAnchor, constant: 10),
+            cellNonAuth.buttons.trailingAnchor.constraint(equalTo: cellNonAuth.contentView.trailingAnchor, constant: 10),
+            cellNonAuth.buttons.leadingAnchor.constraint(equalTo: cellNonAuth.contentView.leadingAnchor, constant: 10),
+            
+            //ScrollView aka productPostImage
+            cellNonAuth.albumCollection.topAnchor.constraint(equalTo: cellNonAuth.header.bottomAnchor, constant: 10),
+            cellNonAuth.albumCollection.bottomAnchor.constraint(equalTo: cellNonAuth.productDescription.topAnchor, constant: 10),
+            cellNonAuth.albumCollection.leadingAnchor.constraint(equalTo: cellNonAuth.contentView.leadingAnchor, constant: 10),
+            cellNonAuth.albumCollection.trailingAnchor.constraint(equalTo: cellNonAuth.contentView.trailingAnchor, constant: 10)
+        ])
+        
+        // Configure the cell
+        
+        
+        //header
+        cellNonAuth.productPostArticleLabel.text = ""
+        cellNonAuth.productPostViewsLabel.text = ""
+        cellNonAuth.productPostLikesCountLabel.text = ""
+        cellNonAuth.productPostCommentsCountLabel.text = ""
+        
+        cellNonAuth.productPostDescriptionLabel.text = ""
+        cellNonAuth.productPostTitleLabel.text = ""
+        
+        //footer
+        //productPropertys
+        cellNonAuth.productPostSexLabel.text = ""
+        cellNonAuth.productPostSeasonLabel.text = ""
+        
+        //productPrice
+        cellNonAuth.productPostPriceLabel.text = ""
+        cellNonAuth.productPostDiscontLabel.text = ""
+        cellNonAuth.productPostFinalPriceLabel.text = ""
+        
+        cellNonAuth.productPostPublicationDateLabel.text = ""
+        
+        
+        //header
+        cellNonAuth.productPostArticleLabel.text = "Артикул: " + DataBase.productsDb[indexPath.item].productPostArticle
+        cellNonAuth.productPostViewsLabel.text = "Просмотров: " + String(DataBase.productsDb[indexPath.item].productPostViewsCount)
+        cellNonAuth.productPostLikesCountLabel.text = "Лайков: " + String(DataBase.productsDb[indexPath.item].productPostLikesCount)
+        cellNonAuth.productPostCommentsCountLabel.text = "Комментариев: " + String(DataBase.productsDb[indexPath.item].productPostCommentsCount)
+        
+        
+        //productDescription
+        cellNonAuth.productPostDescriptionLabel.text = DataBase.productsDb[indexPath.item].productPostDescription
+        cellNonAuth.productPostTitleLabel.text = DataBase.productsDb[indexPath.item].productPostTitle
+        
+        //footer
+        //productPropertys
+        cellNonAuth.productPostSexLabel.text = "Пол: " + DataBase.productsDb[indexPath.item].productPostSex.rawValue
+        cellNonAuth.productPostSeasonLabel.text = "Сезон: " + DataBase.productsDb[indexPath.item].productPostSeason.rawValue
+        cellNonAuth.productPostIsNewLabel.text = "Новизна: " + DataBase.productsDb[indexPath.item].productPostIsNew.rawValue
+        
+        //productPrice
+        cellNonAuth.productPostPriceLabel.text = "Цена: " + String(DataBase.productsDb[indexPath.item].productPostPrice) + " руб."
+        cellNonAuth.productPostDiscontLabel.text = "Скидка: " + "\(DataBase.productsDb[indexPath.item].productPostDiscont)" + " %"
+        cellNonAuth.productPostFinalPriceLabel.text = "Итого: " + "\(DataBase.productsDb[indexPath.item].productPostFinalPrice)" + " руб."
+        
+        cellNonAuth.productPostPublicationDateLabel.text = "Дата публикации"
+        cellNonAuth.store.text = "Магазин: " + "\(nameStore)"
+        
+        return cellNonAuth
+    }
 }

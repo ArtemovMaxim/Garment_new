@@ -10,7 +10,7 @@ import UIKit
 class TimeLineCollectionViewCell: UICollectionViewCell {
     
     //vars
-
+    
     //аутлеты
     @IBOutlet weak var header: UIStackView!
     @IBOutlet weak var productPostArticleLabel: UILabel!
@@ -18,8 +18,6 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var productPostLikesCountLabel: UILabel!
     @IBOutlet weak var productPostCommentsCountLabel: UILabel!
     
-    
-    @IBOutlet weak var productPostImage: UIImageView!
     
     @IBOutlet weak var productDescription: UIStackView!
     @IBOutlet weak var productPostDescriptionLabel: UILabel!
@@ -33,31 +31,34 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var productPostDiscontLabel: UILabel!
     @IBOutlet weak var productPostFinalPriceLabel: UILabel!
     @IBOutlet weak var productPostPublicationDateLabel: UILabel!
-    
-    
-    @IBOutlet weak var productPostActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var productPostIsNewLabel: UILabel!
     
     
     @IBOutlet weak var buttons: UIStackView!
     @IBOutlet weak var followingButton: UIButton!
     @IBOutlet weak var buyButton: UIButton!
     
+    
+    @IBOutlet weak var albumCollection: UICollectionView!
+    
+    @IBOutlet weak var store: UILabel!
+    
+    
+    
     override class func awakeFromNib() {
-        
-
         super.awakeFromNib()
         
     }
-        
+    
+    
     //custom Function
-     
+    
     func allHeights() -> CGFloat {
         //высоты объектов
         let heightHeader = header.frame.height
         let heightProductDescription = productDescription.frame.height
         let heightFooter = footer.frame.height
         let heightButtons = buttons.frame.height
-        //        let heightScreen = UIScreen.main.bounds.height
         let allHeights = heightHeader + heightProductDescription + heightFooter + heightButtons
         
         //высоты отступов
@@ -65,6 +66,6 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
         
         return allHeights + insets
     }
-    
 }
+
 

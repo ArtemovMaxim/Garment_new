@@ -7,16 +7,43 @@
 
 import UIKit
 import CoreData
+import Firebase
 
-@main
+
+
+@UIApplicationMain
+
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var authViewControllerIdentifier = "AuthVC"
+    var globalMenuViewControllerIdentifier = "GlobalMenuStoreViewController"
+    var window: UIWindow?
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        FirebaseApp.configure()
+//        Auth.auth().addStateDidChangeListener{ (auth, user) in
+//            if user == nil {
+//                self.showNonAuthViewController()
+//            }
+//            else if user != nil {
+//                self.showAuthViewController()
+//            }
+//    }
         // Override point for customization after application launch.
         return true
     }
+//    func showNonAuthViewController() {
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let authVC = storyboard.instantiateViewController(withIdentifier: authViewControllerIdentifier) as! AuthViewController
+//        self.window?.rootViewController?.present(authVC, animated: true, completion: { AuthAccaunt.statusLog = .nonLoged })
+//    }
+    
+//    func showAuthViewController() {
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let globalMenu = storyboard.instantiateViewController(withIdentifier: globalMenuViewControllerIdentifier) as! GlobalMenuStoreViewController
+//        self.window?.rootViewController?.present(globalMenu, animated: true, completion: { AuthAccaunt.statusLog = .loged })
+//    }
 
     // MARK: UISceneSession Lifecycle
 

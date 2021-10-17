@@ -8,41 +8,26 @@
 import Foundation
 import UIKit
 
-class DataBase {
+struct DataBase {    
     
+    //база данных магазинов
+    static var stores: [String: Store] = [:] // описание одного магазина (со всем параметрами)
     //база данных всех продуктов
-    static var db: [ProductPost] = []
+    static var productsDb: [Product] = [] // все продукт, которые отразятся в ленте User (без учета подиски на магазины)
     
+
     
-    //создание тестового продукта
-    
-    static func addProductToDB() {
-        
-        let testProduct = ProductPost(productPostArticle: "\(String(ProductPost.generateNewArticle()))",
-                                      productPostArrayPhotos: [],
-                                      productPostFirstImage: UIImage(named: "1.jpeg")!,
-                                      productPostTitle: "Название",
-                                      productPostDescription: "Описание",
-                                      productPostPrice: 100,
-                                      productPostDiscont: 10,
-                                      productPostFinalPrice: "90",
-                                      productPostSex: .man,
-                                      productPostSeason: .summer,
-                                      productPostPublicationDate: Date(),
-                                      productPostLikesCount: 1,
-                                      productPostIsLiked: true,
-                                      productPostViewsCount: 1,
-                                      //                               productPostComments: ,
-                                      productPostCommentsCount: 1,
-                                      productPostIsNew: .isNew)
-        DataBase.db.append(testProduct)
-        //
-        //        testProduct.productPostArticle = testProduct.generateNewArticle()
+    //добавление нового продукта в БД
+    mutating func addNewProductToDB(product: Product) {
+        DataBase.productsDb.append(product)
         
     }
     
-    static func addNewProductToDB(product: ProductPost) {
-        db.append(product)
-    }
     
+    func generateArray(name: String) -> [Product] {
+        
+        guard name != "" else { return DataBase.productsDb }
+        
+            return  DataBase.productsDb.filter { $0.store ==  name}
+    }
 }

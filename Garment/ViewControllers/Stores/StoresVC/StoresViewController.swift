@@ -8,17 +8,17 @@
 import UIKit
 
 class StoresViewController: UIViewController, UIImagePickerControllerDelegate ,  UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        ProductPost.productPostArrayPhotos.count
+        return photos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotosCell", for: indexPath) as! StorePhotoAlbumCollectionViewCell
         
         
-        
-        cell.StoresVCCollectionVCPhotoAlbumImage.image = ProductPost.productPostArrayPhotos[indexPath.item]
-        
+        //       cell.StoresVCCollectionVCPhotoAlbumImage.image = UIImage(systemName: "pencil")
+        cell.StoresVCCollectionVCPhotoAlbumImage.image = photos[indexPath.item]
         return cell
     }
     
@@ -26,6 +26,12 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     
     
     //var
+    var newProduct = Product(productPostArticle: "", productPostArrayPhotos: [], productPostFirstImage: UIImage(systemName: "pencil")!, productPostTitle: "", productPostDescription: "", productPostPrice: 0, productPostDiscont: 0, productPostFinalPrice: "", productPostSex: Product.Sex.man, productPostSeason: Product.Season.autumn, productPostPublicationDate: "", productPostLikesCount: 0, productPostIsLiked: false, productPostViewsCount: 0, productPostComments: nil, productPostCommentsCount: 0, productPostIsNew: Product.New.isNew, productPostImageCount: 0, store: "")
+    
+    
+    var photos: [UIImage] = []
+    
+    
     
     //IBOutlets
     //labels
@@ -68,7 +74,7 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     //buttons
     @IBOutlet weak var StoreVCPostingButtonOutlet: UIButton!
     @IBOutlet weak var StoresVCCustomArticleButtonOutlet: UIButton!
-    @IBOutlet var StoresVCUploadPhotoButtonOutlet: UIView!
+    @IBOutlet var StoresVCUploadPhotoButtonOutlet: UIButton!
     @IBOutlet weak var StoresVCUploadFirstPhotoOutlet: UIButton!
     
     //DataPicker
@@ -120,7 +126,10 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     
     
     @IBAction func StoreVCPostingButtonAction(_ sender: Any) {
+        self.newProduct = uplodPostToTimeLine()
         controlFillingField()
+        generatePhotosAlbumArray()
+        
     }
     
     //stepper
@@ -136,13 +145,11 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     
     
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //создание артикула
-        StoresVCArticleField.text = ProductPost.generateNewArticle()
+        StoresVCArticleField.text = Product.generateNewArticle()
         
         //установка текущей даты в DataPicker
         StoreVCPostingButtonOutlet.setTitle(generateDatePosting(), for: .normal)
@@ -158,105 +165,124 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         StoresVCUploadFirstPhotoOutlet.tag = 0
         
         
-        //отключение авторесайзинга
-        
-        
-        
         
         // Do any additional setup after loading the view.
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        DataBase.productsDb.append(newProduct)
+    }
+    
+    //скрытие клавиатуры
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     
     //custom functions
     
     //save photo in project
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        if StoresVCUploadPhotoButtonOutlet.tag == 1 {
+        //коллеция фото
+        if StoresVCUploadPhotoButtonOutlet.tag == 0 && StoresVCUploadFirstPhotoOutlet.tag == 0 {
             
             let image = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue) ] as? UIImage
-//            StoreVСProductImage.image = image
-            ProductPost.addPhototoPhotoAlbum(photo: image!)
+            //добавление в массив
+            //            newProduct.productPostArrayPhotos?.append(image!)
+            photos.append(image!)
+            
+            //вставка в collection view
             StoresVCPhotosCollectionViewOutlet.insertItems(at: StoresVCPhotosCollectionViewOutlet.indexPathsForVisibleItems)
-            picker.dismiss(animated: true, completion: nil)
-            StoresVCPhotosCollectionViewOutlet.reloadData()
-            StoresVCUploadPhotoButtonOutlet.tag = 0
-            StoresVCUploadFirstPhotoOutlet.tag = 0
             
-        } else if StoresVCUploadFirstPhotoOutlet.tag == 1 {
+            
+            StoresVCPhotosCollectionViewOutlet.clipsToBounds = true
+            
+            picker.dismiss(animated: true, completion: nil)
+            
+            StoresVCPhotosCollectionViewOutlet.reloadData()
+            
+            StoresVCUploadPhotoButtonOutlet.tag = 1
+            
+            
+            //главное фото
+        }
+        
+        if StoresVCUploadFirstPhotoOutlet.tag == 1 {
             
             let image = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue) ] as? UIImage
+            //добавление в image view
             StoreVСProductImage.image = image
-            ProductPost.addPhototoPhotoAlbum(photo: image!)
+            
             StoresVCPhotosCollectionViewOutlet.insertItems(at: StoresVCPhotosCollectionViewOutlet.indexPathsForVisibleItems)
+            StoresVCPhotosCollectionViewOutlet.clipsToBounds = true
+            //добавление в базу данных
+            photos.append(image!)
+            
             picker.dismiss(animated: true, completion: nil)
             StoresVCPhotosCollectionViewOutlet.reloadData()
-            StoresVCUploadPhotoButtonOutlet.tag = 0
             StoresVCUploadFirstPhotoOutlet.tag = 0
             
         }
         
+        if StoresVCUploadPhotoButtonOutlet.tag == 1 {
+            
+            let image = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue) ] as? UIImage
+            //добавление в массив
+            //            newProduct.productPostArrayPhotos?.append(image!)
+            photos.append(image!)
+            
+            //вставка в collection view
+            StoresVCPhotosCollectionViewOutlet.insertItems(at: StoresVCPhotosCollectionViewOutlet.indexPathsForVisibleItems)
+            
+            
+            StoresVCPhotosCollectionViewOutlet.clipsToBounds = true
+            
+            picker.dismiss(animated: true, completion: nil)
+            
+            StoresVCPhotosCollectionViewOutlet.reloadData()
+            
+            StoresVCUploadPhotoButtonOutlet.tag = 1
         
+        
+        }
     }
-    
-    //add new product to database
-    func addNewProduct() {
-        
-        let newProduct = ProductPost(productPostArticle: "123артикул",
-                                     productPostArrayPhotos: [],
-                                     productPostFirstImage: ((self.StoreVСProductImage.image ?? UIImage(named: "pencil"))!),
-                                     productPostTitle: self.StoresVCProductTitleField.text ?? "Нет названия товара",
-                                     productPostDescription: self.StoresVCDiscriptionField.text ?? "Нет описния товара",
-                                     productPostPrice: (self.StoresVCPriceField.text! as NSString).integerValue,
-                                     productPostDiscont: (self.StoresVCDiscountField.text! as NSString).doubleValue ,
-                                     productPostFinalPrice: self.generateFinalPrice(),
-                                     productPostSex: choiceSex(sex: self.StoresVCSexSC.selectedSegmentIndex),
-                                     productPostSeason: choiceSeason(season: self.StoresVCSeasonSC.selectedSegmentIndex),
-                                     productPostPublicationDate: Date(),
-                                     productPostLikesCount: 0,
-                                     productPostIsLiked: false,
-                                     productPostViewsCount: 0,
-                                     productPostComments: nil,
-                                     productPostCommentsCount: 0,
-                                     productPostIsNew: choiceIsNew(isNew: self.StoresVCisNewSC.selectedSegmentIndex))
-        
-        DataBase.addNewProductToDB(product: newProduct)
-    }
-    
     
     //выбор пола товара
-    func choiceSex(sex: Int) -> ProductPost.Sex {
+    func choiceSex(sex: Int) -> Product.Sex {
         switch sex {
-        case 0: return ProductPost.Sex.man
-        case 1: return ProductPost.Sex.woman
-        case 2: return ProductPost.Sex.unisex
+        case 0: return Product.Sex.man
+        case 1: return Product.Sex.woman
+        case 2: return Product.Sex.unisex
             
         default:
-            return ProductPost.Sex.unisex
+            return Product.Sex.unisex
         }
     }
     
     //выбор сезено товара
-    func choiceSeason(season: Int) -> ProductPost.Season {
+    func choiceSeason(season: Int) -> Product.Season {
         switch season {
-        case 0: return ProductPost.Season.winter
-        case 1: return ProductPost.Season.spring
-        case 2: return ProductPost.Season.summer
-        case 3: return ProductPost.Season.autumn
+        case 0: return Product.Season.winter
+        case 1: return Product.Season.spring
+        case 2: return Product.Season.summer
+        case 3: return Product.Season.autumn
             
         default:
-            return ProductPost.Season.winter
+            return Product.Season.winter
         }
     }
     
     //опрделение новизны товара
-    func choiceIsNew(isNew: Int) -> ProductPost.New {
+    func choiceIsNew(isNew: Int) -> Product.New {
         switch isNew {
-        case 0: return ProductPost.New.isNew
-        case 1: return ProductPost.New.normal
-        case 2: return ProductPost.New.sale
+        case 0: return Product.New.isNew
+        case 1: return Product.New.normal
+        case 2: return Product.New.sale
             
         default:
-            return ProductPost.New.normal
+            return Product.New.normal
         }
     }
     
@@ -320,6 +346,59 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         
     }
     
+    //выгрузка поста в ленту
+    func uplodPostToTimeLine() -> Product {
+        
+        FSStores().uplodPostToTimeLineFireStore(
+            StoresVCArticleField: self.StoresVCArticleField.text!,
+            StoresVCProductTitleField: self.StoresVCProductTitleField.text!,
+            StoresVCDiscriptionField: self.StoresVCDiscriptionField.text,
+            StoresVCPriceField: self.StoresVCPriceField.text!,
+            StoresVCDiscountField: self.StoresVCDiscountField.text!,
+            StoresVCFinalPriceField: self.StoresVCFinalPriceField.text!,
+//            choiceSex: <#T##String#>,
+//            choiceSeason: <#T##String#>,
+//            generateDatePosting: <#T##String#>,
+            productPostLikesCount: 0,
+            productPostIsLiked: false,
+            productPostViewsCount: 0,
+            productPostCommentsCount: 0
+        )
+        
+        newProduct.productPostArticle = self.StoresVCArticleField.text!
+        newProduct.productPostArrayPhotos = []
+        
+        newProduct.productPostFirstImage = self.StoreVСProductImage.image!
+        newProduct.productPostTitle = self.StoresVCProductTitleField.text!
+        newProduct.productPostDescription = self.StoresVCDiscriptionField.text
+        newProduct.productPostPrice = (self.StoresVCPriceField.text! as NSString).integerValue
+        newProduct.productPostDiscont = (self.StoresVCDiscountField.text! as NSString).doubleValue
+        newProduct.productPostFinalPrice = self.StoresVCFinalPriceField.text!
+        newProduct.productPostSex = choiceSex(sex: self.StoresVCSexSC.selectedSegmentIndex)
+        newProduct.productPostSeason = choiceSeason(season: self.StoresVCSeasonSC.selectedSegmentIndex)
+        newProduct.productPostPublicationDate = generateDatePosting()
+        newProduct.productPostLikesCount = 0
+        newProduct.productPostIsLiked = false
+        newProduct.productPostViewsCount = 0
+        newProduct.productPostComments = []
+        newProduct.productPostCommentsCount = 0
+        newProduct.productPostIsNew = choiceIsNew(isNew: self.StoresVCisNewSC.selectedSegmentIndex)
+        newProduct.productPostImageCount = photos.count
+        newProduct.store = AuthAccaunt.nameStore
+        
+        return newProduct
+    }
+    
+    
+    //insert photos in array
+    func generatePhotosAlbumArray() {
+        //        var i = 0
+        let count = photos.count
+        for i in 0..<count {
+            newProduct.productPostArrayPhotos?.append(photos[i])
+            
+        }
+    }
     
     /*
      // MARK: - Navigation
@@ -330,11 +409,5 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
      // Pass the selected object to the new view controller.
      }
      */
-}
-
-
-//extensions
-
-
-
+    }
 
