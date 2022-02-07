@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A70E2371274BBB9000563FEC /* SDWebImageWebPCoder in Frameworks */ = {isa = PBXBuildFile; productRef = A70E2370274BBB9000563FEC /* SDWebImageWebPCoder */; };
 		A71215D027138867006BF312 /* GlobalMenuStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71215CF27138867006BF312 /* GlobalMenuStoreViewController.swift */; };
 		A715B68D270E285A00DF78FD /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A715B68C270E285A00DF78FD /* AuthViewController.swift */; };
+		A71690422722E3A8008F8B8E /* FSTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71690412722E3A8008F8B8E /* FSTimeLine.swift */; };
+		A71690442723513E008F8B8E /* FBDataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71690432723513E008F8B8E /* FBDataBase.swift */; };
 		A717B98B270EDC2800415BD8 /* AuthAccaunt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A717B98A270EDC2800415BD8 /* AuthAccaunt.swift */; };
 		A71CF607270BA53000734074 /* StoreSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71CF606270BA53000734074 /* StoreSettingsTableViewController.swift */; };
 		A71F969A271BB619006F5826 /* FSStoreSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71F9699271BB619006F5826 /* FSStoreSettings.swift */; };
@@ -57,6 +60,8 @@
 /* Begin PBXFileReference section */
 		A71215CF27138867006BF312 /* GlobalMenuStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalMenuStoreViewController.swift; sourceTree = "<group>"; };
 		A715B68C270E285A00DF78FD /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		A71690412722E3A8008F8B8E /* FSTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSTimeLine.swift; sourceTree = "<group>"; };
+		A71690432723513E008F8B8E /* FBDataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBDataBase.swift; sourceTree = "<group>"; };
 		A717B98A270EDC2800415BD8 /* AuthAccaunt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAccaunt.swift; sourceTree = "<group>"; };
 		A71CF606270BA53000734074 /* StoreSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSettingsTableViewController.swift; sourceTree = "<group>"; };
 		A71F9699271BB619006F5826 /* FSStoreSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSStoreSettings.swift; sourceTree = "<group>"; };
@@ -95,6 +100,7 @@
 				A7545AD12715A1A200A79E83 /* FirebaseAuth in Frameworks */,
 				A7545AC92715A1A200A79E83 /* FirebaseAnalyticsSwift-Beta in Frameworks */,
 				A7545AD32715A1A200A79E83 /* FirebaseCrashlytics in Frameworks */,
+				A70E2371274BBB9000563FEC /* SDWebImageWebPCoder in Frameworks */,
 				A7545ACF2715A1A200A79E83 /* FirebaseAppDistribution-Beta in Frameworks */,
 				A7545ACB2715A1A200A79E83 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				A7545AF12715A1A200A79E83 /* FirebaseStorageSwift-Beta in Frameworks */,
@@ -116,18 +122,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A70A73252717777000D61ADE /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		A71215CD27138812006BF312 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
 				A715B68C270E285A00DF78FD /* AuthViewController.swift */,
-				A70A73252717777000D61ADE /* View */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -138,6 +136,14 @@
 				A71215CF27138867006BF312 /* GlobalMenuStoreViewController.swift */,
 			);
 			path = Global;
+			sourceTree = "<group>";
+		};
+		A71690402722E389008F8B8E /* TimeLineFireStore */ = {
+			isa = PBXGroup;
+			children = (
+				A71690412722E3A8008F8B8E /* FSTimeLine.swift */,
+			);
+			path = TimeLineFireStore;
 			sourceTree = "<group>";
 		};
 		A71CF605270BA4FD00734074 /* StoreSettingsTVС */ = {
@@ -265,6 +271,7 @@
 		A749130226EBF63500749FF2 /* TimeLineVC */ = {
 			isa = PBXGroup;
 			children = (
+				A71690402722E389008F8B8E /* TimeLineFireStore */,
 				A749130A26EC07FB00749FF2 /* TimeLineCollectionViewController.swift */,
 				A749130526EBF71100749FF2 /* TimeLineCell */,
 				A72E775626FBB48200FF05C2 /* PhotoAlbum */,
@@ -328,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				A7D709A726ED5B4700392A58 /* DataBase.swift */,
+				A71690432723513E008F8B8E /* FBDataBase.swift */,
 			);
 			path = DB;
 			sourceTree = "<group>";
@@ -371,6 +379,7 @@
 				A7545AEC2715A1A200A79E83 /* FirebaseRemoteConfig */,
 				A7545AEE2715A1A200A79E83 /* FirebaseStorage */,
 				A7545AF02715A1A200A79E83 /* FirebaseStorageSwift-Beta */,
+				A70E2370274BBB9000563FEC /* SDWebImageWebPCoder */,
 			);
 			productName = Garment;
 			productReference = A74912DC26EB7A0100749FF2 /* Garment.app */;
@@ -401,6 +410,7 @@
 			mainGroup = A74912D326EB7A0100749FF2;
 			packageReferences = (
 				A7545AC52715A1A200A79E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				A70E236F274BBB9000563FEC /* XCRemoteSwiftPackageReference "SDWebImageWebPCoder" */,
 			);
 			productRefGroup = A74912DD26EB7A0100749FF2 /* Products */;
 			projectDirPath = "";
@@ -439,8 +449,10 @@
 				A71CF607270BA53000734074 /* StoreSettingsTableViewController.swift in Sources */,
 				A715B68D270E285A00DF78FD /* AuthViewController.swift in Sources */,
 				A7A9893626F6A1A600875AAB /* StoresViewController.swift in Sources */,
+				A71690442723513E008F8B8E /* FBDataBase.swift in Sources */,
 				A74912EA26EB7A0100749FF2 /* Garment.xcdatamodeld in Sources */,
 				A74912E226EB7A0100749FF2 /* SceneDelegate.swift in Sources */,
+				A71690422722E3A8008F8B8E /* FSTimeLine.swift in Sources */,
 				A77B94AB2708EF98008CA24C /* PhotoAlbumCollectionView.swift in Sources */,
 				A7A9893F26F95E6500875AAB /* StorePhotoAlbumCollectionViewCell.swift in Sources */,
 				A717B98B270EDC2800415BD8 /* AuthAccaunt.swift in Sources */,
@@ -658,6 +670,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A70E236F274BBB9000563FEC /* XCRemoteSwiftPackageReference "SDWebImageWebPCoder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageWebPCoder.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.4;
+			};
+		};
 		A7545AC52715A1A200A79E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -669,6 +689,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A70E2370274BBB9000563FEC /* SDWebImageWebPCoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A70E236F274BBB9000563FEC /* XCRemoteSwiftPackageReference "SDWebImageWebPCoder" */;
+			productName = SDWebImageWebPCoder;
+		};
 		A7545AC62715A1A200A79E83 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A7545AC52715A1A200A79E83 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

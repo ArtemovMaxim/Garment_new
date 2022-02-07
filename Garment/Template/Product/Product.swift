@@ -8,88 +8,113 @@
 import Foundation
 import UIKit
 
-class Product {
-    internal init(productPostArticle: String,
-                  productPostArrayPhotos: [UIImage]? = nil,
-                  productPostFirstImage: UIImage,
-                  productPostTitle: String,
-                  productPostDescription: String,
-                  productPostPrice: Int,
-                  productPostDiscont: Double,
-                  productPostFinalPrice: String,
-                  productPostSex: Product.Sex,
-                  productPostSeason: Product.Season,
-                  productPostPublicationDate: String,
-                  productPostLikesCount: Int,
-                  productPostIsLiked: Bool,
-                  productPostViewsCount: Int,
-                  productPostComments: [Product.ProductPostCommentsArray]? = nil,
-                  productPostCommentsCount: Int,
-                  productPostIsNew: Product.New,
-                    productPostImageCount: Int = 0,
-                  store: String) {
-        self.productPostArticle = productPostArticle
-        self.productPostArrayPhotos = productPostArrayPhotos
-        self.productPostFirstImage = productPostFirstImage
-        self.productPostTitle = productPostTitle
-        self.productPostDescription = productPostDescription
-        self.productPostPrice = productPostPrice
-        self.productPostDiscont = productPostDiscont
-        self.productPostFinalPrice = productPostFinalPrice
-        self.productPostSex = productPostSex
-        self.productPostSeason = productPostSeason
-        self.productPostPublicationDate = productPostPublicationDate
-        self.productPostLikesCount = productPostLikesCount
-        self.productPostIsLiked = productPostIsLiked
-        self.productPostViewsCount = productPostViewsCount
-        self.productPostComments = productPostComments
-        self.productPostCommentsCount = productPostCommentsCount
-        self.productPostIsNew = productPostIsNew
-        self.productPostImageCount = productPostImageCount
-        self.store = store
+protocol arrayProductsProtocol {
+    init? (productDict: [String: Any])
+}
+
+struct Product: Codable {
+    init(store: String?,
+         productPostArticle: String?,
+         //         productPostArrayPhotos: [UIImage]?,
+         //         productPostFirstImage: UIImage?,
+         productPostTitle: String?,
+         productPostDescription: String?,
+         productPostImageCount: Int?,
+         productPostPrice: Double?,
+         productPostDiscont: Double?,
+         productPostFinalPrice: Double?,
+         productPostSex: String?,
+         productPostSeason: String?,
+//         productPostPublicationDate: Date?,
+         productPostLikesCount: Int?,
+         productPostIsLiked: Bool?,
+         productPostViewsCount: Int?,
+         productPostPhotoCount: Int?,
+         productPostIsNew: String?,
+         indexNumberOfProduct: Int,
+         productPostArrayPhotos: [URL]?)
+    {
+        self.store = store ?? "Название магазина"
+        self.productPostArticle = productPostArticle ?? "0000000000"
+        //        self.productPostArrayPhotos = productPostArrayPhotos
+        //        self.productPostFirstImage = productPostFirstImage
+        self.productPostTitle = productPostTitle ?? "Название продукта"
+        self.productPostDescription = productPostDescription ?? "Описание продукта"
+        self.productPostImageCount = productPostImageCount ?? 0
+        self.productPostPrice = productPostPrice ?? 0
+        self.productPostDiscont = productPostDiscont ?? 0
+        self.productPostFinalPrice = productPostFinalPrice ?? 0
+        self.productPostSex = productPostSex ?? Product.Sex.unisex.rawValue
+        self.productPostSeason = productPostSeason ?? Product.Season.autumn.rawValue
+//        self.productPostPublicationDate = productPostPublicationDate ?? Date()
+        self.productPostLikesCount = productPostLikesCount ?? 0
+        self.productPostIsLiked = productPostIsLiked ?? false
+        self.productPostViewsCount = productPostViewsCount ?? 0
+        self.productPostPhotoCount = productPostPhotoCount ?? 0
+        self.productPostIsNew = productPostIsNew ?? Product.New.normal.rawValue
+        self.indexNumberOfProduct = indexNumberOfProduct
+        self.productPostArrayPhotos = productPostArrayPhotos ?? []
     }
     
     
+    var productDict: [String: Any] {
+        return [
+            "productPostArticle" : productPostArticle,
+            //            "productPostArrayPhotos" : productPostArrayPhotos,
+            //            "productPostFirstImage" : productPostFirstImage,
+            "productPostTitle" : productPostTitle,
+            "productPostDescription" : productPostDescription,
+            "productPostPrice" : productPostPrice,
+            "productPostDiscont" : productPostDiscont,
+            "productPostFinalPrice" : productPostFinalPrice,
+            "productPostSex" : productPostSex,
+            "productPostSeason" : productPostSeason,
+//            "productPostPublicationDate" : productPostPublicationDate,
+            "productPostLikesCount" : productPostLikesCount,
+            "productPostIsLiked" : productPostIsLiked,
+            "productPostViewsCount" : productPostViewsCount,
+            "productPostIsNew" : productPostIsNew,
+            "productPostImageCount" : productPostImageCount,
+            "store" : store,
+            "productPostPhotoCount" : productPostPhotoCount,
+            "indexNumberOfProduct" : indexNumberOfProduct,
+            "productPostArrayPhotos": productPostArrayPhotos!
+        ]
+    }
     
-        //магазин
+    //магазин
     var store: String = ""
     
     //артукул
-    var productPostArticle: String = ""
+    var productPostArticle: String
     
     //описание товара
-    var productPostArrayPhotos: [UIImage]? = []
-    var productPostFirstImage: UIImage
+    var productPostArrayPhotos: [URL]?
+    //    var productPostFirstImage: UIImage?
     var productPostTitle: String
     var productPostDescription: String
-    var productPostImageCount: Int = 0
+    var productPostImageCount: Int
     
     //стоимость товара
-    var productPostPrice: Int
+    var productPostPrice: Double
     var productPostDiscont: Double
-    var productPostFinalPrice: String
+    var productPostFinalPrice: Double
     
     //параметры товара
-    var productPostSex: Sex
-    var productPostSeason: Season
+    var productPostSex: String
+    var productPostSeason: String
     
     //параметры поста
-    var productPostPublicationDate: String
+//    var productPostPublicationDate: Date?
     var productPostLikesCount: Int
     var productPostIsLiked: Bool
     var productPostViewsCount: Int
-    var productPostPhotoCount: Int = 0
+    var productPostPhotoCount: Int
     
-    //параметры комментариев
-    var productPostComments: [ProductPostCommentsArray]?
-    var productPostCommentsCount: Int
+    var indexNumberOfProduct: Int
     
     //новизна товара
-    var productPostIsNew: New
-    
-    //инициализаторы
-    
-
+    var productPostIsNew: String
     
     //параментры товара
     enum Sex: String {
@@ -97,8 +122,6 @@ class Product {
         case woman = "Для женщин"
         case unisex = "Унисекс"
     }
-    
-    
     
     enum Season: String{
         case winter = "Зима"
@@ -114,15 +137,15 @@ class Product {
     }
     
     //комментарии
-    struct ProductPostCommentsArray {
-        var user: User
-        var comment: String
-        var productCommentDate: Date
-    }
+    //    struct ProductPostCommentsArray {
+    //        var user: User
+    //        var comment: String
+    //        var productCommentDate: Date
+    //    }
     
     //функции
     //функция генерации нового артикула
-     static func generateNewArticle() -> String {
+    static func generateNewArticle() -> String {
         let date = Date()
         let calendar = NSCalendar.current
         let day = calendar.component(.day, from: date as Date)
@@ -135,7 +158,56 @@ class Product {
         
         return newArticle
     }
-    
+}
 
-    
+
+extension Product: arrayProductsProtocol {
+    init? (productDict: [String : Any]) {
+        guard let productPostArticle = productDict["productPostArticle"] as? String,
+              let productPostArrayPhotos = productDict["productPostArrayPhotos"] as? [URL],
+              //              let productPostFirstImage = productDict["productPostFirstImage"] as? UIImage,
+                let productPostTitle = productDict["productPostTitle"] as? String,
+              let productPostDescription = productDict["productPostDescription"] as? String,
+              let productPostPrice = productDict["productPostPrice"] as? Double,
+              let productPostDiscont = productDict["productPostDiscont"] as? Double,
+              let productPostFinalPrice = productDict["productPostFinalPrice"] as? Double,
+              let productPostSex = productDict["productPostSex"] as? String,
+              let productPostSeason = productDict["productPostSeason"] as? String,
+//              let productPostPublicationDate = productDict["productPostPublicationDate"] as? Date,
+              let productPostLikesCount = productDict["productPostLikesCount"] as? Int,
+              let productPostIsLiked = productDict["productPostIsLiked"] as? Bool,
+              let productPostViewsCount = productDict["productPostViewsCount"] as? Int,
+              let store = productDict["store"] as? String,
+              let productPostIsNew = productDict["productPostIsNew"] as? String,
+              let productPostImageCount = productDict["productPostImageCount"] as? Int,
+              let productPostPhotoCount = productDict["productPostPhotoCount"] as? Int,
+              let indexNumberOfProduct = productDict["indexNumberOfProduct"] as? Int
+//              let productPostArrayPhotos = productDict["productPostArrayPhotos"] as? [String: String]
+        else {
+//            assertionFailure()
+            return nil }
+        
+        self.init(
+            store: store,
+            productPostArticle: productPostArticle,
+            //            productPostArrayPhotos: productPostArrayPhotos,
+            //            productPostFirstImage: productPostFirstImage,
+            productPostTitle: productPostTitle,
+            productPostDescription: productPostDescription,
+            productPostImageCount: productPostImageCount,
+            productPostPrice: productPostPrice,
+            productPostDiscont: productPostDiscont,
+            productPostFinalPrice: productPostFinalPrice,
+            productPostSex: productPostSex,
+            productPostSeason: productPostSeason,
+//            productPostPublicationDate: productPostPublicationDate,
+            productPostLikesCount: productPostLikesCount,
+            productPostIsLiked: productPostIsLiked,
+            productPostViewsCount: productPostViewsCount,
+            productPostPhotoCount: productPostPhotoCount,
+            productPostIsNew: productPostIsNew,
+            indexNumberOfProduct: indexNumberOfProduct,
+            productPostArrayPhotos: productPostArrayPhotos
+        )
+    }
 }

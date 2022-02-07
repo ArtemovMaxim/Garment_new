@@ -23,11 +23,18 @@ struct DataBase {
         
     }
     
-    
+//    массив Продуктов с сортировкой по Магазину
     func generateArray(name: String) -> [Product] {
         
         guard name != "" else { return DataBase.productsDb }
         
-            return  DataBase.productsDb.filter { $0.store ==  name}
+            return DataBase.productsDb.filter { $0.store == name}
     }
+    
+    
+    //    массив всех Продуктов
+        func generateArrayAllProducts(name: String) -> [Product] {
+            return DataBase.productsDb
+        }
+
 }

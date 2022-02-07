@@ -12,5 +12,10 @@ class StorePhotoAlbumCollectionViewCell: UICollectionViewCell {
     //outlets
     //Photo album cell
     @IBOutlet weak var StoresVCCollectionVCPhotoAlbumImage: UIImageView!
+    
+    override func draw(_ rect: CGRect) {
+        StoresVCCollectionVCPhotoAlbumImage.image = nil
+    }
+    
 }
 

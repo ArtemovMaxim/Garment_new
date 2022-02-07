@@ -50,6 +50,8 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
         
     }
     
+    override func prepareForReuse() {
+    }
     
     //custom Function
     

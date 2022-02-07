@@ -6,65 +6,92 @@
 //
 
 import Foundation
+import UIKit
 import Firebase
 
-struct FSStores {
+
+class FSStores {
     
-    func uplodPostToTimeLineFireStore(
-        StoresVCArticleField: String,
-        //        productPostArrayPhotos: String,
-        StoresVCProductTitleField: String,
-        StoresVCDiscriptionField: String,
-        StoresVCPriceField: String,
-        StoresVCDiscountField: String,
-        StoresVCFinalPriceField: String,
-        //        choiceSex: String,
-        //        choiceSeason: String,
-        //        generateDatePosting: String,
-        productPostLikesCount: Int,
-        productPostIsLiked: Bool,
-        productPostViewsCount: Int,
-        //        productPostComments: String,
-        productPostCommentsCount: Int
-        //        productPostIsNew: String,
-        //        productPostImageCount: String)
-    )
-    {
+    var currentCount = 0
+    
+    // функция загрузки фотографий
+    
+    static var compressionPhotos = 0.1
+    
+    static let email = (Auth.auth().currentUser?.email!)!
+ 
+    //        выгружаем сгенерированный массив фото в ФС БД и добавлем ссылки на фото в карточке товара, возвращаем словарь ссылок
+    var count = 0
+    static var currentProductArrayStrings: [String: String] = [:]
+    static var photosCount: Int = 0
+    static var urlURL: [URL] = []
+    
+    static func uploadPhoto(images: [UIImage], completion: @escaping ([String: String]) -> (), completion1: @escaping (Int) -> (), urlArray: ([URL]) -> () ) {
+
+        let article = StoresViewController.productArticle
+        var urlPhoto = ""
+        var indexImage = 0
         
+        
+        let currentUser = (Auth.auth().currentUser?.email)!
+        
+        let storageFirestore = Storage.storage().reference()
         let db = Firestore.firestore()
-        let idStore = (Firebase.Auth.auth().currentUser?.uid)!
-        let currentCollection = db.collection("stores")
+        let metaData = StorageMetadata()
         
-        let products = currentCollection.document(idStore)
-            .collection("products")
+        let refProducts = db.collection("stores").document(currentUser).collection("products").document(String(FBDataBase.count + 1))
         
-        products.document("products").setData([
-            "productPostArticle": StoresVCArticleField,
-            "productPostArrayPhotos": "",
-            //                "productPostFirstImage": StoreVСProductImage,
-            "productPostTitle": StoresVCProductTitleField,
-            "productPostDescription": StoresVCDiscriptionField,
-            "productPostPrice": StoresVCPriceField,
-            "productPostDiscont": StoresVCDiscountField,
-            "productPostFinalPrice" : StoresVCFinalPriceField,
-            //                "productPostSex": choiceSex,
-            //                "productPostSeason": choiceSeason,
-            //                "productPostPublicationDate": generateDatePosting,
-            "productPostLikesCount": "",
-            "productPostIsLiked": "",
-            "productPostViewsCount": "",
-            "productPostComments": "",
-            "productPostCommentsCount": ""
-            //                "productPostIsNew": productPostIsNew,
-            //                "productPostImageCount": productPostImageCount
-        ], merge: true)
-        
-        products.document("products").collection("продукты магазина").document().setData([
-            "наименование товара": "джинсы",
-            "размер": "37",
-            "сезон": "осень"
-        ])
-        
+        for index in images {
+            guard let imageData = index.jpegData(compressionQuality: FSStores.compressionPhotos) else { return }
+            
+            metaData.contentType = "image/jpeg"
+            
+            let randomRef = (Auth.auth().currentUser!.uid) + "_" + (String(arc4random()))
+            let imageRef = storageFirestore.child("stores/" + FSStores.email + "/products/" + "\(article)/" + "\(randomRef)" + ".jpeg")
+            
+            imageRef.putData(imageData, metadata: metaData) { (metadata, error) in
+                guard metadata != nil else { return }
+                
+                imageRef.downloadURL { (url, error) in
+                    guard let url = url else { return }
+                    urlPhoto = url.absoluteString
+                    FSStores.currentProductArrayStrings["URL \(indexImage + 1)"] = urlPhoto
+                    FSStores.urlURL.append(url)
+                    FSStores.photosCount += 1
+                    completion1(FSStores.photosCount)
+                    
+                    indexImage += 1
+                    refProducts.setData(currentProductArrayStrings, merge: true, completion: nil)
+                }
+            }
+        }
+        completion(currentProductArrayStrings)
+        urlArray(FSStores.urlURL)
     }
     
+//    func addingToArrayStrings() {
+//        var indexImage = 0
+//        
+//        let urlPhoto =
+//        
+//        array["URL \(indexImage + 1)"] = urlPhoto
+//        indexImage += 1
+//        refProducts.setData(FSStores.arrayStrings, merge: true, completion: nil)
+//    }
+    
+    // 2. получаем общее количество товаров
+    static func getCurrentCountProducts(completion: @escaping (Int) -> ()) {
+        var count = 0
+        Firestore.firestore().collection("stores")
+            .document((Auth.auth().currentUser?.email)!)
+            .collection("products")
+            .getDocuments() { (documents, error) in
+                guard error == nil else { return }
+                guard documents != nil else { return }
+                for document in documents!.documents {
+                    count += 1
+                }
+                completion(count)
+            }
+    }
 }

@@ -7,11 +7,14 @@
 
 import UIKit
 import Firebase
-import AudioToolbox
 
 class StoreSettingsTableViewController: UITableViewController {
     
+    var category: Store.StoreCategory.RawValue = ""
+    
     var alerts: String = "" // массив ошибок заполнения полей
+    
+    static var currentStoreSettings: Store?
     
     enum alertEnum: String {
         
@@ -35,7 +38,6 @@ class StoreSettingsTableViewController: UITableViewController {
     //    TextFields
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var descript: UITextField!
-    @IBOutlet weak var category: UITextField!
     @IBOutlet weak var instagram: UITextField!
     @IBOutlet weak var vk: UITextField!
     @IBOutlet weak var ok: UITextField!
@@ -44,6 +46,7 @@ class StoreSettingsTableViewController: UITableViewController {
     @IBOutlet weak var waLink: UITextField!
     @IBOutlet weak var numberWA: UITextField!
     @IBOutlet weak var e_mail: UITextField!
+    @IBOutlet weak var url: UITextField!
     
     //    Buttons Outlets
     @IBOutlet weak var nameButtonOutlet: UIButton!
@@ -58,20 +61,26 @@ class StoreSettingsTableViewController: UITableViewController {
     @IBOutlet weak var numberWAButtonOutlet: UIButton!
     @IBOutlet weak var e_mailButtonOutlet: UIButton!
     @IBOutlet weak var saveButtonOutlet: UIButton!
+    @IBOutlet weak var categoryButton: UIButton!
     
+    
+    
+    
+    // logo
+    @IBOutlet weak var logo: UIImageView!
     
     
     //IBActions
-    //    buttond
+    //    buttons
     @IBAction func nameButtonAction(_ sender: Any) {
         changeButtonImage(button: nameButtonOutlet, field: name)
     }
     @IBAction func descriptionButtonAction(_ sender: Any) {
         changeButtonImage(button: descriptionButtonOutlet, field: descript)
     }
-    @IBAction func categoryButtonAction(_ sender: Any) {
-        changeButtonImage(button: categoryButtonOutlet, field: category)
-    }
+    //    @IBAction func categoryButtonAction(_ sender: Any) {
+    //        changeButtonImage(button: categoryButtonOutlet, field: categoryButton)
+    //    }
     @IBAction func instagramButtonAction(_ sender: Any) {
         changeButtonImage(button: instagramButtonOutlet, field: instagram)
     }
@@ -116,32 +125,60 @@ class StoreSettingsTableViewController: UITableViewController {
         waLinkButtonOutlet.backgroundColor = .systemBlue
         numberWAButtonOutlet.backgroundColor = .systemBlue
         e_mailButtonOutlet.backgroundColor = .systemBlue
-        
     }
+    
+    @IBAction func toGlobalMenuButton(_ sender: UIBarButtonItem) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let globalMenu = storyboard.instantiateViewController(withIdentifier: "GlobalMenuStoreViewController") as! GlobalMenuStoreViewController
+        self.navigationController?.pushViewController(globalMenu, animated: true)
+        self.navigationController?.setViewControllers([globalMenu], animated: true)
+    }
+    
     
     //MARK: custom functions
     
-    //    update Store
-    func updateStore() {
-        DataBase.stores[name.text!] =
+    func fillingCategoryMenu() {
         
-        Store(
-            logo: UIImage(systemName: "pencil"),
-            name: name.text!,
-            description: descript.text!,
-            category: nil,
-            url: nil,
-            instagram: instagram.text!,
-            vKontakte: vk.text!,
-            odniklassniki: ok.text!,
-            facebook: fb.text!,
-            telephonNumber: telephon.text!,
-            whatsAppLink: waLink.text!,
-            whatsAppNumber: numberWA.text!,
-            email: e_mail.text!,
-            workTime: nil,
-            followers: 0,
-            product: nil)
+        // пункты всплывающего меню
+        var menuItems: [UIAction] {
+            return [
+                UIAction(title: "Обувь", image: nil, handler: { (_) in
+                    self.category = Store.StoreCategory.shoes.rawValue
+                }),
+                UIAction(title: "Одежда", image: nil, handler: { (_) in
+                    self.category = Store.StoreCategory.clothes.rawValue                }),
+                UIAction(title: "Спортивная одежда", image: nil, handler: { (_) in
+                    self.category = Store.StoreCategory.sportWears.rawValue                }),
+                UIAction(title: "Купальники", image: nil, handler: { (_) in
+                    self.category = Store.StoreCategory.swimsuits.rawValue                }),
+                UIAction(title: "Шубы", image: nil, handler: { (_) in
+                    self.category = Store.StoreCategory.furCoats.rawValue                })
+            ]
+        }
+        
+        var categoruButtonMenu: UIMenu {
+            return UIMenu(title: "Категория магазина", image: nil, identifier: nil, options: [], children: menuItems)
+        }
+        
+        categoryButton.menu = categoruButtonMenu
+        
+    }
+    
+//        loadig settings
+    func loadingSettingsStore() {
+//                self.logo.image = currentStoreSettings?.logo
+        self.name.text = StoreSettingsTableViewController.currentStoreSettings?.name
+        self.descript.text = StoreSettingsTableViewController.currentStoreSettings?.description
+    //            self.category.text = StoreSettingsTableViewController.currentStoreSettings?.category
+        self.url.text = StoreSettingsTableViewController.currentStoreSettings?.url
+        self.instagram.text = StoreSettingsTableViewController.currentStoreSettings?.instagram
+        self.vk.text = StoreSettingsTableViewController.currentStoreSettings?.vKontakte
+        self.ok.text = StoreSettingsTableViewController.currentStoreSettings?.odniklassniki
+        self.fb.text = StoreSettingsTableViewController.currentStoreSettings?.facebook
+        self.telephon.text = StoreSettingsTableViewController.currentStoreSettings?.telephonNumber
+        self.waLink.text = StoreSettingsTableViewController.currentStoreSettings?.whatsAppLink
+        self.numberWA.text = StoreSettingsTableViewController.currentStoreSettings?.whatsAppNumber
+        self.e_mail.text = StoreSettingsTableViewController.currentStoreSettings?.email
     }
     
     //    скрытие клавиатуры
@@ -162,7 +199,7 @@ class StoreSettingsTableViewController: UITableViewController {
             button.backgroundColor = .systemBlue
             field.isEnabled = false
             button.tag = 0
-            updateStore()
+            
         }
     }
     
@@ -219,41 +256,41 @@ class StoreSettingsTableViewController: UITableViewController {
     }
     
     //    заполняем данные магазина
-    func uploadToAccaunt() {
-        name.isHidden = false
-        name.text = name.text
-        
-        descript.isHidden = false
-        descript.text = DataBase.stores[name.text!]?.description
-        
-        //        category.isHidden = false
-        //        category.text = DataBase.stores[name.text!]?.category
-        
-        instagram.isHidden = false
-        instagram.text = DataBase.stores[name.text!]?.instagram
-        
-        vk.isHidden = false
-        vk.text = DataBase.stores[name.text!]?.vKontakte
-        
-        ok.isHidden = false
-        ok.text = DataBase.stores[name.text!]?.odniklassniki
-        
-        fb.isHidden = false
-        fb.text = DataBase.stores[name.text!]?.facebook
-        
-        telephon.isHidden = false
-        telephon.text = DataBase.stores[name.text!]?.telephonNumber
-        
-        waLink.isHidden = false
-        waLink.text = DataBase.stores[name.text!]?.whatsAppLink
-        
-        numberWA.isHidden = false
-        numberWA.text = DataBase.stores[name.text!]?.whatsAppNumber
-        
-        e_mail.isHidden = false
-        e_mail.text = DataBase.stores[name.text!]?.email
-        
-    }
+    //    func uploadToAccaunt() {
+    //        name.isHidden = false
+    //        name.text = name.text
+    //
+    //        descript.isHidden = false
+    //        descript.text = DataBase.stores[name.text!]?.description
+    //
+    //        //        category.isHidden = false
+    //        //        category.text = DataBase.stores[name.text!]?.category
+    //
+    //        instagram.isHidden = false
+    //        instagram.text = DataBase.stores[name.text!]?.instagram
+    //
+    //        vk.isHidden = false
+    //        vk.text = DataBase.stores[name.text!]?.vKontakte
+    //
+    //        ok.isHidden = false
+    //        ok.text = DataBase.stores[name.text!]?.odniklassniki
+    //
+    //        fb.isHidden = false
+    //        fb.text = DataBase.stores[name.text!]?.facebook
+    //
+    //        telephon.isHidden = false
+    //        telephon.text = DataBase.stores[name.text!]?.telephonNumber
+    //
+    //        waLink.isHidden = false
+    //        waLink.text = DataBase.stores[name.text!]?.whatsAppLink
+    //
+    //        numberWA.isHidden = false
+    //        numberWA.text = DataBase.stores[name.text!]?.whatsAppNumber
+    //
+    //        e_mail.isHidden = false
+    //        e_mail.text = DataBase.stores[name.text!]?.email
+    //
+    //    }
     
     
     
@@ -262,7 +299,7 @@ class StoreSettingsTableViewController: UITableViewController {
     func disableAccauntFields () {
         name.isEnabled = false
         descript.isEnabled = false
-        category.isEnabled = false
+        categoryButton.isEnabled = false
         instagram.isEnabled = false
         vk.isEnabled = false
         ok.isEnabled = false
@@ -285,26 +322,44 @@ class StoreSettingsTableViewController: UITableViewController {
     //        добавление в магазина в базу данных
     func addStoreToDB() {
         
-        FSStoreSettings().addSettingsStoreToFireStore(name: name.text!, description: descript.text!, category: "", url: "", instagram: instagram.text!, vk: vk.text!, ok: ok.text!, fb: fb.text!, telephon: telephon.text!, waLink: waLink.text!, numberWA: numberWA.text!, e_mail: e_mail.text!, workTime: "", followers: "", products: "")
+        FSStoreSettings().addSettingsStoreToFireStore(
+            name: name.text!,
+            description: descript.text!,
+            category: (categoryButton.titleLabel?.text)!,
+            url: url.text!,
+            instagram: instagram.text!,
+            vk: vk.text!,
+            ok: ok.text!,
+            fb: fb.text!,
+            telephon: telephon.text!,
+            waLink: waLink.text!,
+            numberWA: numberWA.text!,
+            e_mail: e_mail.text!,
+            workTime: "",
+            followers: "",
+            products: "",
+            productsCount: 0
+        )
         
-        DataBase.stores = [self.name.text! : Store(logo: UIImage(systemName: "pencil"),
-                                                   name: name.text!,
-                                                   description: descript.text!,
-                                                   category: nil,
-                                                   url: nil,
-                                                   instagram: instagram.text!,
-                                                   vKontakte: vk.text!,
-                                                   odniklassniki: ok.text!,
-                                                   facebook: fb.text!,
-                                                   telephonNumber: telephon.text!,
-                                                   whatsAppLink: waLink.text!,
-                                                   whatsAppNumber: numberWA.text!,
-                                                   email: e_mail.text!,
-                                                   workTime: nil,
-                                                   followers: 0,
-                                                   product: nil)
-        ]
-        uploadToAccaunt()
+        
+        //        DataBase.stores = [self.name.text! : Store(logo: UIImage(systemName: "pencil"),
+        //                                                   name: name.text!,
+        //                                                   description: descript.text!,
+        //                                                   category: nil,
+        //                                                   url: nil,
+        //                                                   instagram: instagram.text!,
+        //                                                   vKontakte: vk.text!,
+        //                                                   odniklassniki: ok.text!,
+        //                                                   facebook: fb.text!,
+        //                                                   telephonNumber: telephon.text!,
+        //                                                   whatsAppLink: waLink.text!,
+        //                                                   whatsAppNumber: numberWA.text!,
+        //                                                   email: e_mail.text!,
+        //                                                   workTime: nil,
+        //                                                   followers: 0,
+        //                                                   product: nil)
+        //        ]
+        //        uploadToAccaunt()
         disableAccauntFields()
     }
     
@@ -320,11 +375,19 @@ class StoreSettingsTableViewController: UITableViewController {
             present(alertControllerAttention, animated: true, completion: nil)
         } else  {
             
-            let alertControllerCongrutalation = UIAlertController(title: "Отлично!", message: "Поздравляем с регистрацией магазина", preferredStyle: .actionSheet)
-            let alertAction = UIAlertAction(title: "Приступить к работе", style: .default, handler: nil)
-            alertControllerCongrutalation.addAction(alertAction)
-            alerts.removeAll()
-            present(alertControllerCongrutalation, animated: true, completion: nil)
+//            let alertControllerCongrutalation = UIAlertController(title: "Отлично!", message: "Поздравляем с регистрацией магазина", preferredStyle: .actionSheet)
+//            let alertAction = UIAlertAction(title: "Приступить к работе", style: .default, handler: nil)
+//            alertControllerCongrutalation.addAction(alertAction)
+//            alerts.removeAll()
+//            present(alertControllerCongrutalation, animated: true, completion: nil)
+//
+            // переход в глобальное меню после заполнения всех полей описания магазина
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let globalMenu = storyboard.instantiateViewController(withIdentifier: "GlobalMenuStoreViewController") as! GlobalMenuStoreViewController
+            
+            self.navigationController?.pushViewController(globalMenu, animated: true)
+            
+            self.navigationController?.setViewControllers([globalMenu], animated: true)
         }
     }
     
@@ -377,8 +440,12 @@ class StoreSettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+            
+        self.loadingSettingsStore()
+
         disableButtons()
         name.becomeFirstResponder()
+        fillingCategoryMenu()
     }
 }
 
