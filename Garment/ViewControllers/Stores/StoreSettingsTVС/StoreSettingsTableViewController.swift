@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import Firebase
 
 class StoreSettingsTableViewController: UITableViewController {
     
@@ -164,21 +165,22 @@ class StoreSettingsTableViewController: UITableViewController {
         
     }
     
-//        loadig settings
+    //        loadig settings
     func loadingSettingsStore() {
-//                self.logo.image = currentStoreSettings?.logo
-        self.name.text = StoreSettingsTableViewController.currentStoreSettings?.name
-        self.descript.text = StoreSettingsTableViewController.currentStoreSettings?.description
-    //            self.category.text = StoreSettingsTableViewController.currentStoreSettings?.category
-        self.url.text = StoreSettingsTableViewController.currentStoreSettings?.url
-        self.instagram.text = StoreSettingsTableViewController.currentStoreSettings?.instagram
-        self.vk.text = StoreSettingsTableViewController.currentStoreSettings?.vKontakte
-        self.ok.text = StoreSettingsTableViewController.currentStoreSettings?.odniklassniki
-        self.fb.text = StoreSettingsTableViewController.currentStoreSettings?.facebook
-        self.telephon.text = StoreSettingsTableViewController.currentStoreSettings?.telephonNumber
-        self.waLink.text = StoreSettingsTableViewController.currentStoreSettings?.whatsAppLink
-        self.numberWA.text = StoreSettingsTableViewController.currentStoreSettings?.whatsAppNumber
-        self.e_mail.text = StoreSettingsTableViewController.currentStoreSettings?.email
+        uploadToAccaunt()
+//        //                self.logo.image = currentStoreSettings?.logo
+//        self.name.text = StoreSettingsTableViewController.currentStoreSettings?.name
+//        self.descript.text = StoreSettingsTableViewController.currentStoreSettings?.description
+//        //            self.category.text = StoreSettingsTableViewController.currentStoreSettings?.category
+//        self.url.text = StoreSettingsTableViewController.currentStoreSettings?.url
+//        self.instagram.text = StoreSettingsTableViewController.currentStoreSettings?.instagram
+//        self.vk.text = StoreSettingsTableViewController.currentStoreSettings?.vKontakte
+//        self.ok.text = StoreSettingsTableViewController.currentStoreSettings?.odniklassniki
+//        self.fb.text = StoreSettingsTableViewController.currentStoreSettings?.facebook
+//        self.telephon.text = StoreSettingsTableViewController.currentStoreSettings?.telephonNumber
+//        self.waLink.text = StoreSettingsTableViewController.currentStoreSettings?.whatsAppLink
+//        self.numberWA.text = StoreSettingsTableViewController.currentStoreSettings?.whatsAppNumber
+//        self.e_mail.text = StoreSettingsTableViewController.currentStoreSettings?.email
     }
     
     //    скрытие клавиатуры
@@ -255,42 +257,63 @@ class StoreSettingsTableViewController: UITableViewController {
         
     }
     
-    //    заполняем данные магазина
-    //    func uploadToAccaunt() {
-    //        name.isHidden = false
-    //        name.text = name.text
-    //
-    //        descript.isHidden = false
-    //        descript.text = DataBase.stores[name.text!]?.description
-    //
-    //        //        category.isHidden = false
-    //        //        category.text = DataBase.stores[name.text!]?.category
-    //
-    //        instagram.isHidden = false
-    //        instagram.text = DataBase.stores[name.text!]?.instagram
-    //
-    //        vk.isHidden = false
-    //        vk.text = DataBase.stores[name.text!]?.vKontakte
-    //
-    //        ok.isHidden = false
-    //        ok.text = DataBase.stores[name.text!]?.odniklassniki
-    //
-    //        fb.isHidden = false
-    //        fb.text = DataBase.stores[name.text!]?.facebook
-    //
-    //        telephon.isHidden = false
-    //        telephon.text = DataBase.stores[name.text!]?.telephonNumber
-    //
-    //        waLink.isHidden = false
-    //        waLink.text = DataBase.stores[name.text!]?.whatsAppLink
-    //
-    //        numberWA.isHidden = false
-    //        numberWA.text = DataBase.stores[name.text!]?.whatsAppNumber
-    //
-    //        e_mail.isHidden = false
-    //        e_mail.text = DataBase.stores[name.text!]?.email
-    //
-    //    }
+    //        заполняем данные магазина
+    let str = Storage.storage()
+    let dbfs = Firestore.firestore()
+    
+    func uploadToAccaunt() {
+        
+        name.isHidden = false
+        name.text = name.text
+        
+        let currentUser = Auth.auth().currentUser?.email
+        dbfs.collection("stores").document(currentUser!).getDocument { store, error in
+            
+            let result = Result {
+                try store?.data(as: Store.self)
+            }
+            
+            switch result {
+            case .success(let store):
+                if let store = store {
+                    self.name.isHidden = false
+                    self.name.text = store.name
+                    
+                    self.descript.isHidden = false
+                    self.descript.text = store.description
+                    
+//                    self.category.isHidden = false
+//                    self.category.text = DataBase.stores[name.text!]?.category
+                    
+                    self.instagram.isHidden = false
+                    self.instagram.text = store.instagram
+                    
+                    self.vk.isHidden = false
+                    self.vk.text = store.vKontakte
+                    
+                    self.ok.isHidden = false
+                    self.ok.text = store.odniklassniki
+                    
+                    self.fb.isHidden = false
+                    self.fb.text = store.facebook
+                    
+                    self.telephon.isHidden = false
+                    self.telephon.text = store.telephonNumber
+                    
+                    self.waLink.isHidden = false
+                    self.waLink.text = store.whatsAppLink
+                    
+                    self.numberWA.isHidden = false
+                    self.numberWA.text = store.whatsAppNumber
+                    
+                    self.e_mail.isHidden = false
+                    self.e_mail.text = store.email
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
     
     
     
@@ -341,25 +364,6 @@ class StoreSettingsTableViewController: UITableViewController {
             productsCount: 0
         )
         
-        
-        //        DataBase.stores = [self.name.text! : Store(logo: UIImage(systemName: "pencil"),
-        //                                                   name: name.text!,
-        //                                                   description: descript.text!,
-        //                                                   category: nil,
-        //                                                   url: nil,
-        //                                                   instagram: instagram.text!,
-        //                                                   vKontakte: vk.text!,
-        //                                                   odniklassniki: ok.text!,
-        //                                                   facebook: fb.text!,
-        //                                                   telephonNumber: telephon.text!,
-        //                                                   whatsAppLink: waLink.text!,
-        //                                                   whatsAppNumber: numberWA.text!,
-        //                                                   email: e_mail.text!,
-        //                                                   workTime: nil,
-        //                                                   followers: 0,
-        //                                                   product: nil)
-        //        ]
-        //        uploadToAccaunt()
         disableAccauntFields()
     }
     
@@ -375,12 +379,12 @@ class StoreSettingsTableViewController: UITableViewController {
             present(alertControllerAttention, animated: true, completion: nil)
         } else  {
             
-//            let alertControllerCongrutalation = UIAlertController(title: "Отлично!", message: "Поздравляем с регистрацией магазина", preferredStyle: .actionSheet)
-//            let alertAction = UIAlertAction(title: "Приступить к работе", style: .default, handler: nil)
-//            alertControllerCongrutalation.addAction(alertAction)
-//            alerts.removeAll()
-//            present(alertControllerCongrutalation, animated: true, completion: nil)
-//
+            //            let alertControllerCongrutalation = UIAlertController(title: "Отлично!", message: "Поздравляем с регистрацией магазина", preferredStyle: .actionSheet)
+            //            let alertAction = UIAlertAction(title: "Приступить к работе", style: .default, handler: nil)
+            //            alertControllerCongrutalation.addAction(alertAction)
+            //            alerts.removeAll()
+            //            present(alertControllerCongrutalation, animated: true, completion: nil)
+            //
             // переход в глобальное меню после заполнения всех полей описания магазина
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let globalMenu = storyboard.instantiateViewController(withIdentifier: "GlobalMenuStoreViewController") as! GlobalMenuStoreViewController
@@ -440,88 +444,11 @@ class StoreSettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            
+        
         self.loadingSettingsStore()
-
+        
         disableButtons()
         name.becomeFirstResponder()
         fillingCategoryMenu()
     }
 }
-
-
-
-//        hideAccauntFields()
-
-// Uncomment the following line to preserve selection between presentations
-// self.clearsSelectionOnViewWillAppear = false
-
-// Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-// self.navigationItem.rightBarButtonItem = self.editButtonItem
-
-// MARK: - Table view data source
-
-//        override func numberOfSections(in tableView: UITableView) -> Int {
-//            // #warning Incomplete implementation, return the number of sections
-//            return 2
-//        }
-//
-//        override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//            // #warning Incomplete implementation, return the number of rows
-//            return 15
-//        }
-
-/*
- override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
- let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
- 
- // Configure the cell...
- 
- return cell
- }
- */
-
-/*
- // Override to support conditional editing of the table view.
- override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
- // Return false if you do not want the specified item to be editable.
- return true
- }
- */
-
-/*
- // Override to support editing the table view.
- override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
- if editingStyle == .delete {
- // Delete the row from the data source
- tableView.deleteRows(at: [indexPath], with: .fade)
- } else if editingStyle == .insert {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
- 
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
- // Return false if you do not want the item to be re-orderable.
- return true
- }
- */
-
-/*
- // MARK: - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
- // Get the new view controller using segue.destination.
- // Pass the selected object to the new view controller.
- }
- */

@@ -42,7 +42,7 @@ class PhotoAlbumCollectionView: UICollectionView, UICollectionViewDelegate, UICo
     
     
 // вычисление количества фотографий у товара
-    func loadCount(index: Int, completion: @escaping (Product, Error?, Int) -> ()) {
+    func loadCount(index: Int, completion: @escaping (Product?, Error?, Int) -> ()) {
         
         switch AuthAccaunt.authProfile {
         case .user:
@@ -52,9 +52,13 @@ class PhotoAlbumCollectionView: UICollectionView, UICollectionViewDelegate, UICo
                 completion(product, nil, count)
             }
         case .store:
-            
+//            получаем все товары всех магазинов
             FBDataBase().creatUserTimeLineProducts { allProducts in
-                let val = allProducts[index].productPostArrayPhotos?.count
+                let count = allProducts[index].productPostPhotoCount
+                let product = allProducts
+                completion(nil, nil, count)
+
+//                let val = allProducts[index].productPostArrayPhotos?.count
             }
             
             
@@ -100,20 +104,31 @@ class PhotoAlbumCollectionView: UICollectionView, UICollectionViewDelegate, UICo
     var arrayImages: [UIImage] = []
     var arrayProducts: [Product] = []
     
+    let db = Firestore.firestore()
+    let currentUser = Auth.auth().currentUser?.email
+    
     func loadArray(indexP: IndexPath?, productItem: Int, completion: @escaping ([UIImage]) -> ())  {
-        
+        var arrayURLs: [String] = []
         loadCount(index: self.index) { product, error, count in
             let countPhotos = count
             
-            for string in 1...countPhotos {
-                self.arrayStrings.append(product.productPostArrayPhotos![string])
-//                self.arrayStrings.append((product?.data()!["URL \(String(string))"])!/* as! String*/)
-            }
+//            for string in 1...countPhotos {
+//                self.arrayStrings.append(product.productPostArrayPhotos![string])
+//                self.arrayStrings.append(product. )
+////                self.arrayStrings.append((product?.data()!["URL \(String(string))"])!/* as! String*/)
+//            }
             print("arrayStrings: \(self.arrayStrings.count)")
             print("arrayStrings: \(self.arrayStrings)")
-            for image in 0...countPhotos - 1 {
-                self.arrayImages.append(UIImage(data: try! Data(contentsOf: URL(string: self.arrayStrings[image] as! String)!))!)
-            }
+//            for image in 0...countPhotos - 1 {
+//                self.db.collection("stores").document(self.currentUser!).collection("products").document("\(count)").getDocument { fields, error in
+//                    let urls = fields!.get("URL's") as! [String: Any]
+//                    for url in urls {
+//                        arrayURLs.append((url.value as! String))
+//                    }
+//
+//                }
+//                self.arrayImages.append(UIImage(data: try! Data(contentsOf: URL(string: self.arrayStrings[image] as! String)!))!)
+//            }
             print("arrayImage: \(self.arrayImages.count)")
             completion(self.arrayImages)
         }
@@ -128,13 +143,28 @@ class PhotoAlbumCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         
         let cellStore1 = collectionView.dequeueReusableCell(withReuseIdentifier: Ident.reuseIdentifierAlbum.rawValue, for: indexPath) as! PhotoAlbumCollectionViewCell
         
+
+
         
         cellStore.albumImage.image = UIImage(systemName: "pencil")
         
-        guard AuthAccaunt.authProfile == .nonAuth && AuthAccaunt.authProfile == .user else {
+        guard AuthAccaunt.authProfile == .nonAuth || AuthAccaunt.authProfile == .user else {
             
             print("index: \(self.index)")
-            cellStore.albumImage.image = self.arrayImages[indexPath.item]
+            
+            DispatchQueue.global().async {
+                self.loadArray(indexP: nil, productItem: self.index) { array in
+                    self.arrayImages = array
+                    print("LoadArray count: \(self.arrayImages.count)")
+
+                    DispatchQueue.main.async {
+                        cellStore.albumImage.image = self.arrayImages[indexPath.item]
+                        print("LoadArray count: \(self.arrayImages.count)")
+
+                    }
+                }
+            }
+
             
             return cellStore
         }
@@ -170,6 +200,8 @@ class PhotoAlbumCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         
         self.loadArray(indexP: nil, productItem: self.index) { array in
             self.arrayImages = array
+            print("LoadArray count: \(self.arrayImages.count)")
+
         }
         
         

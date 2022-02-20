@@ -7,7 +7,6 @@
 
 import UIKit
 import Firebase
-//import FirebaseStorage
 
 class StoresViewController: UIViewController, UIImagePickerControllerDelegate ,  UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -148,53 +147,104 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     var arraStrings: [String: String] = [:]
     var photosCount: Int = 0
     
-    var urlArray: [URL] = []
+    var urlArray: [String] = []
+    let str = Storage.storage()
+    let dbfs = Firestore.firestore()
+    
+    var strAnyArr: [String: Any] = [:]
+    
     @IBAction func StoreVCPostingButtonAction(_ sender: Any) {
-        
-        // проверяем на заполненность полей
-        showAlert()
-        
-            // 1. создаем новый продукт
-            StoresViewController.product = self.creatNewProduct()
-                    
-            // создаем альбом фотографий для добавления к новому продукту
-            self.album = self.generatePhotosAlbumArray()
-            //        выгружаем сгенерированный массив фото в ФС БД и добавляем ссылки на фото в карточке товара
-            FSStores.uploadPhoto(images: self.album) { array in
-                self.arraStrings = array
+        StoresViewController.productArticle = StoresVCArticleField.text!
 
-            } completion1: { photosCount in
-                self.photosCount = photosCount
-
-            } urlArray: { urlArray in
-                self.urlArray = urlArray
+        
+        // создаем альбом фотографий для добавления к новому продукту
+        self.album = self.generatePhotosAlbumArray()
+        print("1. Album: \(self.album)")
+        
+        print("2. Поток принятия StoresViewController thread: \(Thread.current)")
+        
+        var refArr: [StorageReference] = []
+        var urlArr: [URL] = []
+        var stringArr: [String] = []
+        
+        let queue = DispatchQueue(label: "Loading")
+        let group = DispatchGroup()
+        
+        queue.async(group: group) {
+            print("2.1. Поток queue Loading StoresViewController thread: \(Thread.current)")
+            
+            FSStores.forInImageArray(images: self.album) { storRefArr in
+                print("3. Добыли count storRefArr FSstore: \(storRefArr)")
+                refArr = storRefArr
+            } completionRefs: { ref in }
+        completionURLS: { url in
+            stringArr = url
+            print("ЮРЛС: \(url), Каунт: \(url.count)")
+            
+            FSStores.addURLtoProduct(stringsArray: stringArr) { stringArray in
+                let db = Firestore.firestore()
+                let currentUser = Auth.auth().currentUser?.email
+                
+                let ref = db.collection("stores").document(currentUser!).collection("products")
+                    .document(String(FBDataBase.count + 1))
+                print("Массив: \(stringArray)")
+                ref.setData(["URL's": stringArray], merge: true)
+                self.strAnyArr = stringArray
+                AuthAccaunt.authProfile = .store
             }
-        StoresViewController.product?.productPostArrayPhotos = self.urlArray
-        
-        StoresViewController.product?.productPostPhotoCount = StoresViewController.photos.count
 
-        
-        self.addProductToFS_DB()
-        
-  
-        
-        // переход на глобальное меню
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let globalMenu = storyboard.instantiateViewController(withIdentifier: "GlobalMenuStoreViewController") as! GlobalMenuStoreViewController
-        
-        self.navigationController?.pushViewController(globalMenu, animated: true)
-        self.navigationController?.setViewControllers([globalMenu], animated: true)
 
+        }
         
+            
+            group.notify(queue: .main) {
+                
+                
+
+                
+
+                print("6. Добавили в Продукт FSstore")
+                // проверяем на заполненность полей
+                self.showAlert()
+                
+                // 1. создаем новый продукт
+                StoresViewController.product = self.creatNewProduct()
+                print("7. Создался Продукт по клику кнопки ")
+                
+                var arr: [String] = []
+                for url in self.strAnyArr {
+                    let str = url.value
+                    arr.append(str as! String )
+                }
+                
+                StoresViewController.product?.productPostArrayPhotos = arr
+                print("8. button click URL: \(StoresViewController.product?.productPostArrayPhotos)")
+                
+                
+                StoresViewController.product?.productPostPhotoCount = StoresViewController.photos.count
+                
+                
+                self.addProductToFS_DB()
+                
+                
+                // переход на глобальное меню
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let globalMenu = storyboard.instantiateViewController(withIdentifier: "GlobalMenuStoreViewController") as! GlobalMenuStoreViewController
+                
+                self.navigationController?.pushViewController(globalMenu, animated: true)
+                self.navigationController?.setViewControllers([globalMenu], animated: true)
+            }
+        }
     }
     
     // создаем новый продукт
     static var product: Product?
-
+    
+    
     
     func creatNewProduct() -> Product {
-//        let array = FSStores.currentProductArrayStrings
-        let urlURL = FSStores.urlURL
+        //        let array = FSStores.currentProductArrayStrings
+        let urlURL = self.urlArray
         let newProduct = Product(
             store: AuthAccaunt.nameStore,
             productPostArticle: StoresVCArticleField.text!,
@@ -231,9 +281,9 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
                     print("error adding product to FB")
                 }
             }
-
+        
     }
-
+    
     
     //stepper
     @IBAction func StoreVCDiscountStepperAction(_ sender: Any) {
@@ -282,7 +332,7 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         FBDataBase.count = 0
     }
     
-
+    
     
     //скрытие клавиатуры
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

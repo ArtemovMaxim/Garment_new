@@ -9,9 +9,14 @@ import Foundation
 import UIKit
 import Firebase
 
+var urlURL: [String] = []
+var photosCount: Int = 0
+var currentProductArrayStrings: [String: String] = [:]
+
+
 
 class FSStores {
-    
+    static var currentStringAnyArray: [String: Any] = [:]
     var currentCount = 0
     
     // функция загрузки фотографий
@@ -19,65 +24,84 @@ class FSStores {
     static var compressionPhotos = 0.1
     
     static let email = (Auth.auth().currentUser?.email!)!
- 
+    
     //        выгружаем сгенерированный массив фото в ФС БД и добавлем ссылки на фото в карточке товара, возвращаем словарь ссылок
     var count = 0
-    static var currentProductArrayStrings: [String: String] = [:]
-    static var photosCount: Int = 0
-    static var urlURL: [URL] = []
     
-    static func uploadPhoto(images: [UIImage], completion: @escaping ([String: String]) -> (), completion1: @escaping (Int) -> (), urlArray: ([URL]) -> () ) {
-
-        let article = StoresViewController.productArticle
-        var urlPhoto = ""
-        var indexImage = 0
+    
+    
+    
+    
+    //        получение массива ссылок из массива фотографий + добавление фотографий в Storege
+    static var imageRefArray: [URL] = []
+    static var refArray: [StorageReference] = []
+    static var URLarrayString: [String] = []
+    let str = Storage.storage()
+    let dbfs = Firestore.firestore()
+    
+    static func forInImageArray(images: [UIImage], completionImageRefArray: @escaping ([StorageReference]) -> (), completionRefs: @escaping ([StorageReference]) -> (), completionURLS: @escaping ([String]) -> () ) {
         
         
-        let currentUser = (Auth.auth().currentUser?.email)!
-        
-        let storageFirestore = Storage.storage().reference()
-        let db = Firestore.firestore()
+        _ = Auth.auth().currentUser?.email
         let metaData = StorageMetadata()
+        let storageFirestore = Storage.storage().reference()
+        let article = StoresViewController.productArticle
+        let db = Firestore.firestore()
+        let currentUser = Auth.auth().currentUser?.email
+        _ = db.collection("stores").document(currentUser!).collection("products").document(String(FBDataBase.count + 1))
         
-        let refProducts = db.collection("stores").document(currentUser).collection("products").document(String(FBDataBase.count + 1))
-        
-        for index in images {
-            guard let imageData = index.jpegData(compressionQuality: FSStores.compressionPhotos) else { return }
+        for image in images {
+            //                получаем Data картинки
             
+            guard let img = image.jpegData(compressionQuality: FSStores.compressionPhotos) else { return }
+            
+            
+            //            добавление в Firebase Storage
             metaData.contentType = "image/jpeg"
+            let randomRef = String(arc4random())
             
-            let randomRef = (Auth.auth().currentUser!.uid) + "_" + (String(arc4random()))
-            let imageRef = storageFirestore.child("stores/" + FSStores.email + "/products/" + "\(article)/" + "\(randomRef)" + ".jpeg")
+            let imageRef = storageFirestore.child("stores").child("\(FSStores.email)").child("products").child("\(article)").child("\(article)_\(randomRef).jpeg")
             
-            imageRef.putData(imageData, metadata: metaData) { (metadata, error) in
-                guard metadata != nil else { return }
+            //            let imageRef = storageFirestore.child("stores/\(FSStores.email)/products/\(article)/\(article)_\(randomRef).jpeg")
+            refArray.append(imageRef)
+            completionRefs(refArray)
+
+            
+            
+            imageRef.putData(img, metadata: metaData) { metaDat, error in
+                guard error == nil else { return }
                 
-                imageRef.downloadURL { (url, error) in
-                    guard let url = url else { return }
-                    urlPhoto = url.absoluteString
-                    FSStores.currentProductArrayStrings["URL \(indexImage + 1)"] = urlPhoto
-                    FSStores.urlURL.append(url)
-                    FSStores.photosCount += 1
-                    completion1(FSStores.photosCount)
+                imageRef.downloadURL { url, error in
+                    guard error == nil else { return }
                     
-                    indexImage += 1
-                    refProducts.setData(currentProductArrayStrings, merge: true, completion: nil)
+                    URLarrayString.append(url!.absoluteString)
+                    completionURLS(URLarrayString)
                 }
             }
         }
-        completion(currentProductArrayStrings)
-        urlArray(FSStores.urlURL)
+
+        completionImageRefArray(refArray)
+        
+        addURLtoProduct(stringsArray: URLarrayString) { stringArray in
+            currentStringAnyArray = stringArray
+        }
     }
     
-//    func addingToArrayStrings() {
-//        var indexImage = 0
-//        
-//        let urlPhoto =
-//        
-//        array["URL \(indexImage + 1)"] = urlPhoto
-//        indexImage += 1
-//        refProducts.setData(FSStores.arrayStrings, merge: true, completion: nil)
-//    }
+    
+    
+    static func addURLtoProduct(stringsArray: [String], completionstringString: @escaping ([String: Any]) -> ()) {
+        var stringAny: [String: Any] = [:]
+        var ind = 1
+        _ = Auth.auth().currentUser?.email
+        _ = Firestore.firestore()
+        
+        for string in stringsArray {
+            stringAny["\(ind)"] = string
+            ind += 1
+        }
+        completionstringString(stringAny)
+    }
+    
     
     // 2. получаем общее количество товаров
     static func getCurrentCountProducts(completion: @escaping (Int) -> ()) {

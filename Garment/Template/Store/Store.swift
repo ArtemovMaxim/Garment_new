@@ -39,6 +39,21 @@ struct Store: Codable {
         self.whatsAppLink = whatsAppLink
         self.whatsAppNumber = whatsAppNumber
         self.email = email
+             
+             enum CodingKeys: String, CodingKey {
+                 case name
+                 case description
+                 case category
+                 case url
+                 case instagram
+                 case vKontakte
+                 case odniklassniki
+                 case facebook
+                 case telephonNumber
+                 case whatsAppLink
+                 case whatsAppNumber
+                 case email
+             }
     }
     
     enum StoreCategory: String {

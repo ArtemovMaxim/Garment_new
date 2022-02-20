@@ -14,8 +14,9 @@ struct FSStoreSettings {
         
         let db = Firestore.firestore()
         let idStore = (Firebase.Auth.auth().currentUser?.uid)!
+        let currentUser = Auth.auth().currentUser?.email
         let collect = db.collection("stores") // создалась коллекция
-        collect.document((Auth.auth().currentUser?.email)!) // создался документ
+        collect.document(currentUser!) // создался документ
             .setData([
                 "idStore": idStore,
                 "name": name,

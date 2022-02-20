@@ -32,7 +32,7 @@ struct Product: Codable {
          productPostPhotoCount: Int?,
          productPostIsNew: String?,
          indexNumberOfProduct: Int,
-         productPostArrayPhotos: [URL]?)
+         productPostArrayPhotos: [String]?)
     {
         self.store = store ?? "Название магазина"
         self.productPostArticle = productPostArticle ?? "0000000000"
@@ -89,7 +89,7 @@ struct Product: Codable {
     var productPostArticle: String
     
     //описание товара
-    var productPostArrayPhotos: [URL]?
+    var productPostArrayPhotos: [String]?
     //    var productPostFirstImage: UIImage?
     var productPostTitle: String
     var productPostDescription: String
@@ -164,7 +164,7 @@ struct Product: Codable {
 extension Product: arrayProductsProtocol {
     init? (productDict: [String : Any]) {
         guard let productPostArticle = productDict["productPostArticle"] as? String,
-              let productPostArrayPhotos = productDict["productPostArrayPhotos"] as? [URL],
+              let productPostArrayPhotos = productDict["productPostArrayPhotos"] as? [String],
               //              let productPostFirstImage = productDict["productPostFirstImage"] as? UIImage,
                 let productPostTitle = productDict["productPostTitle"] as? String,
               let productPostDescription = productDict["productPostDescription"] as? String,

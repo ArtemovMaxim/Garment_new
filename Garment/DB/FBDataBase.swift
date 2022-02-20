@@ -34,7 +34,6 @@ struct FBDataBase {
         ref.getDocuments() { (document, error) in
             let array = document?.documents.compactMap() { Product(productDict: $0.data())}
             FBDataBase.globalArrayAllProducts = array
-            print("creatDb, array count, into getDocuments = ", array!.count)
             completion(array!)
         }
     }
@@ -60,21 +59,17 @@ struct FBDataBase {
             //        получаем список Магазинов
                 .collection("stores")
                 .getDocuments { stores, error in
-                    print("Магазинов: \(stores!.count)")
                     //                проходим по всем Магазинам
                     for store in stores!.documents {
                         let storeRef = store.reference
                         //                    заходим в Продукты
                         storeRef.collection("products")
                             .getDocuments { products, error in
-                                print("Продуктов: \(products!.count)")
                                 //                            получаем все Продукты
                                 let prods = products?.documents.compactMap({ Product(productDict: $0.data() )})
                                 for prod in prods! {
-                                    print("productPostArrayPhotos: \(String(describing: prod.productPostArrayPhotos))")
                                     FBDataBase.allProdArray.append(prod)
                                     completion(FBDataBase.allProdArray)
-                                    print("Замыкание: \(FBDataBase.allProdArray.count)")
                                 }
                             }
                     }
