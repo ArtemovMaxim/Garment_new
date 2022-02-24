@@ -53,29 +53,56 @@ struct FBDataBase {
     
     //    MARK: - все товары всех Магазинов
     static var allProdArray: [Product] = []
-    
-    func creatUserTimeLineProducts(completion: @escaping ([Product]) -> ()) {
-            Firestore.firestore()
-            //        получаем список Магазинов
-                .collection("stores")
-                .getDocuments { stores, error in
-                    //                проходим по всем Магазинам
-                    for store in stores!.documents {
-                        let storeRef = store.reference
-                        //                    заходим в Продукты
-                        storeRef.collection("products")
-                            .getDocuments { products, error in
-                                //                            получаем все Продукты
-                                let prods = products?.documents.compactMap({ Product(productDict: $0.data() )})
-                                for prod in prods! {
-                                    FBDataBase.allProdArray.append(prod)
-                                    completion(FBDataBase.allProdArray)
-                                }
-                            }
-                    }
-                }
+//    static var QueryDocumentSnapshot: [QueryDocumentSnapshot] = []
 
-        }
+    static func creatUserTimeLineProducts(completion: @escaping ([Product]) -> ()) {
+        let db = Firestore.firestore()
+        let currentUser = Auth.auth().currentUser?.email
+        let indexProduct: Int = 1
+        //        получаем список Магазинов
+//        db.collection("stores")
+        
+        let stores = db.collection("stores")
+
+        
+//        let wf = strs.whereField("productPostArticle", isNotEqualTo: "0")
+//        wf.getDocuments { product, error in
+////                for prod in product!.documents {
+////                    prod.
+////                }
+//            FBDataBase.QueryDocumentSnapshot = product!.documents
+//            print("FBDataBase.QueryDocumentSnapshot: \(FBDataBase.QueryDocumentSnapshot.count)")
+//            }
+//
+//        FBDataBase.allProdArray = (FBDataBase.QueryDocumentSnapshot.compactMap({ Product(productDict: $0.data() )}))
+//        print("creatUserTimeLineProducts: \(FBDataBase.allProdArray.count)")
+//        completion(FBDataBase.allProdArray)
+
+        
+// входим в список магазинов
+            .getDocuments { stores, error in
+                print("Stores: \(String(describing: stores?.count))")
+// проходим по всем Магазинам
+                for store in stores!.documents {
+                    let storeRef = store.reference
+                    let curStore = storeRef.collection(currentUser!).document("products")
+// заходим в Продукт
+                    curStore.collection(String(indexProduct)).getDocuments { products, error in
+// проходим по всем продуктам
+                        for product in products!.documents {
+// мапин проукты в массив
+                            FBDataBase.allProdArray.append(Product(productDict: product.data())!)
+                        }
+                            
+                            
+                        }
+                    
+                    
+                }
+            }
+        completion(FBDataBase.allProdArray)
+
+    }
 }
 
 

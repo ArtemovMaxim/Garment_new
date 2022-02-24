@@ -187,7 +187,6 @@
                                 </state>
                                 <connections>
                                     <action selector="myProductsButtonAction:" destination="u2Y-Hw-nCg" eventType="touchUpInside" id="c6h-hn-Xop"/>
-                                    <segue destination="ESz-V6-mM9" kind="show" id="9Bz-EG-BwK"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NV4-tB-rbG">
@@ -219,6 +218,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="Главное меню магазина" id="f9k-k5-ol5"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <segue destination="ESz-V6-mM9" kind="show" identifier="fromGlobalToTL" id="U5E-oz-oRn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R1g-SW-iNB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -21,6 +21,8 @@ class TimeLineCollectionViewController: UICollectionViewController {
     //индекс для передачи item в albumCollectionView
     static var item: Int = 0
     
+    var allPrdcsArr: [Product] = []
+    
     static var prodArray: [Product] = []
     
     static var allProd: [Product] = []
@@ -33,12 +35,12 @@ class TimeLineCollectionViewController: UICollectionViewController {
     @IBOutlet var globalCollectionView: PhotoAlbumCollectionViewCell!
     
     func loadind() {
-        FBDataBase().creatUserTimeLineProducts { all in
-            TimeLineCollectionViewController.allProd = all
-            self.collectionView.reloadData()
-        }
+//        FBDataBase.creatUserTimeLineProducts { all in
+//            TimeLineCollectionViewController.allProd = all
+////            self.collectionView.reloadData()
+//        }
+        
         TimeLineCollectionViewController.allProd = FBDataBase.allProdArray
-        print("Количество Айтемс Покупатели loading: \(TimeLineCollectionViewController.allProd.count)")
 
     }
     
@@ -46,17 +48,23 @@ class TimeLineCollectionViewController: UICollectionViewController {
         super.loadView()
             switch AuthAccaunt.authProfile {
             case .store:
-                FBDataBase.creatDB { prodArray in
-                    TimeLineCollectionViewController.prodArray = prodArray
-                }
+//                FBDataBase.creatUserTimeLineProducts { prodArray in
+//                    TimeLineCollectionViewController.prodArray = prodArray
+
+//                }
+                print("TLCVC все продукты count: \(TimeLineCollectionViewController.prodArray.count)")
+
+//                FBDataBase.creatDB { prodArray in
+//                    TimeLineCollectionViewController.prodArray = prodArray
+//                    print("TLCVC все продукты count: \(TimeLineCollectionViewController.prodArray.count)")
+//                }
                 
             case .user:
                 loadind()
                 
             case .nonAuth:
-                FBDataBase().creatUserTimeLineProducts { allProducts in
+                FBDataBase.creatUserTimeLineProducts { allProducts in
                     TimeLineCollectionViewController.allProd = allProducts
-                    print(TimeLineCollectionViewController.allProd)
                 }
             }
     }
@@ -73,14 +81,14 @@ class TimeLineCollectionViewController: UICollectionViewController {
         // #warning Incomplete implementation, return the number of items
         switch AuthAccaunt.authProfile {
         case .store:
-            print("Количество Айтемс Магазины: \(TimeLineCollectionViewController.prodArray.count)")
-            return TimeLineCollectionViewController.prodArray.count
+            print("Количество Айтемс Магазины: \(self.allPrdcsArr.count)")
+            return self.allPrdcsArr.count
         case .user:
-            print("Количество Айтемс Покупатели: \(TimeLineCollectionViewController.allProd.count)")
-            return TimeLineCollectionViewController.allProd.count
+            print("Количество Айтемс Покупатели: \(self.allPrdcsArr.count)")
+            return self.allPrdcsArr.count
         case .nonAuth:
-            print("Количество Айтемс Нон: \(TimeLineCollectionViewController.prodArray.count)")
-            return TimeLineCollectionViewController.prodArray.count
+            print("Количество Айтемс Нон: \(self.allPrdcsArr.count)")
+            return self.allPrdcsArr.count
         }
     }
     
