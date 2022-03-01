@@ -6,10 +6,10 @@
 //
 
 import UIKit
-import Firebase
-import FirebaseFirestore
-import FirebaseFirestoreSwift
-import FirebaseMLModelDownloader
+//import Firebase
+//import FirebaseFirestore
+//import FirebaseFirestoreSwift
+//import FirebaseMLModelDownloader
 
 enum Ident: String {
     case reuseIdentifier = "Cell"
@@ -19,9 +19,10 @@ enum Ident: String {
 class TimeLineCollectionViewController: UICollectionViewController {
     
     //индекс для передачи item в albumCollectionView
-    static var item: Int = 0
+    static var indexPathTLCVC: IndexPath?
+    static var indexPathItemTLCVC: Int = 0
     
-    var allPrdcsArr: [Product] = []
+    static var allPrdcsArr: [Product] = []
     
     static var prodArray: [Product] = []
     
@@ -35,41 +36,36 @@ class TimeLineCollectionViewController: UICollectionViewController {
     @IBOutlet var globalCollectionView: PhotoAlbumCollectionViewCell!
     
     func loadind() {
-//        FBDataBase.creatUserTimeLineProducts { all in
-//            TimeLineCollectionViewController.allProd = all
-////            self.collectionView.reloadData()
+//        FBDataBase.creatUserTimeLineProducts { prodArray in
+//            TimeLineCollectionViewController.allPrdcsArr = prodArray
+//            print("Лоадинг генерация массива всех продуктов \(TimeLineCollectionViewController.allPrdcsArr.count)")
+//            TimeLineCollectionViewController.allProd = TimeLineCollectionViewController.allPrdcsArr
+//
 //        }
         
-        TimeLineCollectionViewController.allProd = FBDataBase.allProdArray
 
     }
     
     override func loadView() {
+        
         super.loadView()
             switch AuthAccaunt.authProfile {
             case .store:
-//                FBDataBase.creatUserTimeLineProducts { prodArray in
-//                    TimeLineCollectionViewController.prodArray = prodArray
-
-//                }
-                print("TLCVC все продукты count: \(TimeLineCollectionViewController.prodArray.count)")
-
-//                FBDataBase.creatDB { prodArray in
-//                    TimeLineCollectionViewController.prodArray = prodArray
-//                    print("TLCVC все продукты count: \(TimeLineCollectionViewController.prodArray.count)")
-//                }
+                loadind()
+                print("TLCVC все продукты count: \(TimeLineCollectionViewController.allPrdcsArr.count)")
                 
             case .user:
                 loadind()
                 
             case .nonAuth:
-                FBDataBase.creatUserTimeLineProducts { allProducts in
-                    TimeLineCollectionViewController.allProd = allProducts
-                }
+                print("TLCVC все продукты count: \(TimeLineCollectionViewController.allPrdcsArr.count)")
             }
     }
 
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("ViewDidLoad: \(TimeLineCollectionViewController.allPrdcsArr.count)")
+    }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -81,14 +77,14 @@ class TimeLineCollectionViewController: UICollectionViewController {
         // #warning Incomplete implementation, return the number of items
         switch AuthAccaunt.authProfile {
         case .store:
-            print("Количество Айтемс Магазины: \(self.allPrdcsArr.count)")
-            return self.allPrdcsArr.count
+            print("Количество Айтемс Магазины: \(TimeLineCollectionViewController.allPrdcsArr.count)")
+            return TimeLineCollectionViewController.allPrdcsArr.count
         case .user:
-            print("Количество Айтемс Покупатели: \(self.allPrdcsArr.count)")
-            return self.allPrdcsArr.count
+            print("Количество Айтемс Покупатели: \(TimeLineCollectionViewController.allPrdcsArr.count)")
+            return TimeLineCollectionViewController.allPrdcsArr.count
         case .nonAuth:
-            print("Количество Айтемс Нон: \(self.allPrdcsArr.count)")
-            return self.allPrdcsArr.count
+            print("Количество Айтемс Нон: \(TimeLineCollectionViewController.allPrdcsArr.count)")
+            return TimeLineCollectionViewController.allPrdcsArr.count
         }
     }
     
@@ -99,10 +95,10 @@ class TimeLineCollectionViewController: UICollectionViewController {
         switch AuthAccaunt.authProfile {
             
         case .store:
+            TimeLineCollectionViewController.prodArray = TimeLineCollectionViewController.allPrdcsArr
             return generateStoreCell(collectionView, cellForItemAt: indexPath, nameStore: AuthAccaunt.nameStore)
             
         case .user:
-//            prodArray = DataBase().generateArray(name: AuthAccaunt.nameStore)
             return generateUserCell(collectionView, cellForItemAt: indexPath, nameStore: AuthAccaunt.nameStore)
             
         case .nonAuth:
@@ -116,8 +112,10 @@ class TimeLineCollectionViewController: UICollectionViewController {
     func generateStoreCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, nameStore: String) -> UICollectionViewCell {
         
         
-        TimeLineCollectionViewController.item = indexPath.item
-        print("TLCVC, item: \(TimeLineCollectionViewController.item)")
+        TimeLineCollectionViewController.indexPathTLCVC = indexPath
+        TimeLineCollectionViewController.indexPathItemTLCVC = indexPath.item
+
+        print("TLCVC, item: \(TimeLineCollectionViewController.indexPathTLCVC)")
         
         let cellStore = collectionView.dequeueReusableCell(withReuseIdentifier: Ident.reuseIdentifier.rawValue, for: indexPath) as! TimeLineCollectionViewCell
         
@@ -231,7 +229,8 @@ class TimeLineCollectionViewController: UICollectionViewController {
     }
     
     func generateUserCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, nameStore: String) -> UICollectionViewCell {
-        TimeLineCollectionViewController.item = indexPath.item
+        TimeLineCollectionViewController.indexPathTLCVC = indexPath
+        TimeLineCollectionViewController.indexPathItemTLCVC = indexPath.item
         
         let cellUser = collectionView.dequeueReusableCell(withReuseIdentifier: Ident.reuseIdentifier.rawValue, for: indexPath) as! TimeLineCollectionViewCell
         cellUser.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -335,7 +334,8 @@ class TimeLineCollectionViewController: UICollectionViewController {
     }
     
     func generateNonAuthCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, nameStore: String) -> UICollectionViewCell {
-        TimeLineCollectionViewController.item = indexPath.item
+        TimeLineCollectionViewController.indexPathTLCVC = indexPath
+        TimeLineCollectionViewController.indexPathItemTLCVC = indexPath.item
         
         let cellNonAuth = collectionView.dequeueReusableCell(withReuseIdentifier: Ident.reuseIdentifier.rawValue, for: indexPath) as! TimeLineCollectionViewCell
         cellNonAuth.autoresizingMask = [.flexibleHeight, .flexibleWidth]

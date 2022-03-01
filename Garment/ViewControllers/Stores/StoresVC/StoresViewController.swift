@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Firebase
+//import Firebase
 
 class StoresViewController: UIViewController, UIImagePickerControllerDelegate ,  UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -148,8 +148,8 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     var photosCount: Int = 0
     
     var urlArray: [String] = []
-    let str = Storage.storage()
-    let dbfs = Firestore.firestore()
+//    let str = Storage.storage()
+//    let dbfs = Firestore.firestore()
     
     var strAnyArr: [String: Any] = [:]
     
@@ -163,7 +163,7 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         
         print("2. Поток принятия StoresViewController thread: \(Thread.current)")
         
-        var refArr: [StorageReference] = []
+//        var refArr: [StorageReference] = []
         var urlArr: [URL] = []
         var stringArr: [String] = []
         
@@ -175,21 +175,26 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
             
             FSStores.forInImageArray(images: self.album) { storRefArr in
                 print("3. Добыли count storRefArr FSstore: \(storRefArr)")
-                refArr = storRefArr
+//                refArr = storRefArr
             } completionRefs: { ref in }
         completionURLS: { url in
             stringArr = url
             print("ЮРЛС: \(url), Каунт: \(url.count)")
             
             FSStores.addURLtoProduct(stringsArray: stringArr) { stringArray in
-                let db = Firestore.firestore()
-                let currentUser = Auth.auth().currentUser?.email
-                
-                let ref = db.collection("stores").document(currentUser!).collection("products")
-                    .document(String(FBDataBase.count + 1))
-                print("Массив: \(stringArray)")
-                ref.setData(["URL's": stringArray], merge: true)
-                self.strAnyArr = stringArray
+//                let db = Firestore.firestore()
+//                let currentUser = Auth.auth().currentUser?.email
+//
+//                let ref = db.collection("stores").document(currentUser!).collection("products")
+//                    .document(String(FBDataBase.count + 1))
+//                print("Массив: \(stringArray)")
+//                ref.setData(["URL's": stringArray], merge: true)
+//                self.strAnyArr = stringArray
+//
+//                for string in stringArray {
+//                    FBDataBase.strAnyArr.append(string.value as! String)
+//                }
+               
                 AuthAccaunt.authProfile = .store
             }
 
@@ -218,7 +223,7 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
                 }
                 
                 StoresViewController.product?.productPostArrayPhotos = arr
-                print("8. button click URL: \(StoresViewController.product?.productPostArrayPhotos)")
+                print("8. button click URL: \(String(describing: StoresViewController.product?.productPostArrayPhotos))")
                 
                 
                 StoresViewController.product?.productPostPhotoCount = StoresViewController.photos.count
@@ -273,14 +278,14 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         StoresViewController.productArticle = StoresVCArticleField.text!
         
         
-        let ref = Firestore.firestore().collection("stores").document((Auth.auth().currentUser?.email)!).collection("products")
+//        let ref = Firestore.firestore().collection("stores").document((Auth.auth().currentUser?.email)!).collection("products")
         
-        ref.document(String(FBDataBase.count + 1))
-            .setData(StoresViewController.product!.productDict) {error in
-                if error != nil {
-                    print("error adding product to FB")
-                }
-            }
+//        ref.document(String(FBDataBase.count + 1))
+//            .setData(StoresViewController.product!.productDict) {error in
+//                if error != nil {
+//                    print("error adding product to FB")
+//                }
+//            }
         
     }
     

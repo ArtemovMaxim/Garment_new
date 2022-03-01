@@ -6,8 +6,7 @@
 //
 
 import UIKit
-import Firebase
-import Firebase
+//import Firebase
 
 class StoreSettingsTableViewController: UITableViewController {
     
@@ -258,61 +257,61 @@ class StoreSettingsTableViewController: UITableViewController {
     }
     
     //        заполняем данные магазина
-    let str = Storage.storage()
-    let dbfs = Firestore.firestore()
+//    let str = Storage.storage()
+//    let dbfs = Firestore.firestore()
     
     func uploadToAccaunt() {
         
         name.isHidden = false
         name.text = name.text
         
-        let currentUser = Auth.auth().currentUser?.email
-        dbfs.collection("stores").document(currentUser!).getDocument { store, error in
+//        let currentUser = Auth.auth().currentUser?.email
+//        dbfs.collection("stores").document(currentUser!).getDocument { store, error in
+//
+//            let result = Result {
+//                try store?.data(as: Store.self)
+//            }
             
-            let result = Result {
-                try store?.data(as: Store.self)
-            }
-            
-            switch result {
-            case .success(let store):
-                if let store = store {
-                    self.name.isHidden = false
-                    self.name.text = store.name
-                    
-                    self.descript.isHidden = false
-                    self.descript.text = store.description
-                    
-//                    self.category.isHidden = false
-//                    self.category.text = DataBase.stores[name.text!]?.category
-                    
-                    self.instagram.isHidden = false
-                    self.instagram.text = store.instagram
-                    
-                    self.vk.isHidden = false
-                    self.vk.text = store.vKontakte
-                    
-                    self.ok.isHidden = false
-                    self.ok.text = store.odniklassniki
-                    
-                    self.fb.isHidden = false
-                    self.fb.text = store.facebook
-                    
-                    self.telephon.isHidden = false
-                    self.telephon.text = store.telephonNumber
-                    
-                    self.waLink.isHidden = false
-                    self.waLink.text = store.whatsAppLink
-                    
-                    self.numberWA.isHidden = false
-                    self.numberWA.text = store.whatsAppNumber
-                    
-                    self.e_mail.isHidden = false
-                    self.e_mail.text = store.email
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
+//            switch result {
+//            case .success(let store):
+//                if let store = store {
+//                    self.name.isHidden = false
+//                    self.name.text = store.name
+//                    
+//                    self.descript.isHidden = false
+//                    self.descript.text = store.description
+//                    
+////                    self.category.isHidden = false
+////                    self.category.text = DataBase.stores[name.text!]?.category
+//                    
+//                    self.instagram.isHidden = false
+//                    self.instagram.text = store.instagram
+//                    
+//                    self.vk.isHidden = false
+//                    self.vk.text = store.vKontakte
+//                    
+//                    self.ok.isHidden = false
+//                    self.ok.text = store.odniklassniki
+//                    
+//                    self.fb.isHidden = false
+//                    self.fb.text = store.facebook
+//                    
+//                    self.telephon.isHidden = false
+//                    self.telephon.text = store.telephonNumber
+//                    
+//                    self.waLink.isHidden = false
+//                    self.waLink.text = store.whatsAppLink
+//                    
+//                    self.numberWA.isHidden = false
+//                    self.numberWA.text = store.whatsAppNumber
+//                    
+//                    self.e_mail.isHidden = false
+//                    self.e_mail.text = store.email
+//                }
+//            case .failure(let error):
+//                print(error)
+////            }
+//        }
     }
     
     
@@ -345,26 +344,26 @@ class StoreSettingsTableViewController: UITableViewController {
     //        добавление в магазина в базу данных
     func addStoreToDB() {
         
-        FSStoreSettings().addSettingsStoreToFireStore(
-            name: name.text!,
-            description: descript.text!,
-            category: (categoryButton.titleLabel?.text)!,
-            url: url.text!,
-            instagram: instagram.text!,
-            vk: vk.text!,
-            ok: ok.text!,
-            fb: fb.text!,
-            telephon: telephon.text!,
-            waLink: waLink.text!,
-            numberWA: numberWA.text!,
-            e_mail: e_mail.text!,
-            workTime: "",
-            followers: "",
-            products: "",
-            productsCount: 0
-        )
-        
-        disableAccauntFields()
+//        FSStoreSettings().addSettingsStoreToFireStore(
+//            name: name.text!,
+//            description: descript.text!,
+//            category: (categoryButton.titleLabel?.text)!,
+//            url: url.text!,
+//            instagram: instagram.text!,
+//            vk: vk.text!,
+//            ok: ok.text!,
+//            fb: fb.text!,
+//            telephon: telephon.text!,
+//            waLink: waLink.text!,
+//            numberWA: numberWA.text!,
+//            e_mail: e_mail.text!,
+//            workTime: "",
+//            followers: "",
+//            products: "",
+//            productsCount: 0
+//        )
+//
+//        disableAccauntFields()
     }
     
     //создание алерта
