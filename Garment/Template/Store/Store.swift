@@ -12,11 +12,11 @@ protocol arrayStoresProtocol {
     init? (storeDict: [String: Any])
 }
 
-struct Store: Codable {
+struct Store/*: Codable*/ {
     init(/*logo: UIImage,*/
          name: String,
          description: String,
-         category: String,
+         category: String?,
          url: String,
          instagram: String,
          vKontakte: String,
@@ -26,7 +26,7 @@ struct Store: Codable {
          whatsAppLink: String,
          whatsAppNumber: String,
          email: String,
-         products: [Product]) {
+         products: [Product]?) {
 //        self.logo = logo
         self.name = name
         self.description = description

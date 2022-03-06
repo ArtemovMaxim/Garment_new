@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User: Codable {
+struct User/*: Codable*/ {
     internal init(UserFirstName: String? = nil,
                   UserLastName: String? = nil,
                   UserAge: String? = nil,

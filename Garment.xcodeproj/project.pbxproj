@@ -52,7 +52,7 @@
 		A7545B2727163D6600A79E83 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A7545B2627163D6600A79E83 /* GoogleService-Info.plist */; };
 		A77B94A72708D31B008CA24C /* PhotoAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77B94A62708D31B008CA24C /* PhotoAlbumCollectionViewCell.swift */; };
 		A77B94AB2708EF98008CA24C /* PhotoAlbumCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77B94AA2708EF98008CA24C /* PhotoAlbumCollectionView.swift */; };
-		A7A9893626F6A1A600875AAB /* StoresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A9893526F6A1A600875AAB /* StoresViewController.swift */; };
+		A7A9893626F6A1A600875AAB /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A9893526F6A1A600875AAB /* ProductViewController.swift */; };
 		A7A9893F26F95E6500875AAB /* StorePhotoAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A9893E26F95E6500875AAB /* StorePhotoAlbumCollectionViewCell.swift */; };
 		A7D709A826ED5B4700392A58 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D709A726ED5B4700392A58 /* DataBase.swift */; };
 /* End PBXBuildFile section */
@@ -83,7 +83,7 @@
 		A7545B2627163D6600A79E83 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A77B94A62708D31B008CA24C /* PhotoAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		A77B94AA2708EF98008CA24C /* PhotoAlbumCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionView.swift; sourceTree = "<group>"; };
-		A7A9893526F6A1A600875AAB /* StoresViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoresViewController.swift; sourceTree = "<group>"; };
+		A7A9893526F6A1A600875AAB /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		A7A9893E26F95E6500875AAB /* StorePhotoAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorePhotoAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		A7D709A726ED5B4700392A58 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,12 +171,12 @@
 			path = StoreSettingsFireStore;
 			sourceTree = "<group>";
 		};
-		A71F969B271BB9C2006F5826 /* StoresFireStore */ = {
+		A71F969B271BB9C2006F5826 /* ProductАireStore */ = {
 			isa = PBXGroup;
 			children = (
 				A71F969C271BBA0D006F5826 /* FSStores.swift */,
 			);
-			path = StoresFireStore;
+			path = "ProductАireStore";
 			sourceTree = "<group>";
 		};
 		A72E775626FBB48200FF05C2 /* PhotoAlbum */ = {
@@ -300,7 +300,7 @@
 			children = (
 				A717B98A270EDC2800415BD8 /* AuthAccaunt.swift */,
 				A71CF605270BA4FD00734074 /* StoreSettingsTVС */,
-				A7A9893726F90BF100875AAB /* StoresVC */,
+				A7A9893726F90BF100875AAB /* ProductVC */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -313,14 +313,14 @@
 			path = Users;
 			sourceTree = "<group>";
 		};
-		A7A9893726F90BF100875AAB /* StoresVC */ = {
+		A7A9893726F90BF100875AAB /* ProductVC */ = {
 			isa = PBXGroup;
 			children = (
-				A71F969B271BB9C2006F5826 /* StoresFireStore */,
-				A7A9893526F6A1A600875AAB /* StoresViewController.swift */,
+				A71F969B271BB9C2006F5826 /* ProductАireStore */,
+				A7A9893526F6A1A600875AAB /* ProductViewController.swift */,
 				A7A9893826F90BFC00875AAB /* StoresVCCell */,
 			);
-			path = StoresVC;
+			path = ProductVC;
 			sourceTree = "<group>";
 		};
 		A7A9893826F90BFC00875AAB /* StoresVCCell */ = {
@@ -448,7 +448,7 @@
 				A749130B26EC07FB00749FF2 /* TimeLineCollectionViewController.swift in Sources */,
 				A71CF607270BA53000734074 /* StoreSettingsTableViewController.swift in Sources */,
 				A715B68D270E285A00DF78FD /* AuthViewController.swift in Sources */,
-				A7A9893626F6A1A600875AAB /* StoresViewController.swift in Sources */,
+				A7A9893626F6A1A600875AAB /* ProductViewController.swift in Sources */,
 				A71690442723513E008F8B8E /* FBDataBase.swift in Sources */,
 				A74912EA26EB7A0100749FF2 /* Garment.xcdatamodeld in Sources */,
 				A74912E226EB7A0100749FF2 /* SceneDelegate.swift in Sources */,

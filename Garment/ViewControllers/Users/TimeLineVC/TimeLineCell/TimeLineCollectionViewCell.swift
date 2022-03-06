@@ -43,7 +43,10 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var store: UILabel!
     
+
+
     
+
     
     override class func awakeFromNib() {
         super.awakeFromNib()
@@ -51,6 +54,27 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        productPostArticleLabel.text = ""
+        productPostViewsLabel.text = ""
+        productPostLikesCountLabel.text = ""
+        productPostCommentsCountLabel.text = ""
+        
+        
+        productPostDescriptionLabel.text = ""
+        productPostTitleLabel.text = ""
+        
+        
+        productPostSexLabel.text = ""
+        productPostSeasonLabel.text = ""
+        productPostPriceLabel.text = ""
+        productPostDiscontLabel.text = ""
+        productPostFinalPriceLabel.text = ""
+        productPostPublicationDateLabel.text = ""
+        productPostIsNewLabel.text = ""
+        
+        store.text = ""
+        
+        albumCollection.reloadInputViews()
     }
     
     //custom Function

@@ -166,20 +166,21 @@ class StoreSettingsTableViewController: UITableViewController {
     
     //        loadig settings
     func loadingSettingsStore() {
-        uploadToAccaunt()
-//        //                self.logo.image = currentStoreSettings?.logo
-//        self.name.text = StoreSettingsTableViewController.currentStoreSettings?.name
-//        self.descript.text = StoreSettingsTableViewController.currentStoreSettings?.description
-//        //            self.category.text = StoreSettingsTableViewController.currentStoreSettings?.category
-//        self.url.text = StoreSettingsTableViewController.currentStoreSettings?.url
-//        self.instagram.text = StoreSettingsTableViewController.currentStoreSettings?.instagram
-//        self.vk.text = StoreSettingsTableViewController.currentStoreSettings?.vKontakte
-//        self.ok.text = StoreSettingsTableViewController.currentStoreSettings?.odniklassniki
-//        self.fb.text = StoreSettingsTableViewController.currentStoreSettings?.facebook
-//        self.telephon.text = StoreSettingsTableViewController.currentStoreSettings?.telephonNumber
-//        self.waLink.text = StoreSettingsTableViewController.currentStoreSettings?.whatsAppLink
-//        self.numberWA.text = StoreSettingsTableViewController.currentStoreSettings?.whatsAppNumber
-//        self.e_mail.text = StoreSettingsTableViewController.currentStoreSettings?.email
+//        uploadToAccaunt()
+        let store = AuthAccaunt.nameStore
+        //                self.logo.image = currentStoreSettings?.logo
+        self.name.text = DataBase.allStoresDB[store]?.name
+        self.descript.text = DataBase.allStoresDB[store]?.description
+        //            self.category.text = StoreSettingsTableViewController.currentStoreSettings?.category
+        self.url.text = DataBase.allStoresDB[name.text!]?.url
+        self.instagram.text = DataBase.allStoresDB[store]?.instagram
+        self.vk.text = DataBase.allStoresDB[store]?.vKontakte
+        self.ok.text = DataBase.allStoresDB[store]?.odniklassniki
+        self.fb.text = DataBase.allStoresDB[store]?.facebook
+        self.telephon.text = DataBase.allStoresDB[store]?.telephonNumber
+        self.waLink.text = DataBase.allStoresDB[store]?.whatsAppLink
+        self.numberWA.text = DataBase.allStoresDB[store]?.whatsAppNumber
+        self.e_mail.text = DataBase.allStoresDB[store]?.email
     }
     
     //    скрытие клавиатуры
@@ -257,62 +258,43 @@ class StoreSettingsTableViewController: UITableViewController {
     }
     
     //        заполняем данные магазина
-//    let str = Storage.storage()
-//    let dbfs = Firestore.firestore()
     
-    func uploadToAccaunt() {
-        
-        name.isHidden = false
-        name.text = name.text
-        
-//        let currentUser = Auth.auth().currentUser?.email
-//        dbfs.collection("stores").document(currentUser!).getDocument { store, error in
+//    func uploadToAccaunt() {
 //
-//            let result = Result {
-//                try store?.data(as: Store.self)
-//            }
-            
-//            switch result {
-//            case .success(let store):
-//                if let store = store {
-//                    self.name.isHidden = false
-//                    self.name.text = store.name
-//                    
-//                    self.descript.isHidden = false
-//                    self.descript.text = store.description
-//                    
-////                    self.category.isHidden = false
-////                    self.category.text = DataBase.stores[name.text!]?.category
-//                    
-//                    self.instagram.isHidden = false
-//                    self.instagram.text = store.instagram
-//                    
-//                    self.vk.isHidden = false
-//                    self.vk.text = store.vKontakte
-//                    
-//                    self.ok.isHidden = false
-//                    self.ok.text = store.odniklassniki
-//                    
-//                    self.fb.isHidden = false
-//                    self.fb.text = store.facebook
-//                    
-//                    self.telephon.isHidden = false
-//                    self.telephon.text = store.telephonNumber
-//                    
-//                    self.waLink.isHidden = false
-//                    self.waLink.text = store.whatsAppLink
-//                    
-//                    self.numberWA.isHidden = false
-//                    self.numberWA.text = store.whatsAppNumber
-//                    
-//                    self.e_mail.isHidden = false
-//                    self.e_mail.text = store.email
-//                }
-//            case .failure(let error):
-//                print(error)
-////            }
-//        }
-    }
+//        self.name.isHidden = false
+//        self.name.text = DataBase.stores[name.text!]?.name
+//
+//        self.descript.isHidden = false
+//        self.descript.text = DataBase.stores[name.text!]?.description
+//
+//        //                    self.category.isHidden = false
+//        //                    self.category.text = DataBase.stores[name.text!]?.category
+//
+//        self.instagram.isHidden = false
+//        self.instagram.text = DataBase.stores[name.text!]?.instagram
+//
+//        self.vk.isHidden = false
+//        self.vk.text = DataBase.stores[name.text!]?.vKontakte
+//
+//        self.ok.isHidden = false
+//        self.ok.text = DataBase.stores[name.text!]?.odniklassniki
+//
+//        self.fb.isHidden = false
+//        self.fb.text = DataBase.stores[name.text!]?.facebook
+//
+//        self.telephon.isHidden = false
+//        self.telephon.text = DataBase.stores[name.text!]?.telephonNumber
+//
+//        self.waLink.isHidden = false
+//        self.waLink.text = DataBase.stores[name.text!]?.whatsAppLink
+//
+//        self.numberWA.isHidden = false
+//        self.numberWA.text = DataBase.stores[name.text!]?.whatsAppNumber
+//
+//        self.e_mail.isHidden = false
+//        self.e_mail.text = DataBase.stores[name.text!]?.email
+//
+//    }
     
     
     
@@ -335,35 +317,33 @@ class StoreSettingsTableViewController: UITableViewController {
     
     //    кодирование url
     
-    func codingURL(stringUrl: String) -> URL {
-        let urlString = stringUrl.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
-        let url = URL(string: urlString!)!
-        return url
-    }
+//    func codingURL(stringUrl: String) -> URL {
+//        let urlString = stringUrl.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+//        let url = URL(string: urlString!)!
+//        return url
+//    }
     
-    //        добавление в магазина в базу данных
+    //        добавление в магазина в локальную базу данных
     func addStoreToDB() {
         
-//        FSStoreSettings().addSettingsStoreToFireStore(
-//            name: name.text!,
-//            description: descript.text!,
-//            category: (categoryButton.titleLabel?.text)!,
-//            url: url.text!,
-//            instagram: instagram.text!,
-//            vk: vk.text!,
-//            ok: ok.text!,
-//            fb: fb.text!,
-//            telephon: telephon.text!,
-//            waLink: waLink.text!,
-//            numberWA: numberWA.text!,
-//            e_mail: e_mail.text!,
-//            workTime: "",
-//            followers: "",
-//            products: "",
-//            productsCount: 0
-//        )
-//
-//        disableAccauntFields()
+        
+        DataBase.allStoresDB = [AuthAccaunt.nameStore: Store(/*logo: UIImage(systemName: "pencil"),*/
+                                 name: name.text!,
+                                 description: descript.text!,
+                                 category: nil,
+                                 url: "",
+                                 instagram: instagram.text!,
+                                 vKontakte: vk.text!,
+                                 odniklassniki: ok.text!,
+                                 facebook: fb.text!,
+                                 telephonNumber: telephon.text!,
+                                 whatsAppLink: waLink.text!,
+                                 whatsAppNumber: numberWA.text!,
+                                 email: e_mail.text!,
+                                 /*followers: 0,*/
+                                 products: nil)
+                        ]
+//        uploadToAccaunt()
     }
     
     //создание алерта

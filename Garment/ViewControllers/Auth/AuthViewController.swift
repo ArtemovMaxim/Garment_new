@@ -98,7 +98,6 @@ class AuthViewController: UIViewController {
                 Auth.auth().createUser(withEmail: self.emailField.text!, password: self.passwordField.text!) {  (result, error) in
                     if error == nil {
                         if let result = result {
-                            print(result.user.uid)
                             
                             let db = Firestore.firestore()
                             
@@ -146,7 +145,6 @@ class AuthViewController: UIViewController {
                 Auth.auth().signIn(withEmail: self.emailField.text!, password: self.passwordField.text!) { (result, error) in
                     if error == nil {
                         if let result = result {
-                            print(result.user.uid)
                             
                             AuthAccaunt.statusLog = .loged
                             self.statusLabel.text = "Зарегистрирован"
@@ -187,9 +185,7 @@ class AuthViewController: UIViewController {
                 Auth.auth().createUser(withEmail: self.emailField.text!, password: self.passwordField.text!) {  (result, error) in
                     if error == nil {
                         if let result = result {
-                            
-                            print(result.user.uid)
-                            
+                                                        
                             let db = Firestore.firestore()
                             db.collection("users").document(self.emailField.text!).setData([
                                 "nameUser": self.nameField.text!,

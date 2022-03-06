@@ -8,10 +8,10 @@
 import UIKit
 //import Firebase
 
-class StoresViewController: UIViewController, UIImagePickerControllerDelegate ,  UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class ProductViewController: UIViewController, UIImagePickerControllerDelegate ,  UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return StoresViewController.photos.count
+        return ProductViewController.photos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -19,7 +19,7 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         
         
         //       cell.StoresVCCollectionVCPhotoAlbumImage.image = UIImage(systemName: "pencil")
-        cell.StoresVCCollectionVCPhotoAlbumImage.image = StoresViewController.photos[indexPath.item]
+        cell.StoresVCCollectionVCPhotoAlbumImage.image = ProductViewController.photos[indexPath.item]
         return cell
     }
     
@@ -79,13 +79,11 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     @IBOutlet weak var StoresVCPostingDatePicker: UIDatePicker!
     
     //image
-    @IBOutlet weak var StoreVСProductImage: UIImageView!
     
     //buttons
     @IBOutlet weak var StoreVCPostingButtonOutlet: UIButton!
     @IBOutlet weak var StoresVCCustomArticleButtonOutlet: UIButton!
     @IBOutlet weak var StoresVCUploadPhotoButtonOutlet: UIButton!
-    @IBOutlet weak var StoresVCUploadFirstPhotoOutlet: UIButton!
     
     //DataPicker
     @IBOutlet weak var StoreVCDataPickerOutlet: UIDatePicker!
@@ -105,17 +103,6 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         self.navigationController?.setViewControllers([globalMenu], animated: true)
     }
     
-    
-    //upload first photo
-    @IBAction func StoresVCUploadFirstPhotoAction(_ sender: Any) {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
-        imagePickerController.allowsEditing = false
-        self.present(imagePickerController, animated: true, completion: nil)
-        StoresVCUploadFirstPhotoOutlet.tag = 1
-    }
-    
     //upload seconds photo
     @IBAction func StoresVCUploadPhotoButtonAction(_ sender: Any) {
         let imagePickerController = UIImagePickerController()
@@ -123,7 +110,7 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         imagePickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
         imagePickerController.allowsEditing = false
         self.present(imagePickerController, animated: true, completion: nil)
-        StoresVCUploadPhotoButtonOutlet.tag = 1
+        //        StoresVCUploadPhotoButtonOutlet.tag = 1
     }
     
     //custom article
@@ -143,113 +130,38 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         }
     }
     
-    var album: [UIImage] = []
-    var arraStrings: [String: String] = [:]
-    var photosCount: Int = 0
-    
-    var urlArray: [String] = []
-//    let str = Storage.storage()
-//    let dbfs = Firestore.firestore()
-    
-    var strAnyArr: [String: Any] = [:]
-    
+    //        пкбликация товара
     @IBAction func StoreVCPostingButtonAction(_ sender: Any) {
-        StoresViewController.productArticle = StoresVCArticleField.text!
-
+        ProductViewController.productArticle = StoresVCArticleField.text!
         
-        // создаем альбом фотографий для добавления к новому продукту
-        self.album = self.generatePhotosAlbumArray()
-        print("1. Album: \(self.album)")
+        ProductViewController.currentProduct = creatNewProduct()
         
-        print("2. Поток принятия StoresViewController thread: \(Thread.current)")
+        ProductViewController.currentProduct?.productPostPhotoCount = ProductViewController.photos.count
         
-//        var refArr: [StorageReference] = []
-        var urlArr: [URL] = []
-        var stringArr: [String] = []
+        print("Количество фото: \(ProductViewController.photos.count)")
         
-        let queue = DispatchQueue(label: "Loading")
-        let group = DispatchGroup()
+        ProductViewController.currentProduct?.productPostArrayPhotos = ProductViewController.photos
         
-        queue.async(group: group) {
-            print("2.1. Поток queue Loading StoresViewController thread: \(Thread.current)")
-            
-            FSStores.forInImageArray(images: self.album) { storRefArr in
-                print("3. Добыли count storRefArr FSstore: \(storRefArr)")
-//                refArr = storRefArr
-            } completionRefs: { ref in }
-        completionURLS: { url in
-            stringArr = url
-            print("ЮРЛС: \(url), Каунт: \(url.count)")
-            
-            FSStores.addURLtoProduct(stringsArray: stringArr) { stringArray in
-//                let db = Firestore.firestore()
-//                let currentUser = Auth.auth().currentUser?.email
-//
-//                let ref = db.collection("stores").document(currentUser!).collection("products")
-//                    .document(String(FBDataBase.count + 1))
-//                print("Массив: \(stringArray)")
-//                ref.setData(["URL's": stringArray], merge: true)
-//                self.strAnyArr = stringArray
-//
-//                for string in stringArray {
-//                    FBDataBase.strAnyArr.append(string.value as! String)
-//                }
-               
-                AuthAccaunt.authProfile = .store
-            }
-
-
-        }
+        // проверяем на заполненность полей
+        self.showAlert()
         
-            
-            group.notify(queue: .main) {
-                
-                
-
-                
-
-                print("6. Добавили в Продукт FSstore")
-                // проверяем на заполненность полей
-                self.showAlert()
-                
-                // 1. создаем новый продукт
-                StoresViewController.product = self.creatNewProduct()
-                print("7. Создался Продукт по клику кнопки ")
-                
-                var arr: [String] = []
-                for url in self.strAnyArr {
-                    let str = url.value
-                    arr.append(str as! String )
-                }
-                
-                StoresViewController.product?.productPostArrayPhotos = arr
-                print("8. button click URL: \(String(describing: StoresViewController.product?.productPostArrayPhotos))")
-                
-                
-                StoresViewController.product?.productPostPhotoCount = StoresViewController.photos.count
-                
-                
-                self.addProductToFS_DB()
-                
-                
-                // переход на глобальное меню
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let globalMenu = storyboard.instantiateViewController(withIdentifier: "GlobalMenuStoreViewController") as! GlobalMenuStoreViewController
-                
-                self.navigationController?.pushViewController(globalMenu, animated: true)
-                self.navigationController?.setViewControllers([globalMenu], animated: true)
-            }
-        }
+        DataBase.allProductsDB.append(ProductViewController.currentProduct!)
+        
+        // переход на глобальное меню
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let globalMenu = storyboard.instantiateViewController(withIdentifier: "GlobalMenuStoreViewController") as! GlobalMenuStoreViewController
+        
+        self.navigationController?.pushViewController(globalMenu, animated: true)
+        self.navigationController?.setViewControllers([globalMenu], animated: true)
     }
     
     // создаем новый продукт
-    static var product: Product?
+    static var currentProduct: Product?
     
     
     
     func creatNewProduct() -> Product {
         //        let array = FSStores.currentProductArrayStrings
-        let urlURL = self.urlArray
         let newProduct = Product(
             store: AuthAccaunt.nameStore,
             productPostArticle: StoresVCArticleField.text!,
@@ -264,29 +176,14 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
             //            productPostPublicationDate: nil,
             productPostLikesCount: 0,
             productPostIsLiked: false,
+            productLikes: [],
             productPostViewsCount: 0,
             productPostPhotoCount: 0,
             productPostIsNew: StoresVCisNewSC.titleForSegment(at: StoresVCisNewSC.selectedSegmentIndex)!,
             indexNumberOfProduct: (FBDataBase.count + 1), // присваиваем порядковый номер товару
-            productPostArrayPhotos: urlURL // добавили массив ссылок на фотографии
+            productPostArrayPhotos: nil // добавили массив ссылок на фотографии
         )
         return newProduct
-    }
-    
-    func addProductToFS_DB() {
-        
-        StoresViewController.productArticle = StoresVCArticleField.text!
-        
-        
-//        let ref = Firestore.firestore().collection("stores").document((Auth.auth().currentUser?.email)!).collection("products")
-        
-//        ref.document(String(FBDataBase.count + 1))
-//            .setData(StoresViewController.product!.productDict) {error in
-//                if error != nil {
-//                    print("error adding product to FB")
-//                }
-//            }
-        
     }
     
     
@@ -306,9 +203,7 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        StoreVСProductImage.image = nil
-        
-        
+        ProductViewController.photos.removeAll()
         
         //создание артикула
         StoresVCArticleField.text = Product.generateNewArticle()
@@ -322,21 +217,7 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         self.StoresVCPhotosCollectionViewOutlet.dataSource = self
         self.StoresVCPhotosCollectionViewOutlet.delegate = self
         
-        //таги для определения нажатой кнопки для уплоада фото
-        StoresVCUploadPhotoButtonOutlet.tag = 0
-        StoresVCUploadFirstPhotoOutlet.tag = 0
-        
-        // 1. общее число продуктов
-        FSStores.getCurrentCountProducts { count in
-            FBDataBase.count = count
-        }
-        
     }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        FBDataBase.count = 0
-    }
-    
     
     
     //скрытие клавиатуры
@@ -350,67 +231,21 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     //save photo in project
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        //коллеция фото
-        if StoresVCUploadPhotoButtonOutlet.tag == 0 && StoresVCUploadFirstPhotoOutlet.tag == 0 {
-            
-            let image = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue) ] as? UIImage
-            //добавление в массив
-            //            newProduct.productPostArrayPhotos?.append(image!)
-            StoresViewController.photos.append(image!)
-            
-            //вставка в collection view
-            StoresVCPhotosCollectionViewOutlet.insertItems(at: StoresVCPhotosCollectionViewOutlet.indexPathsForVisibleItems)
-            
-            
-            StoresVCPhotosCollectionViewOutlet.clipsToBounds = true
-            
-            picker.dismiss(animated: true, completion: nil)
-            
-            StoresVCPhotosCollectionViewOutlet.reloadData()
-            
-            StoresVCUploadPhotoButtonOutlet.tag = 1
-            
-            
-            //главное фото
-        }
+        let image = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue) ] as? UIImage
+        //добавление в массив
+//        ProductViewController.currentProduct?.productPostArrayPhotos = []
+//        ProductViewController.photos.removeAll()
+//
+        ProductViewController.photos.append(image!)
         
-        if StoresVCUploadFirstPhotoOutlet.tag == 1 {
-            
-            let image = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue) ] as? UIImage
-            //добавление в image view
-            StoreVСProductImage.image = image
-            
-            StoresVCPhotosCollectionViewOutlet.insertItems(at: StoresVCPhotosCollectionViewOutlet.indexPathsForVisibleItems)
-            StoresVCPhotosCollectionViewOutlet.clipsToBounds = true
-            //добавление в базу данных
-            StoresViewController.photos.append(image!)
-            
-            picker.dismiss(animated: true, completion: nil)
-            StoresVCPhotosCollectionViewOutlet.reloadData()
-            StoresVCUploadFirstPhotoOutlet.tag = 0
-            
-        }
+        StoresVCPhotosCollectionViewOutlet.insertItems(at: StoresVCPhotosCollectionViewOutlet.indexPathsForVisibleItems)
         
-        if StoresVCUploadPhotoButtonOutlet.tag == 1 {
-            
-            let image = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue) ] as? UIImage
-            //добавление в массив
-            //            newProduct.productPostArrayPhotos?.append(image!)
-            StoresViewController.photos.append(image!)
-            
-            //вставка в collection view
-            StoresVCPhotosCollectionViewOutlet.insertItems(at: StoresVCPhotosCollectionViewOutlet.indexPathsForVisibleItems)
-            
-            
-            StoresVCPhotosCollectionViewOutlet.clipsToBounds = true
-            
-            picker.dismiss(animated: true, completion: nil)
-            
-            StoresVCPhotosCollectionViewOutlet.reloadData()
-            
-            StoresVCUploadPhotoButtonOutlet.tag = 1
-            
-        }
+        StoresVCPhotosCollectionViewOutlet.clipsToBounds = true
+        
+        //            StoresVCPhotosCollectionViewOutlet.reloadData()
+        
+        picker.dismiss(animated: true, completion: nil)
+        
     }
     
     
@@ -475,9 +310,9 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     //insert photos in array
     func generatePhotosAlbumArray() -> [UIImage] {
         var array: [UIImage] = []
-        let count = StoresViewController.photos.count
+        let count = ProductViewController.photos.count
         for i in 0..<count {
-            array.append(StoresViewController.photos[i])
+            array.append(ProductViewController.photos[i])
         }
         return array
     }
@@ -499,12 +334,8 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
     func generateAlert() -> String {
         alerts.append("Вы не заполнили: \n")
         
-        if StoresViewController.photos == [] {
+        if ProductViewController.photos == [] {
             alerts.append(alertEnumStores.noProductPostArrayPhotos.rawValue + "\n")
-        }
-        
-        if self.StoreVСProductImage.image == nil {
-            alerts.append(alertEnumStores.noroductPostFirstImage.rawValue + "\n")
         }
         
         if self.StoresVCProductTitleField.text == "" {
@@ -521,17 +352,5 @@ class StoresViewController: UIViewController, UIImagePickerControllerDelegate , 
         
         return alerts
     }
-    
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
 }
 

@@ -6,10 +6,7 @@
 //
 
 import UIKit
-//import Firebase
-//import FirebaseFirestore
-//import FirebaseFirestoreSwift
-//import FirebaseMLModelDownloader
+
 
 enum Ident: String {
     case reuseIdentifier = "Cell"
@@ -20,51 +17,43 @@ class TimeLineCollectionViewController: UICollectionViewController {
     
     //индекс для передачи item в albumCollectionView
     static var indexPathTLCVC: IndexPath?
-    static var indexPathItemTLCVC: Int = 0
+    static var indexPathItemTLCVC: Int?
     
-    static var allPrdcsArr: [Product] = []
     
-    static var prodArray: [Product] = []
+    static var allProductsArray: [Product] = []
     
-    static var allProd: [Product] = []
+    private var counter: Int {
+        return TimeLineCollectionViewController.allProductsArray.count
+    }
     
-    var fsArrayStores: [Store] = []
+        
+//    //аутлеты
+//    @IBOutlet weak var cell: TimeLineCollectionViewCell!
     
-    var dataBse = FBDataBase()
-    
-    //аутлеты
     @IBOutlet var globalCollectionView: PhotoAlbumCollectionViewCell!
     
     func loadind() {
-//        FBDataBase.creatUserTimeLineProducts { prodArray in
-//            TimeLineCollectionViewController.allPrdcsArr = prodArray
-//            print("Лоадинг генерация массива всех продуктов \(TimeLineCollectionViewController.allPrdcsArr.count)")
-//            TimeLineCollectionViewController.allProd = TimeLineCollectionViewController.allPrdcsArr
-//
-//        }
         
+        switch AuthAccaunt.authProfile {
+            
+        case .store:
+            TimeLineCollectionViewController.allProductsArray = DataBase.generateArray(name: AuthAccaunt.nameStore).0
+            
+        case .user:
+            TimeLineCollectionViewController.allProductsArray = DataBase.allProductsDB
+            
+        case .nonAuth:
+            TimeLineCollectionViewController.allProductsArray = DataBase.allProductsDB
+        }
 
     }
     
-    override func loadView() {
-        
-        super.loadView()
-            switch AuthAccaunt.authProfile {
-            case .store:
-                loadind()
-                print("TLCVC все продукты count: \(TimeLineCollectionViewController.allPrdcsArr.count)")
-                
-            case .user:
-                loadind()
-                
-            case .nonAuth:
-                print("TLCVC все продукты count: \(TimeLineCollectionViewController.allPrdcsArr.count)")
-            }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("ViewDidLoad: \(TimeLineCollectionViewController.allPrdcsArr.count)")
+        loadind()
+        ProductViewController.photos.removeAll()
+        ProductViewController.currentProduct?.productPostArrayPhotos = []
+        
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -76,46 +65,42 @@ class TimeLineCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         switch AuthAccaunt.authProfile {
+            
         case .store:
-            print("Количество Айтемс Магазины: \(TimeLineCollectionViewController.allPrdcsArr.count)")
-            return TimeLineCollectionViewController.allPrdcsArr.count
+            return self.counter
+            
         case .user:
-            print("Количество Айтемс Покупатели: \(TimeLineCollectionViewController.allPrdcsArr.count)")
-            return TimeLineCollectionViewController.allPrdcsArr.count
+            return TimeLineCollectionViewController.allProductsArray.count
+            
         case .nonAuth:
-            print("Количество Айтемс Нон: \(TimeLineCollectionViewController.allPrdcsArr.count)")
-            return TimeLineCollectionViewController.allPrdcsArr.count
+            return TimeLineCollectionViewController.allProductsArray.count
         }
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        
         switch AuthAccaunt.authProfile {
             
         case .store:
-            TimeLineCollectionViewController.prodArray = TimeLineCollectionViewController.allPrdcsArr
             return generateStoreCell(collectionView, cellForItemAt: indexPath, nameStore: AuthAccaunt.nameStore)
             
         case .user:
             return generateUserCell(collectionView, cellForItemAt: indexPath, nameStore: AuthAccaunt.nameStore)
             
         case .nonAuth:
-//            prodArray = DataBase().generateArray(name: AuthAccaunt.nameStore)
             return generateNonAuthCell(collectionView, cellForItemAt: indexPath, nameStore: AuthAccaunt.nameStore)
             
         }
     }
     
+    static var myProducts: [Product] = []
     
     func generateStoreCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, nameStore: String) -> UICollectionViewCell {
-        
+//        myProducts = DataBase.generateArray(name: AuthAccaunt.nameStore).0
         
         TimeLineCollectionViewController.indexPathTLCVC = indexPath
         TimeLineCollectionViewController.indexPathItemTLCVC = indexPath.item
-
-        print("TLCVC, item: \(TimeLineCollectionViewController.indexPathTLCVC)")
         
         let cellStore = collectionView.dequeueReusableCell(withReuseIdentifier: Ident.reuseIdentifier.rawValue, for: indexPath) as! TimeLineCollectionViewCell
         
@@ -166,8 +151,7 @@ class TimeLineCollectionViewController: UICollectionViewController {
         ])
         
         // Configure the cell
-        
-        
+                
         //header
         cellStore.productPostArticleLabel.text = ""
         cellStore.productPostViewsLabel.text = ""
@@ -194,35 +178,37 @@ class TimeLineCollectionViewController: UICollectionViewController {
         cellStore.productPostPublicationDateLabel.text = ""
         
         cellStore.store.text = ""
+        cellStore.albumCollection.reloadData()
 
         
         
-        
+    
         //header
-        cellStore.productPostArticleLabel.text = "Артикул: " + String(TimeLineCollectionViewController.prodArray[indexPath.item].productPostArticle)
+        cellStore.productPostArticleLabel.text = "Артикул: " + String(TimeLineCollectionViewController.myProducts[indexPath.item].productPostArticle)
         
-        cellStore.productPostViewsLabel.text = "Просмотров: " + String(TimeLineCollectionViewController.prodArray[indexPath.item].productPostViewsCount)
-        cellStore.productPostLikesCountLabel.text = "Лайков: " + String(TimeLineCollectionViewController.prodArray[indexPath.item].productPostLikesCount)
+        cellStore.productPostViewsLabel.text = "Просмотров: " + String(TimeLineCollectionViewController.myProducts[indexPath.item].productPostViewsCount)
+        cellStore.productPostLikesCountLabel.text = "Лайков: " + String(TimeLineCollectionViewController.myProducts[indexPath.item].productPostLikesCount)
         //        cellStore.productPostCommentsCountLabel.text = "Комментариев: " + String(arrayStores[indexPath.item].productPostCommentsCount)
         
         
         //productDescription
-        cellStore.productPostDescriptionLabel.text = TimeLineCollectionViewController.prodArray[indexPath.item].productPostDescription
-        cellStore.productPostTitleLabel.text = TimeLineCollectionViewController.prodArray[indexPath.item].productPostTitle
+        cellStore.productPostDescriptionLabel.text = TimeLineCollectionViewController.myProducts[indexPath.item].productPostDescription
+        cellStore.productPostTitleLabel.text = TimeLineCollectionViewController.myProducts[indexPath.item].productPostTitle
         
         //footer
         //        productPropertys
-        cellStore.productPostSexLabel.text = "Пол: " + TimeLineCollectionViewController.prodArray[indexPath.item].productPostSex
-        cellStore.productPostSeasonLabel.text = "Сезон: " + TimeLineCollectionViewController.prodArray[indexPath.item].productPostSeason
-        cellStore.productPostIsNewLabel.text = "Новизна: " + TimeLineCollectionViewController.prodArray[indexPath.item].productPostIsNew
+        cellStore.productPostSexLabel.text = "Пол: " + TimeLineCollectionViewController.myProducts[indexPath.item].productPostSex
+        cellStore.productPostSeasonLabel.text = "Сезон: " + TimeLineCollectionViewController.myProducts[indexPath.item].productPostSeason
+        cellStore.productPostIsNewLabel.text = "Новизна: " + TimeLineCollectionViewController.myProducts[indexPath.item].productPostIsNew
         
         //productPrice
-        cellStore.productPostPriceLabel.text = "Цена: " + String(TimeLineCollectionViewController.prodArray[indexPath.item].productPostPrice) + " руб."
-        cellStore.productPostDiscontLabel.text = "Скидка: " + "\(TimeLineCollectionViewController.prodArray[indexPath.item].productPostDiscont)" + " %"
-        cellStore.productPostFinalPriceLabel.text = "Итого: " + "\(TimeLineCollectionViewController.prodArray[indexPath.item].productPostFinalPrice)" + " руб."
+        cellStore.productPostPriceLabel.text = "Цена: " + String(TimeLineCollectionViewController.myProducts[indexPath.item].productPostPrice) + " руб."
+        cellStore.productPostDiscontLabel.text = "Скидка: " + "\(TimeLineCollectionViewController.myProducts[indexPath.item].productPostDiscont)" + " %"
+        cellStore.productPostFinalPriceLabel.text = "Итого: " + "\(TimeLineCollectionViewController.myProducts[indexPath.item].productPostFinalPrice)" + " руб."
         
         cellStore.productPostPublicationDateLabel.text = "Дата публикации"
         cellStore.store.text = "Магазин: " + "\(nameStore)"
+        cellStore.reloadInputViews()
         
         return cellStore
         
@@ -303,32 +289,38 @@ class TimeLineCollectionViewController: UICollectionViewController {
         
         cellUser.productPostPublicationDateLabel.text = ""
         
+//        cellUser.albumCollection.reloadData()
+
+        
         
         //header
-        cellUser.productPostArticleLabel.text = "Артикул: " + TimeLineCollectionViewController.allProd[indexPath.item].productPostArticle
-        cellUser.productPostViewsLabel.text = "Просмотров: " + String(TimeLineCollectionViewController.allProd[indexPath.item].productPostViewsCount)
-        cellUser.productPostLikesCountLabel.text = "Лайков: " + String(TimeLineCollectionViewController.allProd[indexPath.item].productPostLikesCount)
+        cellUser.productPostArticleLabel.text = "Артикул: " + TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostArticle
+        cellUser.productPostViewsLabel.text = "Просмотров: " + String(TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostViewsCount)
+        cellUser.productPostLikesCountLabel.text = "Лайков: " + String(TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostLikesCount)
         //        cellUser.productPostCommentsCountLabel.text = "Комментариев: " + String(DataBase.productsDb[indexPath.item].productPostCommentsCount)
         
         
         //productDescription
-        cellUser.productPostDescriptionLabel.text = TimeLineCollectionViewController.allProd[indexPath.item].productPostDescription
-        cellUser.productPostTitleLabel.text = TimeLineCollectionViewController.allProd[indexPath.item].productPostTitle
+        cellUser.productPostDescriptionLabel.text = TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostDescription
+        cellUser.productPostTitleLabel.text = TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostTitle
         
         //footer
         //productPropertys
-        cellUser.productPostSexLabel.text = "Пол: " + TimeLineCollectionViewController.allProd[indexPath.item].productPostSex
-        cellUser.productPostSeasonLabel.text = "Сезон: " + TimeLineCollectionViewController.allProd[indexPath.item].productPostSeason
-        cellUser.productPostIsNewLabel.text = "Новизна: " + TimeLineCollectionViewController.allProd[indexPath.item].productPostIsNew
+        cellUser.productPostSexLabel.text = "Пол: " + TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostSex
+        cellUser.productPostSeasonLabel.text = "Сезон: " + TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostSeason
+        cellUser.productPostIsNewLabel.text = "Новизна: " + TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostIsNew
         
         //productPrice
-        cellUser.productPostPriceLabel.text = "Цена: " + String(TimeLineCollectionViewController.allProd[indexPath.item].productPostPrice) + " руб."
-        cellUser.productPostDiscontLabel.text = "Скидка: " + "\(TimeLineCollectionViewController.allProd[indexPath.item].productPostDiscont)" + " %"
-        cellUser.productPostFinalPriceLabel.text = "Итого: " + "\(TimeLineCollectionViewController.allProd[indexPath.item].productPostFinalPrice)" + " руб."
+        cellUser.productPostPriceLabel.text = "Цена: " + String(TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostPrice) + " руб."
+        cellUser.productPostDiscontLabel.text = "Скидка: " + "\(TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostDiscont)" + " %"
+        cellUser.productPostFinalPriceLabel.text = "Итого: " + "\(TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostFinalPrice)" + " руб."
         
         cellUser.productPostPublicationDateLabel.text = "Дата публикации"
-        cellUser.store.text = "Магазин: " + "\(TimeLineCollectionViewController.allProd[indexPath.item].store)"
-        
+        cellUser.store.text = "Магазин: " + "\(TimeLineCollectionViewController.allProductsArray[indexPath.item].store)"
+//        cellUser.reloadInputViews()
+//        self.globalCollectionView.reloadInputViews()
+//        self.reloadInputViews()
+
         return cellUser
         
     }
@@ -408,31 +400,36 @@ class TimeLineCollectionViewController: UICollectionViewController {
         
         cellNonAuth.productPostPublicationDateLabel.text = ""
         
+        cellNonAuth.albumCollection.reloadData()
+
+        
         
         //header
-        cellNonAuth.productPostArticleLabel.text = "Артикул: " + DataBase.productsDb[indexPath.item].productPostArticle
-        cellNonAuth.productPostViewsLabel.text = "Просмотров: " + String(DataBase.productsDb[indexPath.item].productPostViewsCount)
-        cellNonAuth.productPostLikesCountLabel.text = "Лайков: " + String(DataBase.productsDb[indexPath.item].productPostLikesCount)
+        cellNonAuth.productPostArticleLabel.text = "Артикул: " + TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostArticle
+        cellNonAuth.productPostViewsLabel.text = "Просмотров: " + String(TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostViewsCount)
+        cellNonAuth.productPostLikesCountLabel.text = "Лайков: " + String(TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostLikesCount)
         //        cellNonAuth.productPostCommentsCountLabel.text = "Комментариев: " + String(DataBase.productsDb[indexPath.item].productPostCommentsCount)
         
         
         //productDescription
-        cellNonAuth.productPostDescriptionLabel.text = DataBase.productsDb[indexPath.item].productPostDescription
-        cellNonAuth.productPostTitleLabel.text = DataBase.productsDb[indexPath.item].productPostTitle
+        cellNonAuth.productPostDescriptionLabel.text = TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostDescription
+        cellNonAuth.productPostTitleLabel.text = TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostTitle
         
         //footer
         //productPropertys
-        cellNonAuth.productPostSexLabel.text = "Пол: " + DataBase.productsDb[indexPath.item].productPostSex
-        cellNonAuth.productPostSeasonLabel.text = "Сезон: " + DataBase.productsDb[indexPath.item].productPostSeason
-        cellNonAuth.productPostIsNewLabel.text = "Новизна: " + DataBase.productsDb[indexPath.item].productPostIsNew
+        cellNonAuth.productPostSexLabel.text = "Пол: " + TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostSex
+        cellNonAuth.productPostSeasonLabel.text = "Сезон: " + TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostSeason
+        cellNonAuth.productPostIsNewLabel.text = "Новизна: " + TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostIsNew
         
         //productPrice
-        cellNonAuth.productPostPriceLabel.text = "Цена: " + String(DataBase.productsDb[indexPath.item].productPostPrice) + " руб."
-        cellNonAuth.productPostDiscontLabel.text = "Скидка: " + "\(DataBase.productsDb[indexPath.item].productPostDiscont)" + " %"
-        cellNonAuth.productPostFinalPriceLabel.text = "Итого: " + "\(DataBase.productsDb[indexPath.item].productPostFinalPrice)" + " руб."
+        cellNonAuth.productPostPriceLabel.text = "Цена: " + String(TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostPrice) + " руб."
+        cellNonAuth.productPostDiscontLabel.text = "Скидка: " + "\(TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostDiscont)" + " %"
+        cellNonAuth.productPostFinalPriceLabel.text = "Итого: " + "\(TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostFinalPrice)" + " руб."
         
         cellNonAuth.productPostPublicationDateLabel.text = "Дата публикации"
         cellNonAuth.store.text = "Магазин: " + "\(nameStore)"
+        cellNonAuth.reloadInputViews()
+
         
         return cellNonAuth
     }

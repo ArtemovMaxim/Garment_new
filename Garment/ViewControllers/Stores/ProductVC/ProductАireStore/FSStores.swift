@@ -45,7 +45,7 @@ class FSStores {
         _ = Auth.auth().currentUser?.email
         let metaData = StorageMetadata()
         let storageFirestore = Storage.storage().reference()
-        let article = StoresViewController.productArticle
+        let article = ProductViewController.productArticle
         let db = Firestore.firestore()
         let currentUser = Auth.auth().currentUser?.email
         _ = db.collection("stores").document(currentUser!).collection("products").document(String(FBDataBase.count + 1))

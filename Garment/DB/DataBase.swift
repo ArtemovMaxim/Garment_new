@@ -10,31 +10,23 @@ import UIKit
 
 struct DataBase {    
     
-    //база данных магазинов
-    static var stores: [String: Store] = [:] // описание одного магазина (со всем параметрами)
+    //база данных всех магазинов
+    static var allStoresDB: [String: Store] = [:] // все магазины
     //база данных всех продуктов
-    static var productsDb: [Product] = [] // все продукт, которые отразятся в ленте User (без учета подиски на магазины)
+    static var allProductsDB: [Product] = [] // все продукт, которые отразятся в ленте User (без учета подиски на магазины)
     
-
     
-    //добавление нового продукта в БД
-    mutating func addNewProductToDB(product: Product) {
-        DataBase.productsDb.append(product)
+    //    сортировка Продуктов по названию Магазина
+    static func generateArray(name: String) -> ([Product], Int?) {
         
-    }
-    
-//    массив Продуктов с сортировкой по Магазину
-    func generateArray(name: String) -> [Product] {
+        guard name != "" else { return (DataBase.allProductsDB, DataBase.allProductsDB.count) }
         
-        guard name != "" else { return DataBase.productsDb }
-        
-            return DataBase.productsDb.filter { $0.store == name}
-    }
-    
-    
-    //    массив всех Продуктов
-        func generateArrayAllProducts(name: String) -> [Product] {
-            return DataBase.productsDb
+        //        let filteredDB = DataBase.allProductsDB.filter { $0.store == name}
+        let filteredDB = DataBase.allProductsDB.compactMap { (filtered) -> Product? in
+            if filtered.store == name {
+                return filtered
+            } else { return nil}
         }
-
+        return (filteredDB, filteredDB.count)
+    }
 }

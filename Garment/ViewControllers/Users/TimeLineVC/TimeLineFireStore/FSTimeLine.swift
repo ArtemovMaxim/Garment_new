@@ -45,7 +45,7 @@ struct FSTimeLine {
 //        case.store.text = ""
     }
     
-    let article = StoresViewController.productArticle
+    let article = ProductViewController.productArticle
     var arrayProducts: [String] = []
     
 //    func fillingFields( vc: TimeLineCollectionViewCell, product: Product, index: IndexPath)
