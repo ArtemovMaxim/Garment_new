@@ -119,7 +119,7 @@ class AuthViewController: UIViewController {
                             Auth.auth().signIn(withEmail: self.emailField.text!, password: self.passwordField.text!)
                             AuthAccaunt.authProfile = .store
                             
-
+                            
                             
                             self.showGlobalMenuVC()
                             
@@ -133,7 +133,7 @@ class AuthViewController: UIViewController {
                     
                 }
                 
-
+                
                 
                 
                 
@@ -144,13 +144,13 @@ class AuthViewController: UIViewController {
                 
                 Auth.auth().signIn(withEmail: self.emailField.text!, password: self.passwordField.text!) { (result, error) in
                     if error == nil {
-                        if let result = result {
+                        if result != nil {
                             
                             AuthAccaunt.statusLog = .loged
                             self.statusLabel.text = "Зарегистрирован"
                             
                             AuthAccaunt.nameStore = self.emailField.text!
-//  подгрузка свойств магазина
+                            //  подгрузка свойств магазина
                             FBDataBase.creatStoreDescription { storeSettings in
                                 StoreSettingsTableViewController.currentStoreSettings = storeSettings
                             }
@@ -171,8 +171,8 @@ class AuthViewController: UIViewController {
             }
             
             
-//MARK: USER signIn
-
+            //MARK: USER signIn
+            
         } else if choiceRegistrationRole.selectedSegmentIndex == 1 {
             signOutFireBase()
             
@@ -185,7 +185,7 @@ class AuthViewController: UIViewController {
                 Auth.auth().createUser(withEmail: self.emailField.text!, password: self.passwordField.text!) {  (result, error) in
                     if error == nil {
                         if let result = result {
-                                                        
+                            
                             let db = Firestore.firestore()
                             db.collection("users").document(self.emailField.text!).setData([
                                 "nameUser": self.nameField.text!,
@@ -207,7 +207,6 @@ class AuthViewController: UIViewController {
                             var navigationControllers = self.navigationController?.viewControllers
                             navigationControllers?.remove(at: 0)
                             self.navigationController?.viewControllers = navigationControllers!
-                            
                         }
                     } else { self.customAlert(text: "Неверный пароль")
                     }
@@ -256,7 +255,7 @@ class AuthViewController: UIViewController {
     func showGlobalMenuVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let globalMenu = storyboard.instantiateViewController(withIdentifier: "GlobalMenuStoreViewController") as! GlobalMenuStoreViewController
-
+        
         self.navigationController?.pushViewController(globalMenu, animated: true)
     }
     
@@ -352,7 +351,7 @@ class AuthViewController: UIViewController {
             
         } else if questionEnterButton.titleLabel?.text == "Войти" {
             alerts.append("Вы не заполнили: \n")
- 
+            
             if self.nameField.text == "" {
                 alerts.append(alertEnumAuth .noName.rawValue + "\n")
             }

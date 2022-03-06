@@ -25,10 +25,10 @@ struct Product/*: Codable*/ {
          productPostFinalPrice: Double?,
          productPostSex: String?,
          productPostSeason: String?,
-//         productPostPublicationDate: Date?,
+         //         productPostPublicationDate: Date?,
          productPostLikesCount: Int?,
          productPostIsLiked: Bool?,
-         productLikes: [User]?,
+         productLikes: [String]?,
          productPostViewsCount: Int?,
          productPostPhotoCount: Int?,
          productPostIsNew: String?,
@@ -47,7 +47,7 @@ struct Product/*: Codable*/ {
         self.productPostFinalPrice = productPostFinalPrice ?? 0
         self.productPostSex = productPostSex ?? Product.Sex.unisex.rawValue
         self.productPostSeason = productPostSeason ?? Product.Season.autumn.rawValue
-//        self.productPostPublicationDate = productPostPublicationDate ?? Date()
+        //        self.productPostPublicationDate = productPostPublicationDate ?? Date()
         self.productPostLikesCount = productPostLikesCount ?? 0
         self.productPostIsLiked = productPostIsLiked ?? false
         self.likes = productLikes ?? []
@@ -59,30 +59,30 @@ struct Product/*: Codable*/ {
     }
     
     
-//    var productDict: [String: Any] {
-//        return [
-//            "productPostArticle" : productPostArticle,
-//            //            "productPostArrayPhotos" : productPostArrayPhotos,
-//            //            "productPostFirstImage" : productPostFirstImage,
-//            "productPostTitle" : productPostTitle,
-//            "productPostDescription" : productPostDescription,
-//            "productPostPrice" : productPostPrice,
-//            "productPostDiscont" : productPostDiscont,
-//            "productPostFinalPrice" : productPostFinalPrice,
-//            "productPostSex" : productPostSex,
-//            "productPostSeason" : productPostSeason,
-////            "productPostPublicationDate" : productPostPublicationDate,
-//            "productPostLikesCount" : productPostLikesCount,
-//            "productPostIsLiked" : productPostIsLiked,
-//            "productPostViewsCount" : productPostViewsCount,
-//            "productPostIsNew" : productPostIsNew,
-//            "productPostImageCount" : productPostImageCount,
-//            "store" : store,
-//            "productPostPhotoCount" : productPostPhotoCount,
-//            "indexNumberOfProduct" : indexNumberOfProduct,
-//            "productPostArrayPhotos": productPostArrayPhotos!
-//        ]
-//    }
+    //    var productDict: [String: Any] {
+    //        return [
+    //            "productPostArticle" : productPostArticle,
+    //            //            "productPostArrayPhotos" : productPostArrayPhotos,
+    //            //            "productPostFirstImage" : productPostFirstImage,
+    //            "productPostTitle" : productPostTitle,
+    //            "productPostDescription" : productPostDescription,
+    //            "productPostPrice" : productPostPrice,
+    //            "productPostDiscont" : productPostDiscont,
+    //            "productPostFinalPrice" : productPostFinalPrice,
+    //            "productPostSex" : productPostSex,
+    //            "productPostSeason" : productPostSeason,
+    ////            "productPostPublicationDate" : productPostPublicationDate,
+    //            "productPostLikesCount" : productPostLikesCount,
+    //            "productPostIsLiked" : productPostIsLiked,
+    //            "productPostViewsCount" : productPostViewsCount,
+    //            "productPostIsNew" : productPostIsNew,
+    //            "productPostImageCount" : productPostImageCount,
+    //            "store" : store,
+    //            "productPostPhotoCount" : productPostPhotoCount,
+    //            "indexNumberOfProduct" : indexNumberOfProduct,
+    //            "productPostArrayPhotos": productPostArrayPhotos!
+    //        ]
+    //    }
     
     //магазин
     var store: String = ""
@@ -107,10 +107,10 @@ struct Product/*: Codable*/ {
     var productPostSeason: String
     
     //параметры поста
-//    var productPostPublicationDate: Date?
+    //    var productPostPublicationDate: Date?
     var productPostLikesCount: Int
     var productPostIsLiked: Bool
-    var likes: [User]
+    var likes: [String]
     var productPostViewsCount: Int
     var productPostPhotoCount: Int
     

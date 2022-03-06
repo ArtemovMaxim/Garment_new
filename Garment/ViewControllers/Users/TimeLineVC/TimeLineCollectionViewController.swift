@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 
 enum Ident: String {
@@ -14,6 +15,26 @@ enum Ident: String {
 }
 
 class TimeLineCollectionViewController: UICollectionViewController {
+    
+    @IBOutlet weak var exitUserButton: UIBarButtonItem!
+    
+    @IBAction func exitUserButtonAction(_ sender: UIBarButtonItem) {
+        do {
+            try Auth.auth().signOut()
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let authVC = storyboard.instantiateViewController(withIdentifier: "AuthVC") as! AuthViewController
+            
+            ProductViewController.photos.removeAll()
+            ProductViewController.currentProduct?.productPostArrayPhotos = []
+            
+            self.navigationController?.pushViewController(authVC, animated: true)
+            self.navigationController?.setViewControllers([authVC], animated: true)
+            
+        } catch let error {
+            print("Error trying to sign out of Firebase: \(error.localizedDescription)")
+        }
+    }
     
     //индекс для передачи item в albumCollectionView
     static var indexPathTLCVC: IndexPath?
@@ -178,6 +199,7 @@ class TimeLineCollectionViewController: UICollectionViewController {
         cellStore.productPostPublicationDateLabel.text = ""
         
         cellStore.store.text = ""
+        
         cellStore.albumCollection.reloadData()
 
         
@@ -289,9 +311,6 @@ class TimeLineCollectionViewController: UICollectionViewController {
         
         cellUser.productPostPublicationDateLabel.text = ""
         
-//        cellUser.albumCollection.reloadData()
-
-        
         
         //header
         cellUser.productPostArticleLabel.text = "Артикул: " + TimeLineCollectionViewController.allProductsArray[indexPath.item].productPostArticle
@@ -317,9 +336,8 @@ class TimeLineCollectionViewController: UICollectionViewController {
         
         cellUser.productPostPublicationDateLabel.text = "Дата публикации"
         cellUser.store.text = "Магазин: " + "\(TimeLineCollectionViewController.allProductsArray[indexPath.item].store)"
-//        cellUser.reloadInputViews()
-//        self.globalCollectionView.reloadInputViews()
-//        self.reloadInputViews()
+        
+//        self.navigationController?.navigationBar.isHidden = false
 
         return cellUser
         

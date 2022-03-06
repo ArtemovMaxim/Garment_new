@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Foundation
 
 class TimeLineCollectionViewCell: UICollectionViewCell {
     
@@ -43,14 +44,45 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var store: UILabel!
     
-
-
+    @IBOutlet weak var heartImg: UIImageView!
     
-
-    
-    override class func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
         
+        if AuthAccaunt.authProfile == .store {
+            self.heartImg.isHidden = true
+        } else if AuthAccaunt.authProfile == .user {
+            self.heartImg.isHidden = false
+            
+            let recognizer = UITapGestureRecognizer(target: self, action: #selector(tap))
+            recognizer.numberOfTapsRequired = 2
+            self.addGestureRecognizer(recognizer)
+        }
+    }
+    
+    
+    
+    @objc private func tap(sender: UITapGestureRecognizer) {
+        let itemProductInTLCVC:Int = TimeLineCollectionViewController.indexPathItemTLCVC!
+        //        постановка и удаление лайка с Вью
+        // постановка лайка
+        if DataBase.allProductsDB[itemProductInTLCVC].likes.firstIndex(of: AuthAccaunt.nameStore) == nil {
+            self.heartImg.image = UIImage(systemName: "heart.fill")
+            DataBase.allProductsDB[itemProductInTLCVC].likes.append(AuthAccaunt.nameStore)
+//            print("Likes to photo index \(itemProductInTLCVC): \(DataBase.allProductsDB[itemProductInTLCVC].likes)")
+            DataBase.allProductsDB[itemProductInTLCVC].productPostLikesCount += 1
+            let likes = DataBase.allProductsDB[itemProductInTLCVC].productPostLikesCount
+            self.productPostLikesCountLabel.text = "Лайков: \(likes)"
+            
+        } else {
+            self.heartImg.image = UIImage(systemName: "heart")
+            let delLikeIndex = DataBase.allProductsDB[itemProductInTLCVC].likes.firstIndex(of: AuthAccaunt.nameStore)
+            DataBase.allProductsDB[itemProductInTLCVC].likes.remove(at: delLikeIndex!)
+//            print("Likes to photo index \(itemProductInTLCVC): \(DataBase.allProductsDB[itemProductInTLCVC].likes)")
+            DataBase.allProductsDB[itemProductInTLCVC].productPostLikesCount -= 1
+            let likes = DataBase.allProductsDB[itemProductInTLCVC].productPostLikesCount
+            self.productPostLikesCountLabel.text = "Лайков: \(likes)"
+        }
     }
     
     override func prepareForReuse() {
@@ -92,6 +124,9 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
         
         return allHeights + insets
     }
+    
+    
 }
+
 
 
