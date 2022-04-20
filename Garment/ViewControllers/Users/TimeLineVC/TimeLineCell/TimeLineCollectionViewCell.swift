@@ -162,6 +162,28 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
         return allHeights + insets
     }
     
+    // создаем Алерт с полем для ввода Сообщения
+    @IBAction func messageButtonAction(_ sender: UIButton) {
+        let alertController = UIAlertController(title: "Написать сообщение Магазину", message: "Текст сообщения", preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "Jnghfdbnm", style: .default)
+        alertController.addAction(alertAction)
+        alertController.addTextField()
+        TimeLineCollectionViewController().present(alertController, animated: true)
+        
+        // добавлем Сообщение в поле Магазина
+        let message = alertController.textFields?.first?.text
+        
+        let itemProductInTLCVC: Int = TimeLineCollectionViewController.indexPathItemTLCVC!
+        let store = DataBase.allStoresDB.filter { store in
+            store.key == productPostTitleLabel.text
+        }
+//        store.values[itemProductInTLCVC].messages[AuthAccaunt.nameStore] = message
+        
+        
+        store
+    }
+    
+    
     
 }
 

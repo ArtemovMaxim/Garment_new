@@ -223,6 +223,17 @@
                                     <segue destination="bi9-c4-J5k" kind="show" id="JnD-xG-5ji"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bsx-87-ZSh">
+                                <rect key="frame" x="160" y="564" width="110" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title=" Сообщения "/>
+                                <connections>
+                                    <segue destination="nkU-vn-SxB" kind="show" id="qGb-AP-Kw1"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Soy-aB-fNI"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -282,7 +293,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n0V-GF-rb0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1951" y="-767"/>
+            <point key="canvasLocation" x="1946" y="-1086"/>
         </scene>
         <!--Настройки-->
         <scene sceneID="yLr-ci-Z74">
@@ -1025,6 +1036,39 @@
             </objects>
             <point key="canvasLocation" x="1205.6074766355139" y="-41.46868250539957"/>
         </scene>
+        <!--Сообщения-->
+        <scene sceneID="65z-aT-9VS">
+            <objects>
+                <tableViewController id="nkU-vn-SxB" customClass="MessageTVC" customModule="Garment" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="EXz-rm-4hJ">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="fCc-tG-Uh6">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Message" id="zR5-4W-RNl">
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="428" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zR5-4W-RNl" id="yRy-E7-Anr">
+                                            <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="nkU-vn-SxB" id="7Dd-1R-56u"/>
+                            <outlet property="delegate" destination="nkU-vn-SxB" id="cdX-CD-MU1"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Сообщения" id="LgN-gv-Cee"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QWt-lw-DWg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1946" y="-436"/>
+        </scene>
         <!--Лента-->
         <scene sceneID="YcY-Wt-ns8">
             <objects>
@@ -1085,7 +1129,7 @@
                                             <rect key="frame" x="10" y="738" width="394" height="30"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HBg-cl-bpU">
-                                                    <rect key="frame" x="0.0" y="0.0" width="219" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="185" height="30"/>
                                                     <color key="backgroundColor" systemColor="systemBlueColor"/>
                                                     <state key="normal" title=" Подписаться на магазин ">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1095,11 +1139,14 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vpd-WQ-rpx">
-                                                    <rect key="frame" x="336" y="0.0" width="58" height="30"/>
+                                                    <rect key="frame" x="302" y="0.0" width="92" height="30"/>
                                                     <color key="backgroundColor" systemColor="systemBlueColor"/>
-                                                    <state key="normal" title=" Купить ">
+                                                    <state key="normal" title=" Сообщение ">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="messageButtonAction:" destination="Xsh-A4-LRl" eventType="touchUpInside" id="JW0-bH-Cri"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>

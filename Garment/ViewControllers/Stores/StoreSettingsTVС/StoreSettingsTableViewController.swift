@@ -341,7 +341,8 @@ class StoreSettingsTableViewController: UITableViewController {
                                  whatsAppNumber: numberWA.text!,
                                  email: e_mail.text!,
                                  /*followers: 0,*/
-                                 products: nil)
+                                 products: nil,
+                                 messages: [:])
                         ]
 //        uploadToAccaunt()
     }
