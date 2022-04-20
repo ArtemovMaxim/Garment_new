@@ -55,6 +55,7 @@
 		A7A9893626F6A1A600875AAB /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A9893526F6A1A600875AAB /* ProductViewController.swift */; };
 		A7A9893F26F95E6500875AAB /* StorePhotoAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A9893E26F95E6500875AAB /* StorePhotoAlbumCollectionViewCell.swift */; };
 		A7D709A826ED5B4700392A58 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D709A726ED5B4700392A58 /* DataBase.swift */; };
+		A7EA6938280F4EFC0085DFF9 /* ActivityTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EA6937280F4EFC0085DFF9 /* ActivityTVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		A7A9893526F6A1A600875AAB /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		A7A9893E26F95E6500875AAB /* StorePhotoAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorePhotoAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		A7D709A726ED5B4700392A58 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
+		A7EA6937280F4EFC0085DFF9 /* ActivityTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,12 +173,12 @@
 			path = StoreSettingsFireStore;
 			sourceTree = "<group>";
 		};
-		A71F969B271BB9C2006F5826 /* ProductАireStore */ = {
+		A71F969B271BB9C2006F5826 /* ProductFireStore */ = {
 			isa = PBXGroup;
 			children = (
 				A71F969C271BBA0D006F5826 /* FSStores.swift */,
 			);
-			path = "ProductАireStore";
+			path = ProductFireStore;
 			sourceTree = "<group>";
 		};
 		A72E775626FBB48200FF05C2 /* PhotoAlbum */ = {
@@ -271,8 +273,8 @@
 		A749130226EBF63500749FF2 /* TimeLineVC */ = {
 			isa = PBXGroup;
 			children = (
-				A71690402722E389008F8B8E /* TimeLineFireStore */,
 				A749130A26EC07FB00749FF2 /* TimeLineCollectionViewController.swift */,
+				A71690402722E389008F8B8E /* TimeLineFireStore */,
 				A749130526EBF71100749FF2 /* TimeLineCell */,
 				A72E775626FBB48200FF05C2 /* PhotoAlbum */,
 			);
@@ -298,6 +300,7 @@
 		A7A9893326F6A15600875AAB /* Stores */ = {
 			isa = PBXGroup;
 			children = (
+				A7EA6934280F4E2A0085DFF9 /* Activity */,
 				A717B98A270EDC2800415BD8 /* AuthAccaunt.swift */,
 				A71CF605270BA4FD00734074 /* StoreSettingsTVС */,
 				A7A9893726F90BF100875AAB /* ProductVC */,
@@ -316,8 +319,8 @@
 		A7A9893726F90BF100875AAB /* ProductVC */ = {
 			isa = PBXGroup;
 			children = (
-				A71F969B271BB9C2006F5826 /* ProductАireStore */,
 				A7A9893526F6A1A600875AAB /* ProductViewController.swift */,
+				A71F969B271BB9C2006F5826 /* ProductFireStore */,
 				A7A9893826F90BFC00875AAB /* StoresVCCell */,
 			);
 			path = ProductVC;
@@ -338,6 +341,14 @@
 				A71690432723513E008F8B8E /* FBDataBase.swift */,
 			);
 			path = DB;
+			sourceTree = "<group>";
+		};
+		A7EA6934280F4E2A0085DFF9 /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				A7EA6937280F4EFC0085DFF9 /* ActivityTVC.swift */,
+			);
+			path = Activity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -458,6 +469,7 @@
 				A717B98B270EDC2800415BD8 /* AuthAccaunt.swift in Sources */,
 				A71F969D271BBA0D006F5826 /* FSStores.swift in Sources */,
 				A71F969A271BB619006F5826 /* FSStoreSettings.swift in Sources */,
+				A7EA6938280F4EFC0085DFF9 /* ActivityTVC.swift in Sources */,
 				A74912FE26EB7C9F00749FF2 /* Product.swift in Sources */,
 				A71215D027138867006BF312 /* GlobalMenuStoreViewController.swift in Sources */,
 				A77B94A72708D31B008CA24C /* PhotoAlbumCollectionViewCell.swift in Sources */,

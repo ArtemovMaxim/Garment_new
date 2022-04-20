@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ljW-I8-V2h">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ljW-I8-V2h">
     <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
@@ -212,6 +212,17 @@
                                     <action selector="signOutButton:" destination="u2Y-Hw-nCg" eventType="touchUpInside" id="aN2-kj-z5b"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P3T-tW-mT4">
+                                <rect key="frame" x="160" y="603" width="109" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title=" Активность "/>
+                                <connections>
+                                    <segue destination="bi9-c4-J5k" kind="show" id="JnD-xG-5ji"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Soy-aB-fNI"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -225,6 +236,53 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R1g-SW-iNB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1207" y="-767"/>
+        </scene>
+        <!--Активность-->
+        <scene sceneID="e3Z-oB-YHl">
+            <objects>
+                <tableViewController id="bi9-c4-J5k" customClass="ActivityTVC" customModule="Garment" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="9dt-jT-t1m">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <segmentedControl key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="ijz-SB-xTR">
+                            <rect key="frame" x="0.0" y="0.0" width="428" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Подписчики"/>
+                                <segment title="Лайки"/>
+                            </segments>
+                            <connections>
+                                <action selector="changingSegment:" destination="bi9-c4-J5k" eventType="valueChanged" id="Jax-ts-Tb1"/>
+                            </connections>
+                        </segmentedControl>
+                        <sections>
+                            <tableViewSection id="bmx-rb-Qw5">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" indentationWidth="10" reuseIdentifier="activityCell" id="TeE-Mo-AQ9">
+                                        <rect key="frame" x="0.0" y="76.666666030883789" width="428" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TeE-Mo-AQ9" id="P1h-5m-uuD">
+                                            <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="bi9-c4-J5k" id="hjv-w7-tdp"/>
+                            <outlet property="delegate" destination="bi9-c4-J5k" id="j5f-tD-ALJ"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Активность" id="SM5-hr-fz5"/>
+                    <connections>
+                        <outlet property="likesOrFollowers" destination="ijz-SB-xTR" id="wBP-k0-4Tn"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n0V-GF-rb0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1951" y="-767"/>
         </scene>
         <!--Настройки-->
         <scene sceneID="yLr-ci-Z74">
@@ -1029,9 +1087,12 @@
                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HBg-cl-bpU">
                                                     <rect key="frame" x="0.0" y="0.0" width="219" height="30"/>
                                                     <color key="backgroundColor" systemColor="systemBlueColor"/>
-                                                    <state key="normal" title=" Следить за изменением цены ">
+                                                    <state key="normal" title=" Подписаться на магазин ">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="followingButtonAction:" destination="Xsh-A4-LRl" eventType="touchUpInside" id="wlx-Iu-gq8"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vpd-WQ-rpx">
                                                     <rect key="frame" x="336" y="0.0" width="58" height="30"/>

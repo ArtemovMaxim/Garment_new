@@ -37,6 +37,7 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var buttons: UIStackView!
     @IBOutlet weak var followingButton: UIButton!
+
     @IBOutlet weak var buyButton: UIButton!
     
     
@@ -48,7 +49,7 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        // отображение или его отсутствие Сердечка в зависимости от авторизации
         if AuthAccaunt.authProfile == .store {
             self.heartImg.isHidden = true
         } else if AuthAccaunt.authProfile == .user {
@@ -58,30 +59,66 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
             recognizer.numberOfTapsRequired = 2
             self.addGestureRecognizer(recognizer)
         }
+        
+        let itemProductInTLCVC: Int = TimeLineCollectionViewController.indexPathItemTLCVC!
+        // автоопределение Лайка
+        if DataBase.allProductsDB[itemProductInTLCVC].likes.firstIndex(of: AuthAccaunt.nameStore) == nil {
+            self.heartImg.image = UIImage(systemName: "heart")
+        } else if DataBase.allProductsDB[itemProductInTLCVC].likes.firstIndex(of: AuthAccaunt.nameStore) != nil {
+            self.heartImg.image = UIImage(systemName: "heart.fill")
+        }
+        
+        // автоопределение Подписки
+        if DataBase.allProductsDB[itemProductInTLCVC].followers.firstIndex(of: AuthAccaunt.nameStore) == nil {
+            self.followingButton.setTitle("Подписаться", for: .normal)
+        } else if DataBase.allProductsDB[itemProductInTLCVC].followers.firstIndex(of: AuthAccaunt.nameStore) != nil {
+            self.followingButton.setTitle("Отписаться", for: .normal)
+        }
     }
     
-    
-    
     @objc private func tap(sender: UITapGestureRecognizer) {
-        let itemProductInTLCVC:Int = TimeLineCollectionViewController.indexPathItemTLCVC!
-        //        постановка и удаление лайка с Вью
+        // получаем номер Продукта из Ленты
+        let itemProductInTLCVC: Int = TimeLineCollectionViewController.indexPathItemTLCVC!
+        // постановка и удаление лайка с Вью
         // постановка лайка
         if DataBase.allProductsDB[itemProductInTLCVC].likes.firstIndex(of: AuthAccaunt.nameStore) == nil {
             self.heartImg.image = UIImage(systemName: "heart.fill")
+            // добавляем к массиву Лайков новую запись
             DataBase.allProductsDB[itemProductInTLCVC].likes.append(AuthAccaunt.nameStore)
-//            print("Likes to photo index \(itemProductInTLCVC): \(DataBase.allProductsDB[itemProductInTLCVC].likes)")
+            // добавляем в поле Продукта увеличенное на +1 к количеству лайков
             DataBase.allProductsDB[itemProductInTLCVC].productPostLikesCount += 1
             let likes = DataBase.allProductsDB[itemProductInTLCVC].productPostLikesCount
             self.productPostLikesCountLabel.text = "Лайков: \(likes)"
             
+        // удаление лайка
         } else {
             self.heartImg.image = UIImage(systemName: "heart")
             let delLikeIndex = DataBase.allProductsDB[itemProductInTLCVC].likes.firstIndex(of: AuthAccaunt.nameStore)
             DataBase.allProductsDB[itemProductInTLCVC].likes.remove(at: delLikeIndex!)
-//            print("Likes to photo index \(itemProductInTLCVC): \(DataBase.allProductsDB[itemProductInTLCVC].likes)")
             DataBase.allProductsDB[itemProductInTLCVC].productPostLikesCount -= 1
             let likes = DataBase.allProductsDB[itemProductInTLCVC].productPostLikesCount
             self.productPostLikesCountLabel.text = "Лайков: \(likes)"
+        }
+    }
+    
+    @IBAction func followingButtonAction(_ sender: UIButton) {
+        followStore()
+    }
+    
+    // функция подписки на Магазин (надо доработать, чтобы добавлялось количство подписчиков в поле Продукта FireStore)
+    func followStore() {
+        let itemProductInTLCVC: Int = TimeLineCollectionViewController.indexPathItemTLCVC!
+        
+        // постановка лайка
+        if DataBase.allProductsDB[itemProductInTLCVC].followers.firstIndex(of: AuthAccaunt.nameStore) == nil {
+            DataBase.allProductsDB[itemProductInTLCVC].followers.append(AuthAccaunt.nameStore)
+            self.followingButton.setTitle("Отписаться", for: .normal)
+            
+        // удаление лайка
+        } else {
+            let delLikeIndex = DataBase.allProductsDB[itemProductInTLCVC].followers.firstIndex(of: AuthAccaunt.nameStore)
+            DataBase.allProductsDB[itemProductInTLCVC].followers.remove(at: delLikeIndex!)
+            self.followingButton.setTitle("Подписаться", for: .normal)
         }
     }
     

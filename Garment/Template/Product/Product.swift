@@ -29,6 +29,7 @@ struct Product/*: Codable*/ {
          productPostLikesCount: Int?,
          productPostIsLiked: Bool?,
          productLikes: [String]?,
+         productFollowers: [String],
          productPostViewsCount: Int?,
          productPostPhotoCount: Int?,
          productPostIsNew: String?,
@@ -51,6 +52,7 @@ struct Product/*: Codable*/ {
         self.productPostLikesCount = productPostLikesCount ?? 0
         self.productPostIsLiked = productPostIsLiked ?? false
         self.likes = productLikes ?? []
+        self.followers = productFollowers ?? []
         self.productPostViewsCount = productPostViewsCount ?? 0
         self.productPostPhotoCount = productPostPhotoCount ?? 0
         self.productPostIsNew = productPostIsNew ?? Product.New.normal.rawValue
@@ -111,6 +113,7 @@ struct Product/*: Codable*/ {
     var productPostLikesCount: Int
     var productPostIsLiked: Bool
     var likes: [String]
+    var followers: [String]
     var productPostViewsCount: Int
     var productPostPhotoCount: Int
     
