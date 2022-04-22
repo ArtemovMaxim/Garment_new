@@ -231,6 +231,7 @@ class TimeLineCollectionViewController: UICollectionViewController {
         cellStore.productPostPublicationDateLabel.text = "Дата публикации"
         cellStore.store.text = "Магазин: " + "\(nameStore)"
         cellStore.reloadInputViews()
+        cellStore.alertDelegate = self
         
         return cellStore
         
@@ -337,7 +338,7 @@ class TimeLineCollectionViewController: UICollectionViewController {
         cellUser.productPostPublicationDateLabel.text = "Дата публикации"
         cellUser.store.text = "Магазин: " + "\(TimeLineCollectionViewController.allProductsArray[indexPath.item].store)"
         
-//        self.navigationController?.navigationBar.isHidden = false
+        cellUser.alertDelegate = self
 
         return cellUser
         
@@ -448,7 +449,27 @@ class TimeLineCollectionViewController: UICollectionViewController {
         cellNonAuth.store.text = "Магазин: " + "\(nameStore)"
         cellNonAuth.reloadInputViews()
 
-        
         return cellNonAuth
+    }
+}
+
+extension TimeLineCollectionViewController: alertProtocol {
+    func presentAlert() {
+        let alertController = UIAlertController(title: "Написать сообщение Магазину", message: "Текст сообщения", preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "Отправить", style: .default) { _ in
+            // добавлем Сообщение в поле Магазина
+            let msg = alertController.textFields?.first?.text
+            
+            let itemProductInTLCVC: Int = TimeLineCollectionViewController.indexPathItemTLCVC!
+            
+//            DataBase.allProductsDB[itemProductInTLCVC].messages[AuthAccaunt.nameStore] = mess
+            
+//            DataBase.allProductsDB[itemProductInTLCVC].mess = message(author: AuthAccaunt.nameStore, text: mess!, date: Date())
+            DataBase.allProductsDB[itemProductInTLCVC].messages.append(message(author: AuthAccaunt.nameStore, text: msg!, date: Date()))
+        }
+        
+        alertController.addAction(alertAction)
+        alertController.addTextField()
+        self.present(alertController, animated: true)
     }
 }

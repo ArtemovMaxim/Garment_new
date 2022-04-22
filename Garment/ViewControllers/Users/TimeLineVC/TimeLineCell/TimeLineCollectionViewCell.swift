@@ -164,28 +164,29 @@ class TimeLineCollectionViewCell: UICollectionViewCell {
     
     // создаем Алерт с полем для ввода Сообщения
     @IBAction func messageButtonAction(_ sender: UIButton) {
-        let alertController = UIAlertController(title: "Написать сообщение Магазину", message: "Текст сообщения", preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "Jnghfdbnm", style: .default)
-        alertController.addAction(alertAction)
-        alertController.addTextField()
-        TimeLineCollectionViewController().present(alertController, animated: true)
+//        let alertController = UIAlertController(title: "Написать сообщение Магазину", message: "Текст сообщения", preferredStyle: .alert)
+//        let alertAction = UIAlertAction(title: "Отправить", style: .default)
+//        alertController.addAction(alertAction)
+//        alertController.addTextField()
+//
+//        // добавлем Сообщение в поле Магазина
+//        let message = alertController.textFields?.first?.text
+//
+//        let itemProductInTLCVC: Int = TimeLineCollectionViewController.indexPathItemTLCVC!
+//
+//        DataBase.allProductsDB[itemProductInTLCVC].messages[AuthAccaunt.nameStore] = message
         
-        // добавлем Сообщение в поле Магазина
-        let message = alertController.textFields?.first?.text
-        
-        let itemProductInTLCVC: Int = TimeLineCollectionViewController.indexPathItemTLCVC!
-        let store = DataBase.allStoresDB.filter { store in
-            store.key == productPostTitleLabel.text
-        }
-//        store.values[itemProductInTLCVC].messages[AuthAccaunt.nameStore] = message
-        
-        
-        store
+        alertDelegate?.presentAlert()
     }
     
-    
-    
+    var alertDelegate: alertProtocol?
 }
 
+
+
+
+protocol alertProtocol: AnyObject {
+    func presentAlert()
+}
 
 

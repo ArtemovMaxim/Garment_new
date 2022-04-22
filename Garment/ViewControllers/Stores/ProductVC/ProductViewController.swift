@@ -182,7 +182,8 @@ class ProductViewController: UIViewController, UIImagePickerControllerDelegate ,
             productPostPhotoCount: 0,
             productPostIsNew: StoresVCisNewSC.titleForSegment(at: StoresVCisNewSC.selectedSegmentIndex)!,
             indexNumberOfProduct: (FBDataBase.count + 1), // присваиваем порядковый номер товару
-            productPostArrayPhotos: nil // добавили массив ссылок на фотографии
+            productPostArrayPhotos: nil, // добавили массив ссылок на фотографии
+            messages: []
         )
         return newProduct
     }

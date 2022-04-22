@@ -89,7 +89,7 @@
 		A7A9893E26F95E6500875AAB /* StorePhotoAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorePhotoAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		A7D709A726ED5B4700392A58 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
 		A7EA6937280F4EFC0085DFF9 /* ActivityTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTVC.swift; sourceTree = "<group>"; };
-		A7EA693A2810A76E0085DFF9 /* MessageTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTVC.swift; sourceTree = "<group>"; };
+		A7EA693A2810A76E0085DFF9 /* MessageTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTVC.swift; sourceTree = "<group>"; tabWidth = 8; usesTabs = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

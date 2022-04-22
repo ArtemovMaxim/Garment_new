@@ -7,12 +7,15 @@
 
 import UIKit
 
+// Таблица входящих Сообщений от Покупателей в Магазин
 class MessageTVC: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // регистрируем ячейку
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Message")
+        // создаем массивы Текстов, Дат и Авторов
+        self.getNumberOfItems()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -20,26 +23,67 @@ class MessageTVC: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
+    // устанавливаем количество Ячеек а Таблице
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return self.texts.count
     }
-
-
+    
+    // формируем Ячейку
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Message", for: indexPath)
-
-        // Configure the cell...
+        // конфигурируем стандартные объекты Ячейки
+        var content = cell.defaultContentConfiguration()
+        // indexPath для краткости
+        let index = indexPath.row
+        // заполняем поле Текст - в самом верху Ячейки
+        content.text = self.texts[index]
+        // заполняем второстепенный текст - внизу Ячейки
+        content.secondaryText = """
+                                \(self.authors[index]).
+                                Дата: \(self.dates[index])
+                                """
+        // добавляем сконфигурированные объекты к Ячейке
+        cell.contentConfiguration = content
 
         return cell
+    }
+    
+    
+    // MARK: - CUSTUM FUNCTIONS
+    
+    // функция получения количества Сообщений и создания массивов Текстов, Дат и Авторов
+    // VARs
+    var texts: [String] = []
+    var dates: [String] = []
+    var authors: [String] = []
+    
+    func getNumberOfItems() -> Int {
+        // получаем Продукты, в которых есть сообщения. Вообще все магазины из БД
+        let prdcts = DataBase.allProductsDB.filter { product in
+            !product.messages.isEmpty
+        }
+        // получаем Продукты текущего Магазина, в которых есть Сообщения
+        let products = prdcts.filter { prod in
+            prod.store == AuthAccaunt.nameStore
+        }
+        
+        // проходимся по всем Товарам, удовлетворяющим вышеописанное требование
+        for prod in products {
+            // в каждом Товаре берем все сообщения и проходим по каждому из них, создавая массивы Текстов, Дат и Авторов
+            for message in prod.messages {
+                self.texts.append(message.text)
+                self.dates.append(String(describing: message.date))
+                self.authors.append(message.author)
+            }
+        }
+        // возвращаем количество полученных Сообщений для присвоения количеству секуций в Таблице TableViewController
+        return self.texts.count
     }
 
 

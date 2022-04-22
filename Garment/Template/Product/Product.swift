@@ -12,6 +12,12 @@ import UIKit
 //    init? (productDict: [String: Any])
 //}
 
+struct message {
+    var author: String
+    var text: String
+    var date: Date
+}
+
 struct Product/*: Codable*/ {
     init(store: String?,
          productPostArticle: String?,
@@ -34,7 +40,8 @@ struct Product/*: Codable*/ {
          productPostPhotoCount: Int?,
          productPostIsNew: String?,
          indexNumberOfProduct: Int,
-         productPostArrayPhotos: [UIImage]?)
+         productPostArrayPhotos: [UIImage]?,
+         messages: [message]?)
     {
         self.store = store ?? "Название магазина"
         self.productPostArticle = productPostArticle ?? "0000000000"
@@ -58,6 +65,8 @@ struct Product/*: Codable*/ {
         self.productPostIsNew = productPostIsNew ?? Product.New.normal.rawValue
         self.indexNumberOfProduct = indexNumberOfProduct
         self.productPostArrayPhotos = productPostArrayPhotos ?? []
+//        self.messages = messages ?? [:]
+        self.messages = messages ?? []
     }
     
     
@@ -114,6 +123,11 @@ struct Product/*: Codable*/ {
     var productPostIsLiked: Bool
     var likes: [String]
     var followers: [String]
+    
+//    var messages: [String: String]
+
+    var messages: [message]
+    
     var productPostViewsCount: Int
     var productPostPhotoCount: Int
     

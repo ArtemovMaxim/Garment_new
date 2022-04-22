@@ -252,7 +252,7 @@
         <scene sceneID="e3Z-oB-YHl">
             <objects>
                 <tableViewController id="bi9-c4-J5k" customClass="ActivityTVC" customModule="Garment" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="9dt-jT-t1m">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="9dt-jT-t1m">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -267,20 +267,17 @@
                                 <action selector="changingSegment:" destination="bi9-c4-J5k" eventType="valueChanged" id="Jax-ts-Tb1"/>
                             </connections>
                         </segmentedControl>
-                        <sections>
-                            <tableViewSection id="bmx-rb-Qw5">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" indentationWidth="10" reuseIdentifier="activityCell" id="TeE-Mo-AQ9">
-                                        <rect key="frame" x="0.0" y="76.666666030883789" width="428" height="43.666667938232422"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TeE-Mo-AQ9" id="P1h-5m-uuD">
-                                            <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" indentationWidth="10" reuseIdentifier="activityCell" id="TeE-Mo-AQ9">
+                                <rect key="frame" x="0.0" y="76.666666030883789" width="428" height="43.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TeE-Mo-AQ9" id="P1h-5m-uuD">
+                                    <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="bi9-c4-J5k" id="hjv-w7-tdp"/>
                             <outlet property="delegate" destination="bi9-c4-J5k" id="j5f-tD-ALJ"/>
@@ -1040,30 +1037,29 @@
         <scene sceneID="65z-aT-9VS">
             <objects>
                 <tableViewController id="nkU-vn-SxB" customClass="MessageTVC" customModule="Garment" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="EXz-rm-4hJ">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="EXz-rm-4hJ">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <sections>
-                            <tableViewSection id="fCc-tG-Uh6">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Message" id="zR5-4W-RNl">
-                                        <rect key="frame" x="0.0" y="44.666666030883789" width="428" height="43.666667938232422"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zR5-4W-RNl" id="yRy-E7-Anr">
-                                            <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Message" id="xxI-Gt-8hP">
+                                <rect key="frame" x="0.0" y="44.666666030883789" width="428" height="43.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xxI-Gt-8hP" id="6WM-vn-FU0">
+                                    <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="nkU-vn-SxB" id="7Dd-1R-56u"/>
                             <outlet property="delegate" destination="nkU-vn-SxB" id="cdX-CD-MU1"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Сообщения" id="LgN-gv-Cee"/>
+                    <navigationItem key="navigationItem" title="Сообщения" id="LgN-gv-Cee">
+                        <barButtonItem key="backBarButtonItem" title="Назад" id="Yjy-v2-FUg"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QWt-lw-DWg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
