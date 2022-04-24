@@ -151,8 +151,8 @@ class AuthViewController: UIViewController {
                             
                             AuthAccaunt.nameStore = self.emailField.text!
                             //  подгрузка свойств магазина
-                            FBDataBase.creatStoreDescription { storeSettings in
-                                StoreSettingsTableViewController.currentStoreSettings = storeSettings
+                            DBFireBase.creatStoreDescription { storeSettings in
+                                StoreTableViewController.currentStoreSettings = storeSettings
                             }
                             
                             self.showGlobalMenuVC()
@@ -270,7 +270,7 @@ class AuthViewController: UIViewController {
     
     func showSettingsVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let settings = storyboard.instantiateViewController(withIdentifier: "StoreSettingsTableViewController") as! StoreSettingsTableViewController
+        let settings = storyboard.instantiateViewController(withIdentifier: "StoreSettingsTableViewController") as! StoreTableViewController
         
         self.navigationController?.pushViewController(settings, animated: true)
         

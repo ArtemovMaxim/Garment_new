@@ -11,11 +11,11 @@
 		A71215D027138867006BF312 /* GlobalMenuStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71215CF27138867006BF312 /* GlobalMenuStoreViewController.swift */; };
 		A715B68D270E285A00DF78FD /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A715B68C270E285A00DF78FD /* AuthViewController.swift */; };
 		A71690422722E3A8008F8B8E /* FSTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71690412722E3A8008F8B8E /* FSTimeLine.swift */; };
-		A71690442723513E008F8B8E /* FBDataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71690432723513E008F8B8E /* FBDataBase.swift */; };
+		A71690442723513E008F8B8E /* DBFireBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71690432723513E008F8B8E /* DBFireBase.swift */; };
 		A717B98B270EDC2800415BD8 /* AuthAccaunt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A717B98A270EDC2800415BD8 /* AuthAccaunt.swift */; };
-		A71CF607270BA53000734074 /* StoreSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71CF606270BA53000734074 /* StoreSettingsTableViewController.swift */; };
-		A71F969A271BB619006F5826 /* FSStoreSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71F9699271BB619006F5826 /* FSStoreSettings.swift */; };
-		A71F969D271BBA0D006F5826 /* FSStores.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71F969C271BBA0D006F5826 /* FSStores.swift */; };
+		A71CF607270BA53000734074 /* StoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71CF606270BA53000734074 /* StoreTableViewController.swift */; };
+		A71F969A271BB619006F5826 /* StoreFireBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71F9699271BB619006F5826 /* StoreFireBase.swift */; };
+		A71F969D271BBA0D006F5826 /* ProductFireBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71F969C271BBA0D006F5826 /* ProductFireBase.swift */; };
 		A74912E026EB7A0100749FF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74912DF26EB7A0100749FF2 /* AppDelegate.swift */; };
 		A74912E226EB7A0100749FF2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74912E126EB7A0100749FF2 /* SceneDelegate.swift */; };
 		A74912E726EB7A0100749FF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A74912E526EB7A0100749FF2 /* Main.storyboard */; };
@@ -63,11 +63,11 @@
 		A71215CF27138867006BF312 /* GlobalMenuStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalMenuStoreViewController.swift; sourceTree = "<group>"; };
 		A715B68C270E285A00DF78FD /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		A71690412722E3A8008F8B8E /* FSTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSTimeLine.swift; sourceTree = "<group>"; };
-		A71690432723513E008F8B8E /* FBDataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBDataBase.swift; sourceTree = "<group>"; };
+		A71690432723513E008F8B8E /* DBFireBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBFireBase.swift; sourceTree = "<group>"; };
 		A717B98A270EDC2800415BD8 /* AuthAccaunt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAccaunt.swift; sourceTree = "<group>"; };
-		A71CF606270BA53000734074 /* StoreSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSettingsTableViewController.swift; sourceTree = "<group>"; };
-		A71F9699271BB619006F5826 /* FSStoreSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSStoreSettings.swift; sourceTree = "<group>"; };
-		A71F969C271BBA0D006F5826 /* FSStores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSStores.swift; sourceTree = "<group>"; };
+		A71CF606270BA53000734074 /* StoreTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTableViewController.swift; sourceTree = "<group>"; };
+		A71F9699271BB619006F5826 /* StoreFireBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFireBase.swift; sourceTree = "<group>"; };
+		A71F969C271BBA0D006F5826 /* ProductFireBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductFireBase.swift; sourceTree = "<group>"; };
 		A74912DC26EB7A0100749FF2 /* Garment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Garment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A74912DF26EB7A0100749FF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A74912E126EB7A0100749FF2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -150,14 +150,13 @@
 			path = TimeLineFireStore;
 			sourceTree = "<group>";
 		};
-		A71CF605270BA4FD00734074 /* StoreSettingsTVС */ = {
+		A71CF605270BA4FD00734074 /* StoreTableViewController */ = {
 			isa = PBXGroup;
 			children = (
-				A71F9698271BB5F5006F5826 /* StoreSettingsFireStore */,
-				A71CF606270BA53000734074 /* StoreSettingsTableViewController.swift */,
+				A71CF606270BA53000734074 /* StoreTableViewController.swift */,
 				A71CF608270BA56100734074 /* StoreSettingsCell */,
 			);
-			path = "StoreSettingsTVС";
+			path = StoreTableViewController;
 			sourceTree = "<group>";
 		};
 		A71CF608270BA56100734074 /* StoreSettingsCell */ = {
@@ -167,20 +166,20 @@
 			path = StoreSettingsCell;
 			sourceTree = "<group>";
 		};
-		A71F9698271BB5F5006F5826 /* StoreSettingsFireStore */ = {
+		A71F9698271BB5F5006F5826 /* StoreFireBase */ = {
 			isa = PBXGroup;
 			children = (
-				A71F9699271BB619006F5826 /* FSStoreSettings.swift */,
+				A71F9699271BB619006F5826 /* StoreFireBase.swift */,
 			);
-			path = StoreSettingsFireStore;
+			path = StoreFireBase;
 			sourceTree = "<group>";
 		};
-		A71F969B271BB9C2006F5826 /* ProductFireStore */ = {
+		A71F969B271BB9C2006F5826 /* ProductFireBase */ = {
 			isa = PBXGroup;
 			children = (
-				A71F969C271BBA0D006F5826 /* FSStores.swift */,
+				A71F969C271BBA0D006F5826 /* ProductFireBase.swift */,
 			);
-			path = ProductFireStore;
+			path = ProductFireBase;
 			sourceTree = "<group>";
 		};
 		A72E775626FBB48200FF05C2 /* PhotoAlbum */ = {
@@ -212,29 +211,16 @@
 			isa = PBXGroup;
 			children = (
 				A74912E526EB7A0100749FF2 /* Main.storyboard */,
-				A7545B00271620EA00A79E83 /* Garment.entitlements */,
+				A7EA6940281359730085DFF9 /* Global */,
 				A74912EB26EB7A0300749FF2 /* Assets.xcassets */,
-				A74912E126EB7A0100749FF2 /* SceneDelegate.swift */,
-				A74912DF26EB7A0100749FF2 /* AppDelegate.swift */,
-				A74912ED26EB7A0300749FF2 /* LaunchScreen.storyboard */,
+				A7EA693F281359030085DFF9 /* Moodel */,
+				A749130126EBF62600749FF2 /* ViewControllers */,
+				A7EA693C281358570085DFF9 /* Services */,
+				A7545B00271620EA00A79E83 /* Garment.entitlements */,
 				A7545B2627163D6600A79E83 /* GoogleService-Info.plist */,
 				A74912F026EB7A0300749FF2 /* Info.plist */,
-				A7D709A626ED5B2D00392A58 /* DB */,
-				A74912F626EB7A4400749FF2 /* Template */,
-				A749130126EBF62600749FF2 /* ViewControllers */,
-				A749130926EBF7BC00749FF2 /* CoreData */,
 			);
 			path = Garment;
-			sourceTree = "<group>";
-		};
-		A74912F626EB7A4400749FF2 /* Template */ = {
-			isa = PBXGroup;
-			children = (
-				A74912FA26EB7B5200749FF2 /* Product */,
-				A74912F926EB7B3400749FF2 /* Store */,
-				A74912F726EB7B1C00749FF2 /* User */,
-			);
-			path = Template;
 			sourceTree = "<group>";
 		};
 		A74912F726EB7B1C00749FF2 /* User */ = {
@@ -276,7 +262,6 @@
 			isa = PBXGroup;
 			children = (
 				A749130A26EC07FB00749FF2 /* TimeLineCollectionViewController.swift */,
-				A71690402722E389008F8B8E /* TimeLineFireStore */,
 				A749130526EBF71100749FF2 /* TimeLineCell */,
 				A72E775626FBB48200FF05C2 /* PhotoAlbum */,
 			);
@@ -302,10 +287,10 @@
 		A7A9893326F6A15600875AAB /* Stores */ = {
 			isa = PBXGroup;
 			children = (
+				A717B98A270EDC2800415BD8 /* AuthAccaunt.swift */,
 				A7EA69392810A7510085DFF9 /* MassageTVC */,
 				A7EA6934280F4E2A0085DFF9 /* Activity */,
-				A717B98A270EDC2800415BD8 /* AuthAccaunt.swift */,
-				A71CF605270BA4FD00734074 /* StoreSettingsTVС */,
+				A71CF605270BA4FD00734074 /* StoreTableViewController */,
 				A7A9893726F90BF100875AAB /* ProductVC */,
 			);
 			path = Stores;
@@ -323,7 +308,6 @@
 			isa = PBXGroup;
 			children = (
 				A7A9893526F6A1A600875AAB /* ProductViewController.swift */,
-				A71F969B271BB9C2006F5826 /* ProductFireStore */,
 				A7A9893826F90BFC00875AAB /* StoresVCCell */,
 			);
 			path = ProductVC;
@@ -341,7 +325,6 @@
 			isa = PBXGroup;
 			children = (
 				A7D709A726ED5B4700392A58 /* DataBase.swift */,
-				A71690432723513E008F8B8E /* FBDataBase.swift */,
 			);
 			path = DB;
 			sourceTree = "<group>";
@@ -360,6 +343,55 @@
 				A7EA693A2810A76E0085DFF9 /* MessageTVC.swift */,
 			);
 			path = MassageTVC;
+			sourceTree = "<group>";
+		};
+		A7EA693C281358570085DFF9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A7EA693D281358630085DFF9 /* FireBase */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A7EA693D281358630085DFF9 /* FireBase */ = {
+			isa = PBXGroup;
+			children = (
+				A7EA693E281358760085DFF9 /* DataBase */,
+				A749130926EBF7BC00749FF2 /* CoreData */,
+				A71F969B271BB9C2006F5826 /* ProductFireBase */,
+				A71F9698271BB5F5006F5826 /* StoreFireBase */,
+				A71690402722E389008F8B8E /* TimeLineFireStore */,
+			);
+			path = FireBase;
+			sourceTree = "<group>";
+		};
+		A7EA693E281358760085DFF9 /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				A71690432723513E008F8B8E /* DBFireBase.swift */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
+		A7EA693F281359030085DFF9 /* Moodel */ = {
+			isa = PBXGroup;
+			children = (
+				A74912F726EB7B1C00749FF2 /* User */,
+				A74912F926EB7B3400749FF2 /* Store */,
+				A74912FA26EB7B5200749FF2 /* Product */,
+				A7D709A626ED5B2D00392A58 /* DB */,
+			);
+			path = Moodel;
+			sourceTree = "<group>";
+		};
+		A7EA6940281359730085DFF9 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				A74912DF26EB7A0100749FF2 /* AppDelegate.swift */,
+				A74912E126EB7A0100749FF2 /* SceneDelegate.swift */,
+				A74912ED26EB7A0300749FF2 /* LaunchScreen.storyboard */,
+			);
+			path = Global;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -468,18 +500,18 @@
 				A749131326EC24E800749FF2 /* TimeLineCollectionViewCell.swift in Sources */,
 				A74912FC26EB7C6000749FF2 /* User.swift in Sources */,
 				A749130B26EC07FB00749FF2 /* TimeLineCollectionViewController.swift in Sources */,
-				A71CF607270BA53000734074 /* StoreSettingsTableViewController.swift in Sources */,
+				A71CF607270BA53000734074 /* StoreTableViewController.swift in Sources */,
 				A715B68D270E285A00DF78FD /* AuthViewController.swift in Sources */,
 				A7A9893626F6A1A600875AAB /* ProductViewController.swift in Sources */,
-				A71690442723513E008F8B8E /* FBDataBase.swift in Sources */,
+				A71690442723513E008F8B8E /* DBFireBase.swift in Sources */,
 				A74912EA26EB7A0100749FF2 /* Garment.xcdatamodeld in Sources */,
 				A74912E226EB7A0100749FF2 /* SceneDelegate.swift in Sources */,
 				A71690422722E3A8008F8B8E /* FSTimeLine.swift in Sources */,
 				A77B94AB2708EF98008CA24C /* PhotoAlbumCollectionView.swift in Sources */,
 				A7A9893F26F95E6500875AAB /* StorePhotoAlbumCollectionViewCell.swift in Sources */,
 				A717B98B270EDC2800415BD8 /* AuthAccaunt.swift in Sources */,
-				A71F969D271BBA0D006F5826 /* FSStores.swift in Sources */,
-				A71F969A271BB619006F5826 /* FSStoreSettings.swift in Sources */,
+				A71F969D271BBA0D006F5826 /* ProductFireBase.swift in Sources */,
+				A71F969A271BB619006F5826 /* StoreFireBase.swift in Sources */,
 				A7EA6938280F4EFC0085DFF9 /* ActivityTVC.swift in Sources */,
 				A74912FE26EB7C9F00749FF2 /* Product.swift in Sources */,
 				A7EA693B2810A76E0085DFF9 /* MessageTVC.swift in Sources */,

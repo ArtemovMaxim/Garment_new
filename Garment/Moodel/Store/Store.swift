@@ -26,7 +26,8 @@ struct Store/*: Codable*/ {
          whatsAppLink: String,
          whatsAppNumber: String,
          email: String,
-         products: [Product]?) {
+         products: [Product]?,
+         followers: [String]?) {
 //        self.logo = logo
         self.name = name
         self.description = description
@@ -40,7 +41,8 @@ struct Store/*: Codable*/ {
         self.whatsAppLink = whatsAppLink
         self.whatsAppNumber = whatsAppNumber
         self.email = email
-             self.products = []
+        self.products = []
+        self.followers = []
              
              enum CodingKeys: String, CodingKey {
                  case name
@@ -91,7 +93,7 @@ struct Store/*: Codable*/ {
     
     //    var workTime: String?
     
-    //    var followers: Any?
+    var followers: [String]
 
     
     //    MARK: Firebase
@@ -148,6 +150,7 @@ extension Store: arrayStoresProtocol {
                   whatsAppLink: whatsAppLink,
                   whatsAppNumber: whatsAppNumber,
                   email: email,
-                  products: [])
+                  products: [],
+                  followers: [])
     }
 }

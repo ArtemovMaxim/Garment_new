@@ -6,9 +6,9 @@
 //
 
 import UIKit
-//import Firebase
+import Firebase
 
-class StoreSettingsTableViewController: UITableViewController {
+class StoreTableViewController: UITableViewController {
     
     var category: Store.StoreCategory.RawValue = ""
     
@@ -63,9 +63,6 @@ class StoreSettingsTableViewController: UITableViewController {
     @IBOutlet weak var saveButtonOutlet: UIButton!
     @IBOutlet weak var categoryButton: UIButton!
     
-    
-    
-    
     // logo
     @IBOutlet weak var logo: UIImageView!
     
@@ -111,7 +108,7 @@ class StoreSettingsTableViewController: UITableViewController {
         
         showAlert()
         addStoreToDB()
-        activateButtons()
+//        activateButtons()
         saveButtonOutlet.isHidden = true
         
         nameButtonOutlet.backgroundColor = .systemBlue
@@ -164,23 +161,29 @@ class StoreSettingsTableViewController: UITableViewController {
         
     }
     
-    //        loadig settings
+    // загрузка описания Магазина из FireBase
     func loadingSettingsStore() {
-//        uploadToAccaunt()
-        let store = AuthAccaunt.nameStore
-        //                self.logo.image = currentStoreSettings?.logo
-        self.name.text = DataBase.allStoresDB[store]?.name
-        self.descript.text = DataBase.allStoresDB[store]?.description
-        //            self.category.text = StoreSettingsTableViewController.currentStoreSettings?.category
-        self.url.text = DataBase.allStoresDB[name.text!]?.url
-        self.instagram.text = DataBase.allStoresDB[store]?.instagram
-        self.vk.text = DataBase.allStoresDB[store]?.vKontakte
-        self.ok.text = DataBase.allStoresDB[store]?.odniklassniki
-        self.fb.text = DataBase.allStoresDB[store]?.facebook
-        self.telephon.text = DataBase.allStoresDB[store]?.telephonNumber
-        self.waLink.text = DataBase.allStoresDB[store]?.whatsAppLink
-        self.numberWA.text = DataBase.allStoresDB[store]?.whatsAppNumber
-        self.e_mail.text = DataBase.allStoresDB[store]?.email
+        let db = Firestore.firestore()
+        let currentUser = Auth.auth().currentUser?.email
+        
+        let ref = db.collection("stores").document(currentUser!)
+        ref.getDocument { documents, error in
+            
+            guard let doc = documents?.data() else { return }
+            
+            self.name.text = doc["name"] as? String
+            self.descript.text = doc["description"] as? String ?? ""
+            self.instagram.text = doc["instagram"] as? String ?? ""
+            self.vk.text = doc["vKontakte"] as? String ?? ""
+            self.ok.text = doc["odniklassniki"] as? String ?? ""
+            self.fb.text = doc["facebook"] as? String ?? ""
+            self.telephon.text = doc["telephonNumber"] as? String ?? ""
+            self.waLink.text = doc["whatsAppLink"] as? String ?? ""
+            self.numberWA.text = doc["whatsAppNumber"] as? String ?? ""
+            self.e_mail.text = doc["email"] as? String ?? ""
+            
+            self.tableView.reloadData()
+        }
     }
     
     //    скрытие клавиатуры
@@ -204,117 +207,7 @@ class StoreSettingsTableViewController: UITableViewController {
             
         }
     }
-    
-    //    активируем кнопки
-    func activateButtons() {
-        nameButtonOutlet.isEnabled = true
-        descriptionButtonOutlet.isEnabled = true
-        categoryButtonOutlet.isEnabled = true
-        instagramButtonOutlet.isEnabled = true
-        vkButtonOutlet.isEnabled = true
-        okButtonOutlet.isEnabled = true
-        fbButtonOutlet.isEnabled = true
-        telephonButtonOutlet.isEnabled = true
-        waLinkButtonOutlet.isEnabled = true
-        numberWAButtonOutlet.isEnabled = true
-        e_mailButtonOutlet.isEnabled = true
-    }
-    
-    //    деактивируем кнопки
-    func disableButtons() {
-        nameButtonOutlet.isEnabled = false
-        nameButtonOutlet.backgroundColor = .systemGray
-        
-        descriptionButtonOutlet.isEnabled = false
-        descriptionButtonOutlet.backgroundColor = .systemGray
-        
-        categoryButtonOutlet.isEnabled = false
-        categoryButtonOutlet.backgroundColor = .systemGray
-        
-        instagramButtonOutlet.isEnabled = false
-        instagramButtonOutlet.backgroundColor = .systemGray
-        
-        vkButtonOutlet.isEnabled = false
-        vkButtonOutlet.backgroundColor = .systemGray
-        
-        okButtonOutlet.isEnabled = false
-        okButtonOutlet.backgroundColor = .systemGray
-        
-        fbButtonOutlet.isEnabled = false
-        fbButtonOutlet.backgroundColor = .systemGray
-        
-        telephonButtonOutlet.isEnabled = false
-        telephonButtonOutlet.backgroundColor = .systemGray
-        
-        waLinkButtonOutlet.isEnabled = false
-        waLinkButtonOutlet.backgroundColor = .systemGray
-        
-        numberWAButtonOutlet.isEnabled = false
-        numberWAButtonOutlet.backgroundColor = .systemGray
-        
-        e_mailButtonOutlet.isEnabled = false
-        e_mailButtonOutlet.backgroundColor = .systemGray
-        
-    }
-    
-    //        заполняем данные магазина
-    
-//    func uploadToAccaunt() {
-//
-//        self.name.isHidden = false
-//        self.name.text = DataBase.stores[name.text!]?.name
-//
-//        self.descript.isHidden = false
-//        self.descript.text = DataBase.stores[name.text!]?.description
-//
-//        //                    self.category.isHidden = false
-//        //                    self.category.text = DataBase.stores[name.text!]?.category
-//
-//        self.instagram.isHidden = false
-//        self.instagram.text = DataBase.stores[name.text!]?.instagram
-//
-//        self.vk.isHidden = false
-//        self.vk.text = DataBase.stores[name.text!]?.vKontakte
-//
-//        self.ok.isHidden = false
-//        self.ok.text = DataBase.stores[name.text!]?.odniklassniki
-//
-//        self.fb.isHidden = false
-//        self.fb.text = DataBase.stores[name.text!]?.facebook
-//
-//        self.telephon.isHidden = false
-//        self.telephon.text = DataBase.stores[name.text!]?.telephonNumber
-//
-//        self.waLink.isHidden = false
-//        self.waLink.text = DataBase.stores[name.text!]?.whatsAppLink
-//
-//        self.numberWA.isHidden = false
-//        self.numberWA.text = DataBase.stores[name.text!]?.whatsAppNumber
-//
-//        self.e_mail.isHidden = false
-//        self.e_mail.text = DataBase.stores[name.text!]?.email
-//
-//    }
-    
-    
-    
-    
-    //    деактивируем поля при загрузке view
-    func disableAccauntFields () {
-        name.isEnabled = false
-        descript.isEnabled = false
-        categoryButton.isEnabled = false
-        instagram.isEnabled = false
-        vk.isEnabled = false
-        ok.isEnabled = false
-        fb.isEnabled = false
-        telephon.isEnabled = false
-        waLink.isEnabled = false
-        numberWA.isEnabled = false
-        e_mail.isEnabled = false
-    }
-    
-    
+
     //    кодирование url
     
 //    func codingURL(stringUrl: String) -> URL {
@@ -325,25 +218,42 @@ class StoreSettingsTableViewController: UITableViewController {
     
     //        добавление в магазина в локальную базу данных
     func addStoreToDB() {
-        
-        
-        DataBase.allStoresDB = [AuthAccaunt.nameStore: Store(/*logo: UIImage(systemName: "pencil"),*/
-                                 name: name.text!,
-                                 description: descript.text!,
-                                 category: nil,
-                                 url: "",
-                                 instagram: instagram.text!,
-                                 vKontakte: vk.text!,
-                                 odniklassniki: ok.text!,
-                                 facebook: fb.text!,
-                                 telephonNumber: telephon.text!,
-                                 whatsAppLink: waLink.text!,
-                                 whatsAppNumber: numberWA.text!,
-                                 email: e_mail.text!,
-                                 /*followers: 0,*/
-                                 products: nil)
-                        ]
+//        DataBase.allStoresDB = [AuthAccaunt.nameStore: Store(
+//                                /*logo: UIImage(systemName: "pencil"),*/
+//                                name: self.name.text!,
+//                                description: self.descript.text!,
+//                                 category: nil,
+//                                 url: "",
+//                                instagram: self.instagram.text!,
+//                                vKontakte: self.vk.text!,
+//                                odniklassniki: self.ok.text!,
+//                                facebook: self.fb.text!,
+//                                telephonNumber: self.telephon.text!,
+//                                whatsAppLink: self.waLink.text!,
+//                                whatsAppNumber: self.numberWA.text!,
+//                                email: self.e_mail.text!,
+//                                products: nil,
+//                                followers: nil)
+//                        ]
 //        uploadToAccaunt()
+        
+        // добавление Магазина в FireBase
+        StoreFireBase().addSettingsStoreToFireStore(name: name.text!,
+                                                      description: self.descript.text!,
+                                                      category: nil,
+                                                      url: "",
+                                                      instagram: self.instagram.text!,
+                                                      vk: self.vk.text!,
+                                                      ok: self.ok.text!,
+                                                      fb: self.fb.text!,
+                                                      telephon: self.fb.text!,
+                                                      waLink: self.waLink.text!,
+                                                      numberWA: self.numberWA.text!,
+                                                      e_mail: self.e_mail.text!,
+                                                      workTime: nil,
+                                                      followers: nil,
+                                                      products: nil,
+                                                      productsCount: 0)
     }
     
     //создание алерта
@@ -426,7 +336,6 @@ class StoreSettingsTableViewController: UITableViewController {
         
         self.loadingSettingsStore()
         
-        disableButtons()
         name.becomeFirstResponder()
         fillingCategoryMenu()
     }

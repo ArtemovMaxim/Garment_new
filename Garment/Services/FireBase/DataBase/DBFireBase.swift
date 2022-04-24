@@ -10,7 +10,7 @@ import Foundation
 //import FirebaseFirestore
 //import FirebaseFirestoreSwift
 
-struct FBDataBase {
+struct DBFireBase {
     //
     static var count: Int = 0
     

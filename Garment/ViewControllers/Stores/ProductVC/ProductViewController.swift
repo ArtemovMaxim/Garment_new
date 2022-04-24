@@ -6,7 +6,7 @@
 //
 
 import UIKit
-//import Firebase
+import Firebase
 
 class ProductViewController: UIViewController, UIImagePickerControllerDelegate ,  UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -103,7 +103,7 @@ class ProductViewController: UIViewController, UIImagePickerControllerDelegate ,
         self.navigationController?.setViewControllers([globalMenu], animated: true)
     }
     
-    //upload seconds photo
+    //upload photos
     @IBAction func StoresVCUploadPhotoButtonAction(_ sender: Any) {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
@@ -130,7 +130,9 @@ class ProductViewController: UIViewController, UIImagePickerControllerDelegate ,
         }
     }
     
-    //        пкбликация товара
+    // пкбликация товара
+    var ref: [StorageReference]?
+    var str: [String]?
     @IBAction func StoreVCPostingButtonAction(_ sender: Any) {
         ProductViewController.productArticle = StoresVCArticleField.text!
         
@@ -146,6 +148,11 @@ class ProductViewController: UIViewController, UIImagePickerControllerDelegate ,
         self.showAlert()
         
         DataBase.allProductsDB.append(ProductViewController.currentProduct!)
+        
+        // добавление Товара в FireBase
+        ProductFireBase.forInImageArray(images: Self.photos)
+        
+ 
         
         // переход на глобальное меню
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -181,7 +188,7 @@ class ProductViewController: UIViewController, UIImagePickerControllerDelegate ,
             productPostViewsCount: 0,
             productPostPhotoCount: 0,
             productPostIsNew: StoresVCisNewSC.titleForSegment(at: StoresVCisNewSC.selectedSegmentIndex)!,
-            indexNumberOfProduct: (FBDataBase.count + 1), // присваиваем порядковый номер товару
+            indexNumberOfProduct: (DBFireBase.count + 1), // присваиваем порядковый номер товару
             productPostArrayPhotos: nil, // добавили массив ссылок на фотографии
             messages: []
         )
@@ -309,15 +316,15 @@ class ProductViewController: UIViewController, UIImagePickerControllerDelegate ,
         return " Опубликовать товар " + dateToField! + " "
     }
     
-    //insert photos in array
-    func generatePhotosAlbumArray() -> [UIImage] {
-        var array: [UIImage] = []
-        let count = ProductViewController.photos.count
-        for i in 0..<count {
-            array.append(ProductViewController.photos[i])
-        }
-        return array
-    }
+    //insert photos in array ВРОДЕ НЕ НУЖЕН!
+//    func generatePhotosAlbumArray() -> [UIImage] {
+//        var array: [UIImage] = []
+//        let count = ProductViewController.photos.count
+//        for i in 0..<count {
+//            array.append(ProductViewController.photos[i])
+//        }
+//        return array
+//    }
     
     // проверка на заполнение полей
     func showAlert() {

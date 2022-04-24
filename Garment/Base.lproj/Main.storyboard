@@ -295,7 +295,7 @@
         <!--Настройки-->
         <scene sceneID="yLr-ci-Z74">
             <objects>
-                <tableViewController storyboardIdentifier="StoreSettingsTableViewController" modalPresentationStyle="fullScreen" id="olX-83-YNR" customClass="StoreSettingsTableViewController" customModule="Garment" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="StoreSettingsTableViewController" modalPresentationStyle="fullScreen" id="olX-83-YNR" customClass="StoreTableViewController" customModule="Garment" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" id="FFP-q7-h2O">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
