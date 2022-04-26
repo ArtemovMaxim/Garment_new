@@ -16,7 +16,7 @@ struct Store/*: Codable*/ {
     init(/*logo: UIImage,*/
          name: String,
          description: String,
-         category: String?,
+         category: String,
          url: String,
          instagram: String,
          vKontakte: String,
@@ -43,22 +43,6 @@ struct Store/*: Codable*/ {
         self.email = email
         self.products = []
         self.followers = []
-             
-             enum CodingKeys: String, CodingKey {
-                 case name
-                 case description
-                 case category
-                 case url
-                 case instagram
-                 case vKontakte
-                 case odniklassniki
-                 case facebook
-                 case telephonNumber
-                 case whatsAppLink
-                 case whatsAppNumber
-                 case email
-                 case products
-             }
     }
     
     enum StoreCategory: String {
@@ -69,54 +53,29 @@ struct Store/*: Codable*/ {
         case furCoats = "Шубы" //шубы
         
         static let allValues = [shoes, clothes, sportWears, swimsuits, furCoats]
-        
-        
     }
     
 //    var logo: UIImage?
     var name: String
     var description: String
-    
-    var category: StoreCategory.RawValue?
-    
+    var category: StoreCategory.RawValue
     var url: String
     var instagram: String
     var vKontakte: String
     var odniklassniki: String
     var facebook: String
-    
     var telephonNumber: String
     var whatsAppLink: String
     var whatsAppNumber: String
     var email: String
-    var products: [Product]
-    
+    var products: [Product]?
     //    var workTime: String?
-    
-    var followers: [String]
-
-    
-    //    MARK: Firebase
-    
-    //    конструктор
-    var storeDict: [String: Any] {
-        return [
-//            "logo": logo,
-            "name": name,
-            "description": description,
-            "category": category,
-            "url": url,
-            "instagram": instagram,
-            "vKontakte": vKontakte,
-            "odniklassniki": odniklassniki,
-            "facebook": facebook,
-            "telephonNumber": telephonNumber,
-            "whatsAppLink": whatsAppLink,
-            "whatsAppNumber": whatsAppNumber,
-            "email": email
-        ]
-    }
+    var followers: [String]?
 }
+
+
+
+    //    MARK: Firebase
 
 
 extension Store: arrayStoresProtocol {
@@ -136,7 +95,7 @@ extension Store: arrayStoresProtocol {
               let email = storeDict["email"] as? String
 
         else { return nil }
-        
+
         self.init(/*logo: logo,*/
                   name: name,
                   description: description,
@@ -153,4 +112,23 @@ extension Store: arrayStoresProtocol {
                   products: [],
                   followers: [])
     }
+    
+        //    конструктор
+        var storeDict: [String: Any] {
+            return [
+    //            "logo": logo,
+                "name": name,
+                "description": description,
+                "category": category,
+                "url": url,
+                "instagram": instagram,
+                "vKontakte": vKontakte,
+                "odniklassniki": odniklassniki,
+                "facebook": facebook,
+                "telephonNumber": telephonNumber,
+                "whatsAppLink": whatsAppLink,
+                "whatsAppNumber": whatsAppNumber,
+                "email": email
+            ]
+        }
 }

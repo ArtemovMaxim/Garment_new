@@ -74,22 +74,6 @@ class ProductFireBase {
         }
     }
 
-//// добавление ссылок на фотографии в карточку Товара
-//static func addURLtoProduct(stringsArray: [String]?, completionstringString: @escaping ([String: Any]) -> () ) {
-//    var stringAny: [String: Any] = [:]
-//    // переменная с индексом для порядкового номера Товара в карточке Товара
-//    var ind = 1
-//    _ = Auth.auth().currentUser?.email
-//    _ = Firestore.firestore()
-//
-//    for string in stringsArray! {
-//        stringAny["\(ind)"] = string
-//        ind += 1
-//    }
-//    completionstringString(stringAny)
-//}
-
-
 // 2. получаем общее количество товаров
 static func getCurrentCountProducts(completion: @escaping (Int) -> ()) {
     var count = 0

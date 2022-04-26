@@ -8,11 +8,12 @@
 import Foundation
 import UIKit
 
-//protocol arrayProductsProtocol {
-//    init? (productDict: [String: Any])
-//}
+protocol arrayProductsProtocol {
+    init? (productDict: [String: Any])
+}
 
-struct message {
+// структура Сообщений
+struct message: Codable {
     var author: String
     var text: String
     var date: Date
@@ -20,80 +21,50 @@ struct message {
 
 struct Product/*: Codable*/ {
     init(store: String?,
-         productPostArticle: String?,
-         //         productPostArrayPhotos: [UIImage]?,
-         //         productPostFirstImage: UIImage?,
-         productPostTitle: String?,
-         productPostDescription: String?,
-         productPostImageCount: Int?,
-         productPostPrice: Double?,
-         productPostDiscont: Double?,
-         productPostFinalPrice: Double?,
-         productPostSex: String?,
-         productPostSeason: String?,
-         //         productPostPublicationDate: Date?,
-         productPostLikesCount: Int?,
+         productPostArticle: String,
+         productPostTitle: String,
+         productPostDescription: String,
+         productPostImageCount: Int,
+         productPostPrice: Double,
+         productPostDiscont: Double,
+         productPostFinalPrice: Double,
+         productPostSex: String,
+         productPostSeason: String,
+         productPostPublicationDate: Date,
+         productPostLikesCount: Int,
          productPostIsLiked: Bool?,
          productLikes: [String]?,
-         productFollowers: [String],
-         productPostViewsCount: Int?,
-         productPostPhotoCount: Int?,
-         productPostIsNew: String?,
+         productFollowers: [String]?,
+         productPostViewsCount: Int,
+         productPostPhotoCount: Int,
+         productPostIsNew: String,
          indexNumberOfProduct: Int,
          productPostArrayPhotos: [UIImage]?,
          messages: [message]?)
     {
         self.store = store ?? "Название магазина"
-        self.productPostArticle = productPostArticle ?? "0000000000"
-        //        self.productPostArrayPhotos = productPostArrayPhotos
-        //        self.productPostFirstImage = productPostFirstImage
-        self.productPostTitle = productPostTitle ?? "Название продукта"
-        self.productPostDescription = productPostDescription ?? "Описание продукта"
-        self.productPostImageCount = productPostImageCount ?? 0
-        self.productPostPrice = productPostPrice ?? 0
-        self.productPostDiscont = productPostDiscont ?? 0
-        self.productPostFinalPrice = productPostFinalPrice ?? 0
-        self.productPostSex = productPostSex ?? Product.Sex.unisex.rawValue
-        self.productPostSeason = productPostSeason ?? Product.Season.autumn.rawValue
-        //        self.productPostPublicationDate = productPostPublicationDate ?? Date()
-        self.productPostLikesCount = productPostLikesCount ?? 0
+        self.productPostArticle = productPostArticle
+        self.productPostTitle = productPostTitle
+        self.productPostDescription = productPostDescription
+        self.productPostImageCount = productPostImageCount
+        self.productPostPrice = productPostPrice
+        self.productPostDiscont = productPostDiscont
+        self.productPostFinalPrice = productPostFinalPrice
+        self.productPostSex = productPostSex
+        self.productPostSeason = productPostSeason
+        self.productPostPublicationDate = productPostPublicationDate
+        self.productPostLikesCount = productPostLikesCount
         self.productPostIsLiked = productPostIsLiked ?? false
         self.likes = productLikes ?? []
         self.followers = productFollowers ?? []
-        self.productPostViewsCount = productPostViewsCount ?? 0
-        self.productPostPhotoCount = productPostPhotoCount ?? 0
-        self.productPostIsNew = productPostIsNew ?? Product.New.normal.rawValue
+        self.productPostViewsCount = productPostViewsCount
+        self.productPostPhotoCount = productPostPhotoCount
+        self.productPostIsNew = productPostIsNew
         self.indexNumberOfProduct = indexNumberOfProduct
-        self.productPostArrayPhotos = productPostArrayPhotos ?? []
-//        self.messages = messages ?? [:]
+        self.productPostArrayPhotos = productPostArrayPhotos
         self.messages = messages ?? []
     }
     
-    
-    //    var productDict: [String: Any] {
-    //        return [
-    //            "productPostArticle" : productPostArticle,
-    //            //            "productPostArrayPhotos" : productPostArrayPhotos,
-    //            //            "productPostFirstImage" : productPostFirstImage,
-    //            "productPostTitle" : productPostTitle,
-    //            "productPostDescription" : productPostDescription,
-    //            "productPostPrice" : productPostPrice,
-    //            "productPostDiscont" : productPostDiscont,
-    //            "productPostFinalPrice" : productPostFinalPrice,
-    //            "productPostSex" : productPostSex,
-    //            "productPostSeason" : productPostSeason,
-    ////            "productPostPublicationDate" : productPostPublicationDate,
-    //            "productPostLikesCount" : productPostLikesCount,
-    //            "productPostIsLiked" : productPostIsLiked,
-    //            "productPostViewsCount" : productPostViewsCount,
-    //            "productPostIsNew" : productPostIsNew,
-    //            "productPostImageCount" : productPostImageCount,
-    //            "store" : store,
-    //            "productPostPhotoCount" : productPostPhotoCount,
-    //            "indexNumberOfProduct" : indexNumberOfProduct,
-    //            "productPostArrayPhotos": productPostArrayPhotos!
-    //        ]
-    //    }
     
     //магазин
     var store: String = ""
@@ -103,7 +74,6 @@ struct Product/*: Codable*/ {
     
     //описание товара
     var productPostArrayPhotos: [UIImage]?
-    //    var productPostFirstImage: UIImage?
     var productPostTitle: String
     var productPostDescription: String
     var productPostImageCount: Int
@@ -118,14 +88,13 @@ struct Product/*: Codable*/ {
     var productPostSeason: String
     
     //параметры поста
-    //    var productPostPublicationDate: Date?
+    var productPostPublicationDate: Date?
     var productPostLikesCount: Int
     var productPostIsLiked: Bool
     var likes: [String]
     var followers: [String]
     
-//    var messages: [String: String]
-
+    // сообщения
     var messages: [message]
     
     var productPostViewsCount: Int
@@ -156,13 +125,6 @@ struct Product/*: Codable*/ {
         case sale = "Скидки"
     }
     
-    //комментарии
-    //    struct ProductPostCommentsArray {
-    //        var user: User
-    //        var comment: String
-    //        var productCommentDate: Date
-    //    }
-    
     //функции
     //функция генерации нового артикула
     static func generateNewArticle() -> String {
@@ -181,55 +143,79 @@ struct Product/*: Codable*/ {
 }
 
 
-//extension Product: arrayProductsProtocol {
-//    init? (productDict: [String : Any]) {
-//        guard let productPostArticle = productDict["productPostArticle"] as? String,
-//              let productPostArrayPhotos = productDict["productPostArrayPhotos"] as? [UIImage],
-//              //              let productPostFirstImage = productDict["productPostFirstImage"] as? UIImage,
-//                let productPostTitle = productDict["productPostTitle"] as? String,
-//              let productPostDescription = productDict["productPostDescription"] as? String,
-//              let productPostPrice = productDict["productPostPrice"] as? Double,
-//              let productPostDiscont = productDict["productPostDiscont"] as? Double,
-//              let productPostFinalPrice = productDict["productPostFinalPrice"] as? Double,
-//              let productPostSex = productDict["productPostSex"] as? String,
-//              let productPostSeason = productDict["productPostSeason"] as? String,
-////              let productPostPublicationDate = productDict["productPostPublicationDate"] as? Date,
-//              let productPostLikesCount = productDict["productPostLikesCount"] as? Int,
-//              let productPostIsLiked = productDict["productPostIsLiked"] as? Bool,
-//              let productLikes = productDict["productLikes"] as? [User],
-//              let productPostViewsCount = productDict["productPostViewsCount"] as? Int,
-//              let store = productDict["store"] as? String,
-//              let productPostIsNew = productDict["productPostIsNew"] as? String,
-//              let productPostImageCount = productDict["productPostImageCount"] as? Int,
-//              let productPostPhotoCount = productDict["productPostPhotoCount"] as? Int,
-//              let indexNumberOfProduct = productDict["indexNumberOfProduct"] as? Int
-////              let productPostArrayPhotos = productDict["productPostArrayPhotos"] as? [String: String]
-//        else {
-////            assertionFailure()
-//            return nil }
-//        
-//        self.init(
-//            store: store,
-//            productPostArticle: productPostArticle,
-//            //            productPostArrayPhotos: productPostArrayPhotos,
-//            //            productPostFirstImage: productPostFirstImage,
-//            productPostTitle: productPostTitle,
-//            productPostDescription: productPostDescription,
-//            productPostImageCount: productPostImageCount,
-//            productPostPrice: productPostPrice,
-//            productPostDiscont: productPostDiscont,
-//            productPostFinalPrice: productPostFinalPrice,
-//            productPostSex: productPostSex,
-//            productPostSeason: productPostSeason,
-////            productPostPublicationDate: productPostPublicationDate,
-//            productPostLikesCount: productPostLikesCount,
-//            productPostIsLiked: productPostIsLiked,
-//            productLikes: productLikes,
-//            productPostViewsCount: productPostViewsCount,
-//            productPostPhotoCount: productPostPhotoCount,
-//            productPostIsNew: productPostIsNew,
-//            indexNumberOfProduct: indexNumberOfProduct,
-//            productPostArrayPhotos: productPostArrayPhotos
-//        )
-//    }
-//}
+extension Product: arrayProductsProtocol {
+    init? (productDict: [String : Any]) {
+        guard let productPostArticle = productDict["productPostArticle"] as? String,
+              let productPostArrayPhotos = productDict["productPostArrayPhotos"] as? [UIImage],
+              let productPostTitle = productDict["productPostTitle"] as? String,
+              let productPostDescription = productDict["productPostDescription"] as? String,
+              let productPostPrice = productDict["productPostPrice"] as? Double,
+              let productPostDiscont = productDict["productPostDiscont"] as? Double,
+              let productPostFinalPrice = productDict["productPostFinalPrice"] as? Double,
+              let productPostSex = productDict["productPostSex"] as? String,
+              let productPostSeason = productDict["productPostSeason"] as? String,
+              let productPostPublicationDate = productDict["productPostPublicationDate"] as? Date,
+              let productPostLikesCount = productDict["productPostLikesCount"] as? Int,
+              let productPostIsLiked = productDict["productPostIsLiked"] as? Bool,
+              let productLikes = productDict["productLikes"] as? [String],
+              let productPostViewsCount = productDict["productPostViewsCount"] as? Int,
+              let store = productDict["store"] as? String,
+              let productPostIsNew = productDict["productPostIsNew"] as? String,
+              let productPostImageCount = productDict["productPostImageCount"] as? Int,
+              let productPostPhotoCount = productDict["productPostPhotoCount"] as? Int,
+              let indexNumberOfProduct = productDict["indexNumberOfProduct"] as? Int,
+              let messages = productDict["messages"] as? [message],
+              let followers = productDict["followers"] as? [String]
+        else {
+            assertionFailure()
+            return nil }
+        
+        
+        self.init(
+            store: store,
+            productPostArticle: productPostArticle,
+            productPostTitle: productPostTitle,
+            productPostDescription: productPostDescription,
+            productPostImageCount: productPostImageCount,
+            productPostPrice: productPostPrice,
+            productPostDiscont: productPostDiscont,
+            productPostFinalPrice: productPostFinalPrice,
+            productPostSex: productPostSex,
+            productPostSeason: productPostSeason,
+            productPostPublicationDate: productPostPublicationDate,
+            productPostLikesCount: productPostLikesCount,
+            productPostIsLiked: productPostIsLiked,
+            productLikes: productLikes,
+            productFollowers: followers,
+            productPostViewsCount: productPostViewsCount,
+            productPostPhotoCount: productPostPhotoCount,
+            productPostIsNew: productPostIsNew,
+            indexNumberOfProduct: indexNumberOfProduct,
+            productPostArrayPhotos: productPostArrayPhotos,
+            messages: messages
+        )
+    }
+    
+    var productDict: [String:Any]  {
+        return [
+        "productPostArticle": productPostArticle,
+        "productPostArrayPhotos": productPostArrayPhotos,
+        "productPostTitle": productPostTitle,
+        "productPostDescription": productPostDescription,
+        "productPostPrice": productPostPrice,
+        "productPostFinalPrice": productPostFinalPrice,
+        "productPostSex": productPostSex,
+        "productPostSeason": productPostSeason,
+        "productPostPublicationDate": productPostPublicationDate as Any,
+        "productPostLikesCount": productPostLikesCount,
+        "productLikes": likes,
+        "productPostViewsCount": productPostViewsCount,
+        "store": store,
+        "productPostIsNew": productPostIsNew,
+        "productPostImageCount": productPostImageCount,
+        "productPostPhotoCount": productPostPhotoCount,
+        "indexNumberOfProduct": indexNumberOfProduct,
+        "messages": messages
+        ]
+    }
+}

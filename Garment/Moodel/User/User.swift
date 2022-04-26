@@ -7,10 +7,16 @@
 
 import Foundation
 
+// протокол
+protocol arrayUsersProtocol {
+    init? (userDict: [String: Any])
+}
+
+
 struct User/*: Codable*/ {
-    internal init(UserFirstName: String? = nil,
-                  UserLastName: String? = nil,
-                  UserAge: String? = nil,
+    internal init(UserFirstName: String,
+                  UserLastName: String,
+                  UserAge: String,
                   UserSex: Product.Sex.RawValue,
                   userSubscribtions: [Store]) {
         self.userFirstName = UserFirstName
@@ -22,26 +28,18 @@ struct User/*: Codable*/ {
     
     
     //параметры пользователя
-    var userFirstName: String?
-    var userLastName: String?
-    var userAge: String?
+    var userFirstName: String = ""
+    var userLastName: String = ""
+    var userAge: String = ""
     var userSex: Product.Sex.RawValue?
     
     //подписки на магазины
     var userSubscribtions: [Store?]
-    
-    //история лайков и комментариев
-    //    var userLikesHistory: [UserLikesHistoryArray]
-    
-    var userDict: [String: Any] {
-        return [
-            "UserFirstName": userFirstName,
-            "UserLastName": userLastName,
-            "UserAge": userAge,
-            "UserSex": userSex,
-            "userSubscribtions": userSubscribtions
-        ]
-    }
+}
+
+
+// расширение
+extension User: arrayUsersProtocol {
     
     init? (userDict: [String : Any]) {
         guard let userFirstName = userDict["UserFirstName"] as? String,
@@ -49,7 +47,7 @@ struct User/*: Codable*/ {
               let userAge = userDict["UserAge"] as? String,
               let userSex = userDict["UserSex"] as? String,
               let userSubscribtions = userDict["userSubscribtions"] as? [Store]
-                
+
         else { return nil}
         self.init (
             UserFirstName: userFirstName,
@@ -59,8 +57,14 @@ struct User/*: Codable*/ {
             userSubscribtions: userSubscribtions
         )
     }
-}
-
-struct UserLikesHistoryArray {
     
+    var userDict: [String: Any] {
+        return [
+            "userFirstName": userFirstName,
+            "userLastName": userLastName,
+            "userAge": userAge,
+            "userSex": userSex,
+            "userSubscribtions": userSubscribtions
+        ]
+    }
 }
